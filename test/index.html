@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Product Name and Price</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Product price">
+    <meta property="og:title" content="Product Name">
+    <meta property="og:description" content="Product Price">
+  </head>
+  <body>
+    <h1>Product Name and Price</h1>
+    <div id="product-details"></div>
+
+    <script>
+      const apiUrl = 'https://itzoneshop.onrender.com/api/getproduct';
+      const productId = '2b425518c40f6ae346';
+      const requestBody = JSON.stringify({ id: productId });
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: requestBody
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then(response => response.json())
+        .then(product => {
+          // Update the title of the page with the product name
+          document.title = product.message[0].pname;
+
+          // Update the description meta tag with the product.message[0] price
+          const descriptionMetaTag = document.querySelector('meta[name="description"]');
+          descriptionMetaTag.setAttribute('content', `Price: ${product.message[0].conditions[0].newprice}`);
+
+          // Update the Open Graph meta tags with the product.message[0] name and price
+          const ogTitleMetaTag = document.querySelector('meta[property="og:title"]');
+          ogTitleMetaTag.setAttribute('content', product.message[0].pname);
+
+          const ogDescriptionMetaTag = document.querySelector('meta[property="og:description"]');
+          ogDescriptionMetaTag.setAttribute('content', `Price: ${product.message[0].conditions[0].newprice}`);
+
+          // Display the product details on the page
+          const productDetailsDiv = document.querySelector('#product-details');
+          productDetailsDiv.innerHTML = `
+            <p>Name: ${product.message[0].pname}</p>
+            <p>Price: ${product.message[0].conditions[0].newprice}</p>
+          `;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    </script>
+  </body>
+</html>

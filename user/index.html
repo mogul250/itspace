@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My account  | IT SPACE</title>
+	<link rel="stylesheet" type="text/css" href="../css/styling.css">
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css">
+	<script type="module" defer src="/js/sidenav.js"></script>
+	<script type="module" defer src="/js/anim.js"></script>
+	<script type="module" defer src="/js/navigation.js"></script>
+	<script type="module" defer src="/js/cart.js"></script>
+	<script type="module" defer src="/js/getpinnings.js"></script>
+	<script type="module" defer src="/js/footer.js"></script>
+    <script type="module" defer src="/js/wishlist.controller.js"></script>
+    <script type="module" defer src="/js/user.controller.js"></script>
+    <script type="module" defer src="./js/user.validation.controller.js"></script>
+    <script type="module" defer src="./js/user.dashboard.conroller.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js" integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="shortcut icon" href="../icons/logo-pure.png" type="image/x-icon">
+	<script src="/js/cleave-phone.rw.js"></script>
+</head>
+<body class="p-0 m-0 w-100 h-100 p-r ovxh">
+<div class="cont w-100 h-100 ovxh" id="cont">
+	<div class="theshade w-100 h-100 p-f bc-tr-black zi-20 pt-100p pl-300p bsbb tr-0-3 hidden"></div>
+	<div id="body" class="bc-gray w-100 h-100 p-r bsbb">
+		<div class="thebody w-100 h-100 p-r pt-120p">
+			<div class="w-100 h-70 mb-10p">
+				<div class="w-99 m-a min-h-600p py-10p bc-white br-10p bsbb">
+					<div class="container w-100 min-h-600p py-10p bsbb flex bblock-resp" aria-controls="cont">
+						<div class="w-20 bfull-resp h-100 bh-70p-resp p-10p bsbb the-h">
+							<div class="cont w-100 h-100">
+								<div class="the-h w-80 m-a bfull-resp bsbb h-a">
+									<ul class="ls-none p-0 m-0 jc-sb w-100 bflex-resp">
+										<li class="p-5p bsbb">
+											<span class="w-100 h-100 p-10p hover-2 cpcards bsbb iblock verdana nowrap capitalize fs-13p br-5p active bb-1-s-theme bc-tr-theme ddgray theme" data-item-type="my-orders"><i class="fa-solid fa-truck mr-10p"></i> my orders</span>
+										</li>
+										<li class="p-5p bsbb">
+											<span class="w-100 h-100 p-10p hover-2 cpcards bsbb iblock verdana nowrap capitalize fs-13p br-5p ddgray" data-item-type="my-wishlist"><i class="fa-solid fa-heart mr-10p"></i>my wishlist</span>
+										</li>
+										<li class="p-5p bsbb">
+											<span class="w-100 h-100 p-10p hover-2 cpcards bsbb iblock verdana nowrap capitalize fs-13p br-5p ddgray" data-item-type="my-account"><i class="fa-solid fa-user mr-10p"></i>my account</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="the-b w-100 h-100 min-h-500p p-r ovxh">
+							<!-- view myorders section -->
+							<div class="bc-white  br-5p w-100 h-100 p-r ovh l-0 tr-0-3 pagecontentsection" id="my-orders">
+								<div class="w-100 h-50p ">
+									<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">my orders</span>
+								</div>
+								<div class="w-100 px-5p py-10p bsbb">
+									<ul class="ls-none py-5p m-0 px-0p flex verdana ovxs">
+										<li class="px-8p bsbb orange bc-tr-orange active flex py-10p mx-5p br-3p hover-2 o-chips" id="all-orders">
+											<span class="icon pr-5p bsbb"><i class="fas fa-car"></i></span>
+											<span class="capitalize nowrap">all orders</span>
+										</li>
+										<li id="pending-orders" class="px-8p o-chips br-3p hover-2 bsbb ddgray flex py-10p mx-5p">
+											<span class="icon pr-5p bsbb"><i class="fas fa-car"></i></span>
+											<span class="capitalize nowrap">pending orders</span>
+										</li>
+										<li id="delivered-orders" class="px-8p o-chips br-3p hover-2 bsbb ddgray flex py-10p mx-5p">
+											<span class="icon pr-5p bsbb"><i class="fas fa-car"></i></span>
+											<span class="capitalize nowrap">delivered orders</span>
+										</li>
+									</ul>
+								</div>
+								<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left bp-0-resp">
+									<div class="orders-hol p-r" id="all-orders">
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="orders-hol p-r hidden" id="pending-orders">
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="orders-hol p-r hidden" id="delivered-orders">
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="w-100 h-a p-10p bsbb">
+											<div class="w-100 h-100 b-1-s-gray br-10p">
+												<div class="w-100 h-100 obody flex bblock-resp p-10p bsbb">
+													<div class="imgs-cont w-100p h-100p bfull-resp bcenter-500p-resp">
+														<div class="w-100p h-100p br-5p bc-gray skel"></div>
+													</div>
+													<div class="odesc w-80 h-100 ml-10p bsbb flex  bblock-resp bfull-resp bm-a-resp ">
+														<div class="left w-90 h-100 m-0 bfull-resp bmt-10p">
+															<div class="oidhol w-100 h-30p p-5p bsbb bcenter-500p-resp">
+																<span class="w-200p h-20p bc-gray skel block br-5p"></span>
+															</div>
+															<div class="odeschol w-80 h-a p-5p bsbb bfull-resp ">
+																<div class="thedesc p-10p bsbb ">
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-50p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-30p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-45p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-20p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																	<span class="w-40p h-10p bc-gray m-5p skel iblock br-5p"></span>
+																</div>
+															</div>
+														</div>
+														<div class="w-100p h-100 p-10p bsbb bh-a-resp bfull-resp ">
+															<div class="w-100 h-100  osthol ">
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-100 h-40p bc-gray mb-10p skel br-5p block"></span>
+																</div>
+																<div class="w-100 h-a mb-10p center-2">
+																	<span class="w-40p h-20p bc-gray skel br-5p block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- end of myorders section -->
+							<!-- view mywishlist section -->
+							<div class="bc-white  br-5p w-100 h-100 p-a ovh l-100 t-0 tr-0-3 pagecontentsection" id="my-wishlist">
+								<div class="w-100 h-50p ">
+									<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">my Wishlist</span>
+								</div>
+								<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+									<div>
+										<div class="w-100 h-a p-40p bsbb center">
+											<span class="w-a fs-30p verdana dgray capitalize">showing wishlist</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- end of mywishlist section -->
+							<!-- view account section -->
+							<div class="bc-white  br-5p w-100 h-100 p-a ovh l-100 t-0 tr-0-3 pagecontentsection" id="my-account">
+								<div class="w-100 h-50p ">
+									<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">my account</span>
+								</div>
+								<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+									<div>
+										<div class="verdana p-5p bsbb flex bblock-resp">
+											<div class="w-60 p-10p bsbb br-10p bfull-resp">
+												<!-- User Card -->
+												<div class="b-1-s-gray p-10p bsbb br-10p">
+													<div class="card-body p-10p bsbb">
+														<div class="user-avatar-section">
+															<div class="mt-5p mb-10p flex">
+																<div class="w-100 w-110p mb-10p ">
+																	<span class="n-img w-100p h-100p br-50 bc-theme center capitalize white fs-30p"></span>
+																</div>
+																<div class="w-100 px-10p py-10p bsbb">
+																	<div class="flex">
+																		<span class="uppercase fs-16p dgray py-5p br-5p bsbb name" data-holder="true" id="Full_name">...</span>
+																		<span class=" bsbb center mx-5p">
+																			<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+																				<path d="M21.5609 10.7386L20.2009 9.15859C19.9409 8.85859 19.7309 8.29859 19.7309 7.89859V6.19859C19.7309 5.13859 18.8609 4.26859 17.8009 4.26859H16.1009C15.7109 4.26859 15.1409 4.05859 14.8409 3.79859L13.2609 2.43859C12.5709 1.84859 11.4409 1.84859 10.7409 2.43859L9.17086 3.80859C8.87086 4.05859 8.30086 4.26859 7.91086 4.26859H6.18086C5.12086 4.26859 4.25086 5.13859 4.25086 6.19859V7.90859C4.25086 8.29859 4.04086 8.85859 3.79086 9.15859L2.44086 10.7486C1.86086 11.4386 1.86086 12.5586 2.44086 13.2486L3.79086 14.8386C4.04086 15.1386 4.25086 15.6986 4.25086 16.0886V17.7986C4.25086 18.8586 5.12086 19.7286 6.18086 19.7286H7.91086C8.30086 19.7286 8.87086 19.9386 9.17086 20.1986L10.7509 21.5586C11.4409 22.1486 12.5709 22.1486 13.2709 21.5586L14.8509 20.1986C15.1509 19.9386 15.7109 19.7286 16.1109 19.7286H17.8109C18.8709 19.7286 19.7409 18.8586 19.7409 17.7986V16.0986C19.7409 15.7086 19.9509 15.1386 20.2109 14.8386L21.5709 13.2586C22.1509 12.5686 22.1509 11.4286 21.5609 10.7386ZM16.1609 10.1086L11.3309 14.9386C11.1909 15.0786 11.0009 15.1586 10.8009 15.1586C10.6009 15.1586 10.4109 15.0786 10.2709 14.9386L7.85086 12.5186C7.56086 12.2286 7.56086 11.7486 7.85086 11.4586C8.14086 11.1686 8.62086 11.1686 8.91086 11.4586L10.8009 13.3486L15.1009 9.04859C15.3909 8.75859 15.8709 8.75859 16.1609 9.04859C16.4509 9.33859 16.4509 9.81859 16.1609 10.1086Z" fill="var(--main-color)"/>
+																				</svg>
+																		</span>
+																	</div>
+																	<div class="mt-10p">
+																		<span class="btn green bc-tr-green fs-15p pt-3p pb-3p pl-10p pr-10p br-2p  mt-5p w-a" data-holder="true" id="status">Active</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="info-container">
+															<ul class="ls-none p-0 bsbb">
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">Email</span>
+																	<span data-holder="true" id="email">...</span>
+																	<span class="px-5p hover-2 edit-p-info" data-role="edit_email" id="email"><i class="fas fa-edit dgray"></i></span>
+																</li>
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">Phone</span>
+																	<span class="phone" data-holder="true" id="phone">...</span>
+																	<span class="px-5p hover-2 edit-p-info" data-role="edit_phone" id="phone"><i class="fas fa-edit dgray"></i></span>
+	
+																</li>
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">total orders</span>
+																	<span class="department" data-holder="true" id="t_orders">0</span>
+																</li>
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">new orders</span>
+																	<span class="department" data-holder="true" id="n_orders">0</span>
+																</li>
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">pending orders</span>
+																	<span class="department" data-holder="true" id="p_orders">0</span>
+																</li>
+																<li class="mb-10p mt-10p">
+																	<span class="capitalize dgray fs-14p block mb-5p mt-5p">delivered orders</span>
+																	<span class="department" data-holder="true" id="d_orders">0</span>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+												<!-- /User Card -->
+											</div>
+											<div class="p-10p w-100 bsbb br-10p mb-4 bfull-resp">
+												<!-- User Pills -->
+												<div class="b-1-s-gray p-10p bsbb br-10p">
+													<ul class="flex ls-none bb-1-s-g p-10p mt-5p mb-5p bsbb">
+														<li class="pl-10p pr-10p hover-6 bsbb mini-buts active security" id="security"><a class="nav-link td-none theme active hover-6" href="javascript:void(0);"><i class="fas fa-lock me-1 pr-10p"></i>Security</a></li>
+														<li class="pl-10p pr-10p hover-6 bsbb mini-buts addr-mgmnt" id="address"><a class="nav-link td-none ddgray hover-6" href="javascript:void(0);"><i class="fas fa-map-marker-alt pr-10p"></i>Address management</a></li>
+													</ul>
+													<!-- Change Password -->
+													<div class="mb-4 minidivs">
+														<span class="card-header p-10p fs-17 dgray">Change Password</span>
+														<div class="card-body p-10p bsbb">
+															<form id="change-password" method="POST">
+																<div class="alert bc-gray p-10p bsbb br-5p" role="alert">
+																	<span class="alert-heading fs-15p mb-1 dgray">Ensure that these requirements are met</span>
+																	<span class="dgray fs-14p">Minimum 6 characters long, uppercase &amp; symbol</span>
+																</div>
+																<div class="mt-10p flex bblock-resp">
+																	<div class="mr-5p ml-5p w-100 bm-a-resp bp-y-10p-resp">
+																		<label class="form-label dgray" for="password">New Password</label>
+																		<div class="p-r mt-5p">
+																			<input class="b-1-s-dgray p-7p bsbb br-5p no-outline w-100" type="password" id="password" name="password" placeholder="············">
+																			<span class="p-a t-0 r-0 dgray p-3p mr-5p bsbb hover-2 showP"><i class="fas fa-eye fs-13p"></i></span>
+																			<small class="hidden w-100 red pl-3p verdana block"></small>
+																		</div>
+																		
+																	</div>
+											
+																	<div class="mr-5p ml-5p w-100 bm-a-resp bp-y-10p-resp">
+																		<label class="form-label dgray" for="confirm">Confirm Password</label>
+																		<div class="p-r mt-5p">
+																			<input class="b-1-s-dgray p-7p bsbb br-5p no-outline w-100" type="password" name="confirm" id="confirm" placeholder="············">
+																			<span class="p-a t-0 r-0 dgray p-3p mr-5p bsbb hover-2 showP"><i class="fas fa-eye fs-13p"></i></span>
+																			<small class="hidden w-100 red pl-3p verdana block"></small>
+		
+																		</div>
+																	</div>
+																	<div class="ml-5p mr-5p w-100 bm-a-resp bp-y-10p-resp">
+																		<label class="form-label dgray op-0 block" for="confirm">..</label>
+																		<button type="submit" class="p-7p block mt-6p bsbb white br-3p bc-theme b-none no-outline hover-2">proceed</button>
+																	</div>
+																</div>
+																<input type="hidden">
+															</form>
+														</div>
+													</div>
+													<div class="w-100 h-100 minidivs 1st form-hol ovh p-r hidden" name="address">
+														<div class="w-100 h-a my-5p py-5p px-10p bsbb">
+															<button type="button" id="add-address-b" class="hover-2 b-1-s-gray br-5p bc-orange white px-10p py-10p capitalize right">
+																<i class="fas fa-plus pr-5p"></i>add
+															</button>
+														</div>
+														<div class="add-management">
+															
+														</div>
+														<form method="post" name="add-address-form" class="p-10p bsbb" id="add-address-form">
+															<div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex">
+																<div class="w-100 bsbb igrid mr-10p left parent p-r">
+																	<input type="text" name="firstname" placeholder="firstname" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana hidden ml-5p">error mssg</small>
+																</div>
+																<div class="p-r w-100 bsbb igrid parent">
+																	<input type="text" name="lastname" placeholder="lastname" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana left hidden ml-5p">error mssg</small>
+																</div>
+															</div>
+															<div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+																<div class="w-100 bsbb igrid mr-10p left parent p-r">
+																	<input type="text" name="email" placeholder="email" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input" id="email">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana hidden ml-5p">error mssg</small>
+																</div>
+																<div class="p-r w-100 bsbb flex parent">
+																	<div class="no-outline bsbb b-1-s-dgray bc-gray w-30 pt-15p pb-15p mt--5p iblock">
+																		<div class="consolas fs-14p dgray center">+250</div>
+																	</div>
+																	<input type="number" name="phonenumber" placeholder="Phone number" class="no-outline bsbb b-1-s-dgray bc-white w-80 p-15p mt--5p main-input iblock" id="phonenumber">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana left hidden ml-5p p-a w-100 mt-40p nowrap">error mssg</small>
+																</div>
+															</div>
+															<div class="w-100 h-60p mt-30p mb-10p p-10p bsbb">
+																<div class="w-100 igrid mr-10p left parent p-r">
+																	<input type="text" name="address" placeholder="address" class="p-15p no-outline bsbb b-1-s-dgray main-input mt--5p" id="address">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana left hidden ml-5p">error mssg</small>
+									
+																</div>
+															</div>
+															<div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex">
+																<div class="w-100 bsbb igrid mr-10p left parent p-r">
+																	<input type="text" name="street" placeholder="street" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana hidden ml-5p">error mssg</small>
+																</div>
+																<div class="p-r w-100 bsbb igrid parent">
+																	<input type="text" name="apartment" placeholder="appartment" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+																	<span class="p-a r-0 t-0 mt-10p mr-10p center">
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#FF0000"></circle>
+																			<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"></path>
+																		</svg>
+																		<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<circle cx="10" cy="10" r="10" fill="#68D753"></circle>
+																			<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"></line>
+																			<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"></line>
+																		</svg>
+																	</span>
+																	<small class="red verdana left hidden ml-5p">error mssg</small>
+																</div>
+															</div>                                 
+															<div class="w-100  h-60p mt-20p p-r right mb-10p p-10p bsbb">
+																<div class="w-100 h-100">
+																	<span class="iblock w-100 h-100">
+																		<button type="submit" class="bc-theme p-10p b-none w-100 br-20p hover-2">
+																			<span class="verdana white fs-15p capitalize">add address</span>
+																		</button>
+																	</span>
+																</div>
+															</div>
+														</form>
+													</div>
+													<!--/ Change Password -->
+												</div>
+											</div>
+											<!--/ User Content -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- end of account section -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+	</div>
+</div>
+</body>
+</html>

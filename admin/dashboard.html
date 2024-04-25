@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Admin | dashboard</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="../css/styling.css">
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css">
+
+	<link rel="shortcut icon" href="/icons/logo-pure.png" type="image/x-icon">
+	<script type="text/javascript">
+		let admin = localStorage.getItem('admin');
+		if (admin == null) {
+			window.location.href = './'
+		}
+	</script>
+	<script type="module" src="js/script.js" defer>
+	</script>
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+	<script type="module" src="js/litbuts.js" defer>
+	</script>
+	<body class="bc-gray p-0 m-0" id="body">
+		<div class="w-100 h-100 bsbb m-0 p-a cont" id="cont">
+
+
+			<!-- main navigation section -->
+			
+			<div class="navigation  p-f w-100 h-50p zi-1000 bc-white" id="navbar">
+				<ul class="w-100 h-100 pl-10p pr-10p bsbb m-0 ls-none flex jc-sb">
+					<li class="bold capitalize fs-20p hidden hover-2 ls-none w-50p show-resp">
+						<div class="w-a h-100 center p-5p bsbb">
+							<span class="#icon menu-icon p-7p bsbb hover br-50 center  w-100 h-100">
+								<svg width="25" height="25" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M5 21.25H10M15 21.25H25M5 15H25M5 8.75H15M20 8.75H25" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+								</svg>			
+							</span>
+						</div>
+					</li>
+					<li class="bold capitalize fs-20p linkSwitcher hover-2 ls-none flex" id="home">
+						<div class="w-a h-100 left center-2">
+							<span class=" bsbb pr-20p h-100 center">
+								<img src="../icons/favicon.png" class="w-30p h-30p contain">
+							</span>
+							<span class="consolas bsbb h-100 theme center p-3p bsbb">dashboard</span>
+						</div>
+					</li>
+					<li class=" right">
+						<div class="w-100 h-100 p-5p bsbb center-2">
+							<span class="#icon notification-icon center hover black p-5p bsbb br-5p">
+								<svg xmlns="http://www.w3.org/2000/svg" class="black" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+									<g >
+									<g >
+									<path d="M8.87378 18.6934C9.28799 18.6934 9.62378 19.0291 9.62378 19.4434C9.62378 19.6166 9.66765 19.7955 9.76263 19.9722C9.85831 20.15 10.0063 20.3258 10.21 20.4827C10.4138 20.6396 10.6653 20.7712 10.9534 20.8631C11.2413 20.955 11.5544 21.0035 11.8734 21.0035C12.1923 21.0035 12.5054 20.955 12.7933 20.8631C13.0814 20.7712 13.3329 20.6396 13.5367 20.4827C13.7404 20.3258 13.8884 20.15 13.9841 19.9722C14.0791 19.7955 14.1229 19.6166 14.1229 19.4434C14.1229 19.0291 14.4587 18.6934 14.8729 18.6934C15.2871 18.6934 15.6229 19.0291 15.6229 19.4434C15.6229 19.8769 15.5116 20.2987 15.3051 20.6827C15.0993 21.0653 14.8054 21.3989 14.452 21.6711C14.0987 21.9431 13.6889 22.1519 13.2492 22.2922C12.8093 22.4325 12.3422 22.5035 11.8734 22.5035C11.4045 22.5035 10.9374 22.4325 10.4975 22.2922C10.0578 22.1519 9.64798 21.9431 9.29471 21.6711C8.94129 21.3989 8.64739 21.0653 8.44158 20.6827C8.23509 20.2987 8.12378 19.8769 8.12378 19.4434C8.12378 19.0291 8.45957 18.6934 8.87378 18.6934Z" fill="#000000"/>
+									<path   d="M8.28966 2.36993C10.5476 1.24631 13.1934 1.20809 15.4828 2.26601L15.6874 2.36056C18.0864 3.46909 19.6223 5.87083 19.6223 8.51353L19.6223 9.82417C19.6223 10.8777 19.8519 11.9185 20.2951 12.8742L20.5598 13.445C21.7754 16.0663 20.1923 19.1303 17.3509 19.6555L17.2146 18.918L17.3509 19.6555L17.1907 19.6851C13.6756 20.3349 10.0711 20.3349 6.55594 19.6851C3.6763 19.1529 2.15285 15.967 3.54631 13.3914L3.77272 12.9729C4.3316 11.9399 4.62426 10.7839 4.62426 9.60942L4.62426 8.28813C4.62426 5.77975 6.04397 3.48746 8.28966 2.36993ZM14.8536 3.62766C12.9772 2.76057 10.8086 2.7919 8.95794 3.71284C7.22182 4.57679 6.12426 6.34893 6.12426 8.28813L6.12426 9.60942C6.12426 11.0332 5.76949 12.4345 5.09201 13.6867L4.86561 14.1052C3.95675 15.785 4.95039 17.863 6.82857 18.2101C10.1635 18.8265 13.5832 18.8265 16.9181 18.2101L17.0783 18.1805C18.9561 17.8334 20.0024 15.8084 19.199 14.076L18.9343 13.5053C18.3994 12.3518 18.1223 11.0956 18.1223 9.82416L18.1223 8.51353C18.1223 6.45566 16.9263 4.58543 15.0582 3.72221L14.8536 3.62766Z" fill="#000000"/>
+									</g>
+									</g>
+									</svg>
+							</span>
+							<span class="#icon notification-icon center hover black p-5p bsbb br-5p">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+									<path d="M12 12.25C11.2583 12.25 10.5333 12.0301 9.91661 11.618C9.29993 11.206 8.81928 10.6203 8.53545 9.93506C8.25163 9.24984 8.17736 8.49584 8.32206 7.76841C8.46675 7.04098 8.8239 6.3728 9.34835 5.84835C9.8728 5.3239 10.541 4.96675 11.2684 4.82206C11.9958 4.67736 12.7498 4.75162 13.4351 5.03545C14.1203 5.31928 14.706 5.79993 15.118 6.41661C15.5301 7.0333 15.75 7.75832 15.75 8.5C15.75 9.49456 15.3549 10.4484 14.6517 11.1517C13.9484 11.8549 12.9946 12.25 12 12.25ZM12 6.25C11.555 6.25 11.12 6.38196 10.75 6.62919C10.38 6.87643 10.0916 7.22783 9.92127 7.63896C9.75098 8.0501 9.70642 8.5025 9.79323 8.93895C9.88005 9.37541 10.0943 9.77632 10.409 10.091C10.7237 10.4057 11.1246 10.62 11.561 10.7068C11.9975 10.7936 12.4499 10.749 12.861 10.5787C13.2722 10.4084 13.6236 10.12 13.8708 9.75003C14.118 9.38002 14.25 8.94501 14.25 8.5C14.25 7.90326 14.0129 7.33097 13.591 6.90901C13.169 6.48705 12.5967 6.25 12 6.25Z" fill="#000000"/>
+									<path d="M19 19.25C18.8019 19.2474 18.6126 19.1676 18.4725 19.0275C18.3324 18.8874 18.2526 18.6981 18.25 18.5C18.25 16.55 17.19 15.25 12 15.25C6.81 15.25 5.75 16.55 5.75 18.5C5.75 18.6989 5.67098 18.8897 5.53033 19.0303C5.38968 19.171 5.19891 19.25 5 19.25C4.80109 19.25 4.61032 19.171 4.46967 19.0303C4.32902 18.8897 4.25 18.6989 4.25 18.5C4.25 13.75 9.68 13.75 12 13.75C14.32 13.75 19.75 13.75 19.75 18.5C19.7474 18.6981 19.6676 18.8874 19.5275 19.0275C19.3874 19.1676 19.1981 19.2474 19 19.25Z" fill="#000000"/>
+								</svg>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<!-- end of main navigation section -->
+			<!-- sidenav section -->
+
+
+			<div class="sidenav left w-300p bc-white p-f h-100 bsbb ovh theme bfull-resp zi-20 p-10p bsbb hidden-resp capitalize">
+				<div class=" transparent w-100 h-80 p-15p bsbb ovys scroll-3 mt-90p">
+					<ul class="ls-none bc-gray verdana p-0 m-0 bsbb br-5p  us-none">
+						<li class=" bb-1-s-g m-0 w-100 titles hover-2 us-none bb-1-s-w ">
+							<div class="w-90 pt-15p pl-15p h-50p bsbb">
+								<span class=" pt-5p"><i class="fa fa-motorcycle theme"></i></span>
+								<span class="fs-15p theme">orders</span>
+							</div>
+							<ul class="ls-none bc-white w-100 p-r p-0 hidden b-1-s-gray p-5p bsbb">
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" title="new" id="new-orders">new orders</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" title="all" id="pending-orders">pending orders</li> 
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" title="all" id="delivered-orders">delivered orders</li> 
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" title="all" id="orders">all orders</li> 
+							</ul>
+						</li>
+						<li class=" m-0 w-100 titles hover-2 us-none bb-1-s-w">
+							<div class="w-100 w-90 pt-15p pl-15p h-50p bsbb">
+								<span><i class="fas fa-user theme"></i></span>
+								<span class="fs-15p theme">users</span>
+							</div>
+							<ul class="ls-none bc-white w-100 p-r p-0 hidden b-1-s-gray p-5p bsbb">
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="add-user">add a user</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="users">view users</li>  
+							</ul>
+						</li>
+						<li class="m-0 w-100 linkSwitcher hover-2 us-none titles hover-2 us-none">
+							<div class="w-100 w-90 pt-15p pl-15p h-50p bsbb">
+								<span><i class="fas fa-user theme"></i></span>
+								<span class="fs-15p theme">queries</span>
+							</div>
+							<ul class="ls-none bc-white w-100 p-r p-0 hidden b-1-s-gray p-5p bsbb">
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none new" id="new-queries" title="new">unreaded queries</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none all" title="all" id="queries">all queries</li>  
+							</ul>
+						</li>
+					</ul>
+					<ul class="ls-none bc-gray verdana p-0 mt-50p bsbb  br-5p">
+						<li class="m-0 w-100 titles hover-2 us-none">
+							<div class="w-100 w-90 pt-15p pl-15p h-50p bsbb">
+								<span><i class="fas fa-user theme"></i></span>
+								<span class="fs-15p theme">products</span>
+							</div>
+							<ul class="ls-none bc-white w-100 p-r p-0 hidden b-1-s-gray p-5p bsbb">
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="add-product">add a product</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="view-products">manage products</li> 
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="categories">manage categories</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="sub-categories">manage subcategories</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="brands">manage brands</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="series">manage series</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="usability">manage usability</li>
+								<li class="pl-10p  hover pt-10p pb-10p bsbb b-1-s-gray linkSwitcher hover-2 us-none" id="availability">manage availability</li>  
+							</ul>
+						</li>
+					</ul>
+					<ul class="ls-none bc-gray verdana p-0 mt-50p bsbb  br-5p">
+						<li class=" pl-10p pr-10p bb-1-s-w m-0 w-100 bsbb linkSwitcher hover-2 us-none" id="myaccount">
+							<div class="w-100 w-90 pt-15p pl-15p h-50p bsbb">
+								<span><i class="fa fa-space-shuttle theme"></i></span>
+								<span class="fs-15p theme">my account</span>
+							</div>
+						</li>
+						<li class=" pl-10p pr-10p m-0 w-100 linkSwitcher hover-2 us-none bsbb" id="logout">
+							<div class="w-100 w-90 pt-15p pl-15p h-50p bsbb">
+								<span><i class="fa fa-space-shuttle theme"></i></span>
+								<span class="fs-15p theme">logout</span>
+							</div>
+						</li>
+					</ul>	
+				</div>
+				<ul class="w-100 h-a p-0 m-0 ls-none">
+					<li class="#thetitle p-5p bsbb">
+						<div class="w-100 h-100 p-10p bsbb bb-1-s-g hover-2 center">
+						  <span class="thetitle black verdana bsbb dgray">
+							<span class="fs-10p">
+								&copy;
+								<script>document.write(new Date().getFullYear())</script>
+							ITSPACE 
+							</span>
+							<span class="fs-18p p-5p bsbb ta-c">
+							  .
+							</span>
+							<span class="fs-10p">
+								<a href="mailto::hesh.teo@gmail.com" class="td-none consolas theme">#himself__</a>
+							</span>
+						  </span>
+						</div>
+					  </li>
+				</ul>
+			</div>
+
+			<!-- end of sidenav section -->
+			<!-- main content section -->
+
+			<div class="content bc-gray w-a ml-300p p-10p bsbb h-100  bm-a-resp p-r bfull-resp" id="body">
+				<div class="w-97 h-80 cntr ovh br-5p bc-white mt-40p bsbb">
+					<!-- dashboard home section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh tr-0-3 pagecontentsection active" id="home">
+						<div class="w-100 h-50p bb-1-s-g">
+							<div class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">summary</div>
+						</div>
+						<div class="pg-cntnt w-90 m-a h-90 p-10p bsbb ovh p-r ovys bfull-resp">
+							<div class="w-100 h-100">
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="neworders">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-19p white capitalize left center pr-5p p-a b-0 verdana">new orders</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white verdana">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="deliveredorders">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-14p white capitalize left center pr-5p p-a b-0 verdana nowrap">delivered orders</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white verdana">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="orders">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-19p white capitalize left center pr-5p p-a b-0 verdana">total orders</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white verdana">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="users">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-19p white capitalize left center pr-5p p-a b-0 verdana">users</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white verdana">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="newqueries">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-19p white capitalize left center pr-5p p-a b-0 verdana">new queries</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fas fa-user fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="queries">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-19p white capitalize left center pr-5p p-a b-0 verdana nowrap">total queries</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-2 w-210p h-100p br-5p ovh zi-1000 p-r bc-theme igrid m-15p">
+									<div class="p-a mt--20p">
+										<span class="ovh mt--20p">
+											<i class="fab fa-blackberry fs-150p rotate-20 tgray"></i>
+										</span>
+									</div>
+									<div class="w-100 h-100 p-r ovh">
+										<div class="left w-35 h-100 igrid">
+											<span class="fs-50p white center cardsc consolas" id="products">0</span>
+										</div>
+										<div class="right w-65 left h-100 igrid">
+											<div class="content-ttl w-100 h-50p center p-r">
+												<span class="fs-15p white capitalize left center pr-5p p-a b-0 verdana">total products</span>
+											</div>
+											<div class="sub w-100 h-50p block">
+												<span class="fs-11p left p-5p white verdana">see more  <i class="fas fa-arrow-right"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+
+							</div>
+						</div>
+					</div>
+					<!--end of dashboard home section -->
+					<!-- list of new orders section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="new-orders">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">news orders</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of new orders section -->
+					<!-- list of orders section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="orders">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all orders</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of orders section -->
+					<!-- list of pending orders section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="pending-orders">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">pending orders</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of pending orders section -->
+					<!-- list of delivered orders section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="delivered-orders">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">delivered orders</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of delivered orders section -->
+					<!-- list of categories section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="categories">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all categories</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="categories"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of categories section -->
+					<!-- list of sub-categories section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="sub-categories">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all subcategories</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="subcategories"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">id</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">category</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of sub-categories section -->
+					<!-- list of brands section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="brands">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all brands</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="brands"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">id</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of brands section -->
+					<!-- list of series section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="series">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all series</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="families"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of series section -->
+					<!-- list of usability section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="usability">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all products usability</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="usedin"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of usability section -->
+					<!-- list of availability section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="availability">
+						<div class="w-100 h-50p bb-1-s-g flex jc-sb">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all products availability</span>
+							<span class="w-a p-10p bsbb h-100 center">
+								<button type="button" class="w-a h-a bc-theme b-none br-2p p-5p bsbb hover-2 addparentbutton" data-type="availability"><span class="verdana white fs-13p">Add one</span></button>
+							</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">paul</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpaul@gmail.com</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana red center">delete</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of availability section -->
+					<!-- list of users section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="users">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all users</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">First&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Last&nbsp;name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">Email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of list of users section -->
+					<!-- products section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="view-products">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all products</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">id</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">description</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+							
+							</table>
+						</div>
+					</div>
+					<!-- end of products section -->
+					<!-- add a product section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="add-product">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">add a product</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-10p bsbb left ovys">
+							<div class="w-100 bsbb ovh p-10p">
+								<div class="form-holder w-100 h-100">
+									<form method="POST" action="" id="add-product-form" name="add-product-form">
+										<div class="f-content w-100 h-100">
+											<div class="1st w-100 h-a p-5p">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">basic information</span>
+												</div>
+												<div class="w-100 h-a flex bblock-resp mb-30p">
+													<div class="w-50 parent mt-30p p-10p bsbb  p-r bfull-resp">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">product name</label>
+														<input type="text" id="name" name="product-name" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">	
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-50 parent mt-30p p-10p bsbb  p-r bfull-resp">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">product quantity</label>
+														<input type="number" id="quantity" name="product-quantity" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">	
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+												</div>
+												<div class="w-100 parent mt-30p p-10p bsbb bm-a-resp  p-r bfull-resp">
+													<textarea type="text" name="description" id="description" class=" black b-1-s-dgray consolas w-100 h-80p no-outline bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="description"></textarea>
+													<span class="p-a r-0 t-0 mt-20p mr-20p">
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+															<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+														</svg>
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<circle cx="10" cy="10" r="10" fill="#68D753"/>
+															<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+															<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+														</svg>
+													</span>
+													<small class="red verdana left hidden ml-5p"></small>				
+												</div>
+												<div class="w-100 h-a mt-10p mb-10p p-10p bsbb flex bblock-resp">
+													<div class="p-r w-170p  mr-10p mt-10p left parent ovh h-100 bfull-resp">
+													  <div class="p-10p no-outline bsbb b-1-s-dgray bc-white w-100 h-40p hover-2 dgray capitalize fs-14p consolas nowrap p-r mb-10p">
+														<label>
+															select images
+														</label>
+													  </div>
+													  <input type="file" name="image" placeholder="Thumbnail" class="p-a l-0 t-0 hover-2 h-40p w-100 op-0">
+													  <span class="p-a r-0 mt--37p mr-5p w-20p h-20p zi-10000">
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+														  <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+														  <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+														</svg>
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+														  <circle cx="10" cy="10" r="10" fill="#68D753"/>
+														  <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+														  <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+														</svg>
+													  </span>
+													  <small class="red verdana hidden ml-5p">error mssg</small>
+													  <div class="w-100 h-a bsbb mt-10p">
+														<div class="butt-hol">
+															<span class="w-100 p-10p bsbb h-a verdana bc-orange white center hover-2 us-none litbuts" id="images">add images</span>
+														</div>
+													</div>
+													</div>
+													<div class="p-r w-90  right h-100 parent p-10p bsbb bfull-resp">
+													  <div class="no-outline previewpanel bsbb b-1-s-dgray bc-white w-100 h-a left" title="images"><span class="bsbb placeholder w-100 h-100p p-10p center verdana dgray fs-13p capitalize" name="images">select images to preview them here</span></div>
+													  
+													</div>
+												</div>
+											</div>
+											<div class="2nd w-100 h-a p-5p">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">other related informations</span>
+												</div>
+												<div class="w-100 flex p-10p bsbb b-p-0-resp bblock-resp">
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">category</label>
+															<select type="text" id="category" name="product-category" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+																<option></option>
+															</select>
+															<span class="p-a r-0 t-0 mr-20p mt-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">subcategory</label>
+															<select type="text" id="subcategory" name="product-subcategory" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+																<option></option>
+															</select>
+															<span class="p-a r-0 t-0 mr-20p mt-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">brand</label>
+														<select type="text" id="brand" name="product-brand" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+															<option></option>
+														</select>
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">serie</label>
+														<select type="text" id="serie" name="product-serie" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+															<option></option>
+														</select>
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">usability</label>
+														<select type="text" id="usability" name="product-usability" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+															<option></option>
+														</select>
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent p-10p bsbb p-r">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">availability</label>
+														<select type="text" id="availability" name="product-availability" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p main-input">
+															<option></option>
+														</select>
+														<span class="p-a r-0 t-0 mr-20p mt-20p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+												</div>
+												<div class="w-100 h-a mt-10p mb-10p p-10p bsbb flex bblock-resp">
+													<div class="p-10p bsbb w-100">
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">specification name</label>
+															<input type="text" id="specification-name" name="specification-name" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">specification value</label>
+															<input type="text" id="specification-value" name="specification-value" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 h-a bsbb p-10p">
+															<div class="butt-hol">
+																<span class="w-100 p-10p bsbb h-a verdana bc-orange white center hover-2 us-none litbuts" id="specifications" >add specification</span>
+															</div>
+														</div>
+													</div>
+													
+													<div class="p-r w-90  right h-100 parent p-10p bsbb bsbb bfull-resp">
+													  	<div class="no-outline previewpanel bsbb b-1-s-dgray bc-white w-100 h-a left" title="specifications">
+															<span class="bsbb placeholder w-100 h-100p p-10p center verdana dgray fs-13p 	capitalize">add specifications to preview them here</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="3rd w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">prices and conditions</span>
+												</div>
+												<div class="w-100 h-a mt-10p mb-10p p-10p bsbb flex bblock-resp">
+													<div>
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">condition name</label>
+															<input type="text" id="condition-name" name="condition-name" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">condition price</label>
+															<input type="number" id="condition-price" name="condition-price" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 h-a p-10p bsbb">
+															<div class="butt-hol">
+																<span class="w-100 p-10p bsbb h-a verdana bc-orange white center hover-2 us-none litbuts" id="conditions">add condition</span>
+															</div>
+														</div>
+													</div>
+													
+													<div class="p-r w-90  right h-100 parent p-10p bsbb bsbb bfull-resp">
+													  <div class="no-outline previewpanel bsbb b-1-s-dgray bc-white w-100 h-a left" title="conditions">
+														<span class="placeholder w-100 h-100p p-10p center verdana dgray fs-13p capitalize bsbb">add conditions to preview them here</span></div>
+													</div>
+												</div>
+											</div>
+											<div class="4th w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">shipment and delivery info</span>
+												</div>
+												<div class="w-100 h-a mt-10p mb-10p p-10p bsbb flex bblock-resp">
+													<div class="p-10p bsbb w-100">
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">shipment info name</label>
+															<input type="text" id="dinfo-name" name="dinfo-name" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 parent p-10p bsbb p-r">
+															<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">shipment info value</label>
+															<input type="text" id="dinfo-value" name="dinfo-value" class="black b-1-s-dgray consolas w-100 no-outline bsbb p-10p mt--2p fs-15p br-2p">
+															<span class="p-a r-0 t-0 mt-20p mr-20p">
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																	<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+																</svg>
+																<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																	<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																	<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+																</svg>
+															</span>
+															<small class="red verdana left hidden ml-5p">error mssg</small>				
+														</div>
+														<div class="w-100 h-a bsbb p-10p">
+															<div class="butt-hol">
+																<span class="w-100 p-10p bsbb h-a verdana bc-orange white center hover-2 us-none litbuts" id="dinfo" >add shipment info</span>
+															</div>
+														</div>
+													</div>
+													
+													<div class="p-r w-90  right h-100 parent p-10p bsbb bsbb bfull-resp">
+													  	<div class="no-outline previewpanel bsbb b-1-s-dgray bc-white w-100 h-a left" title="dinfo">
+															<span class="bsbb placeholder w-100 h-100p p-10p center verdana dgray fs-13p 	capitalize">add required infos to preview them here</span>
+														</div>
+													</div>
+												</div>
+												<div class="buttons w-100 h-a mt-p p-10p bsbb ovh">
+													<div class="button-hol w-100 h-100 p-10p bsbb">
+														<button type="submit" class="b-none br-2p bc-theme white p-15p bsbb right verdana center hover-2 main-but">
+															<span class="fs-15p">Register the product</span>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of add a product section -->
+					<!-- add a user section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="add-user">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">add a user</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-10p bsbb left">
+							<div class="w-80 m-a bsbb ovh p-10p bfull-resp">
+								<div class="form-holder w-100 h-100">
+									<form method="POST" action="" id="signup-form" name="signup-form">
+										<div class="f-content w-100 h-100">
+											<div class="1st w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">names</span>
+												</div>
+												<div class="w-100 mt-30p flex">
+													<div class="w-100 parent iblock p-r mr-10p">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">First name</label>
+														<input type="text" id="title" name="firstname" class=" black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">	
+														<span class="p-a r-0 t-0 mt-10p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+													<div class="w-100 parent iblock p-r">
+														<label class="dgray p-a fs-15p label pi-none capitalize us-none zi-1000 verdana">last name</label>
+														<input type="text" name="lastname" id="lastname" class=" black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">
+														<span class="p-a r-0 t-0 mt-10p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+												</div>
+											</div>
+											<div class="2nd w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<label class="fs-20p bold capitalize  verdana">addresses</label>
+												</div>
+												<div class="w-95 parent mt-20p iblock p-r">
+													<label class="dgray p-a fs-15p label pi-none capitalize us-none zi-1000 verdana">email</label>
+													<input type="text" name="email" id="emailsignup" class=" black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">
+													<span class="p-a r-0 t-0 mt-10p mr-10p">
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+															<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+														</svg>
+														<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<circle cx="10" cy="10" r="10" fill="#68D753"/>
+															<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+															<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+														</svg>
+													</span>
+													<small class="red verdana left hidden ml-5p">error mssg</small>				
+												</div>
+											</div>
+											<div class="3rd w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize  verdana">authentication</span>
+												</div>
+												<div class="w-100 mt-20p flex">
+													<div class="w-100 bsbb igrid mr-10p left parent p-r">
+														<label class="dgray p-a fs-15p label pi-none us-none zi-1000 verdana">password</label>
+														<input type="text" name="password" placeholder="" class="  black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input">
+														<span class="p-a r-0 mt-9p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana hidden ml-5p">error mssg</small>
+													</div>
+													<div class="p-r w-100 bsbb igrid parent">
+														<label class="dgray p-a fs-15p label pi-none us-none zi-1000 verdana">confirm password</label>
+														<input type="text" name="confirm" placeholder="" class=" black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input">
+														<span class="p-a r-0 mt-9p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>
+													</div>		
+												</div>
+											</div>
+											<div class="buttons w-100 h-a mt-20p p-5p bsbb ovh">
+												<div class="button-hol w-100 h-100">
+													<button type="submit" class="b-none bc-theme white p-10p right verdana center br-3p"><span class="fs-15p">add a user</span></button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of add a user section -->
+					<!-- view new queries section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="new-queries">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">new queries</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="h-50p">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">contactor name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">subject</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">message</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of new queries section -->
+					<!-- view queries section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="queries">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">all queries</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-20p bsbb ovys left">
+							<table class="w-100 h-a">
+								<tr class="">
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">#</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">contactor name</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">email</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">subject</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">message</span>
+									</td>
+									<td class="p-10p bsbb bb-1-s-g">
+										<span class="fs-15p verdana p-10p">action</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">1</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peter pan</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">peterpan@gmail.com</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">i need to be hired</span>
+									</td>
+									<td class="p-10p bsbb">
+										<span class="fs-14p verdana">it was alright</span>
+									</td>
+									<td class="p-10p">
+										<span class="fs-14p verdana green left">view</span>
+										<span class="fs-14p verdana orange center">mark as seen</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- end of queries section -->
+					<!-- my account section -->
+					<div class="bc-white  br-5p w-100 h-100 p-a ovh ml-100 tr-0-3 pagecontentsection" id="myaccount">
+						<div class="w-100 h-50p bb-1-s-g">
+							<span class="theme capitalize left center bold fs-20p verdana h-100 pl-10p">My account</span>
+						</div>
+						<div class="pg-cntnt w-100 h-90 p-10p bsbb left">
+							<div class="w-80 m-a bsbb ovh p-10p bfull-resp">
+								<div class="form-holder w-100 h-100">
+									<form method="POST" action="" id="myaccount-form" name="myaccount-form">
+										<div class="f-content w-100 h-100">
+											<div class="1st w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize verdana">username</span>
+												</div>
+												<div class="w-100 mt-30p flex">
+													<div class="w-100 parent iblock p-r mr-10p">
+														<label class="dgray p-a fs-13p label pi-none capitalize us-none zi-1000 verdana">username</label>
+														<input type="text" id="username" name="username" class=" black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input" placeholder="">	
+														<span class="p-a r-0 t-0 mt-10p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana left hidden ml-5p">error mssg</small>				
+													</div>
+												</div>
+											</div>
+											<div class="3rd w-100 h-a p-5p bsbb">
+												<div class="title black bb-1-s-g p-5p">
+													<span class="fs-20p bold capitalize  verdana">authentication</span>
+												</div>
+												<div class="w-100 mt-20p flex">
+													<div class="w-100 bsbb igrid mr-10p left parent p-r">
+														<label class="dgray p-a fs-15p label pi-none us-none zi-1000 verdana">password</label>
+														<input type="password" name="password" placeholder="" class="  black b-1-s-dgray consolas w-100 no-outline center bsbb p-10p mt--2p fs-15p br-2p main-input">
+														<span class="p-a r-0 mt-9p mr-10p">
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#FF0000"/>
+																<path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+															</svg>
+															<svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<circle cx="10" cy="10" r="10" fill="#68D753"/>
+																<line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+																<line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+															</svg>
+														</span>
+														<small class="red verdana hidden ml-5p">error mssg</small>
+													</div>	
+												</div>
+											</div>
+											<div class="buttons w-100 h-a mt-20p p-5p bsbb ovh">
+												<div class="button-hol w-100 h-100">
+													<button type="submit" class="b-none bc-theme white p-10p right verdana center br-3p"><span class="fs-15p">change</span></button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of my account section -->
+				</div>
+			</div>
+
+			<!-- end of main section  -->
+		</div>
+
+	</body>
+</html>

@@ -1,0 +1,4 @@
+rewriteEngine on
+
+rewriteRule ^/?([0-9-a-z]+)$ index.html?id=$1
+rewriteRule ^home$ index.html?$refid=$1

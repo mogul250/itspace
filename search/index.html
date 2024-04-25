@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Search results of  | IT SPACE</title>
+	<link rel="stylesheet" type="text/css" href="/css/styling.css">
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<script type="module" defer src="/js/sidenav.js"></script>
+	<script type="module" defer src="/js/anim.js"></script>
+	<script type="module" defer src="/js/navigation.js"></script>
+	<script type="module" defer src="/js/filter.js"></script>
+	<script type="module" defer src="/js/cart.js"></script>
+	<script type="module" defer src="/js/getpinnings.js"></script>
+	<script type="module" defer src="/js/search.js"></script>
+	<script type="module" defer src="/js/footer.js"></script>
+    <script type="module" defer src="/js/wishlist.controller.js"></script>
+    <script type="module" defer src="/js/user.controller.js"></script>
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+	<link rel="shortcut icon" href="../icons/logo-pure.png" type="image/x-icon">
+
+
+</head>
+<body class="p-0 m-0 w-100 h-100 p-r ovxh">
+<div class="cont w-100 h-100 ovxh" id="cont">
+	<div class="theshade w-100 h-100 p-f bc-tr-black zi-20 pt-100p pl-300p bsbb tr-0-3 hidden"></div>
+	<div id="body" class="bc-gray w-100 h-100 p-r bsbb">
+		<div class="thebody w-100 h-100 p-r pt-100p">
+			<div class="w-100 h-a p-20p bsbb p-r p-10p-resp">
+				<div class="the-h w-100 h-50p  bsbb mt-10p mb-10p  b-1-s-dgray br-5p bc-white">
+					<div class="h-100 w-100 flex jc-sb">
+                            <div class="iblock center-2 ml-10p p-6p">
+                                <span class="verdana black bold p-10p bsbb br-ttl"><span class="w-a h-a br-5p capitalize"> search</span></span>
+                            </div>
+                            <div class="iblock right center-2 r-0 mr-30p">
+                                <span class="#icon filter-icon center w-40p h-40p bsbb br-50 tr-0-3 hover-2">
+                                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="w-20p h-20p"><g class="style-scope yt-icon"><path d="M15,17h6v1h-6V17z M11,17H3v1h8v2h1v-2v-1v-2h-1V17z M14,8h1V6V5V3h-1v2H3v1h11V8z M18,5v1h3V5H18z M6,14h1v-2v-1V9H6v2H3v1 h3V14z M10,12h11v-1H10V12z" class="style-scope yt-icon"></path></g></svg>
+                                </span>
+                                <span class="verdana black p-10p bsbb capitalize us-none">
+                                    filter
+                                </span>
+                            </div>
+					</div>
+				</div>
+				<div class="w-100 h-100 pgbody tr-0-2 p-r mt-10p flex bblock-resp" >
+					<div id="bodycont" class="w-340p bfull-resp p-20p bsbb"></div>
+					<div class="w-100">
+						<div class="cats w-100 m-a h-a p-10p bp-0-resp bsbb  br-5p bfull-resp">
+							<div class="the-h w-100 h-50p  bsbb mt-10p mb-10p  b-1-s-dgray br-5p bc-white">
+								<div class="h-100 w-100 flex jc-sb">
+										<div class="iblock center-2 ml-10p p-6p">
+											<span class="verdana black bold p-10p bsbb br-ttl"><span class="w-a h-a br-5p capitalize"> view by</span></span>
+										</div>
+										<div class="iblock right center-2 r-0 mr-30p">
+											<span class="pr-10p center-2 br-1-s-gray viewByB hover-2">
+												<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+													<g id="Edit / Rows">
+													<g id="Vector">
+														<path d="M6.5 19H17.5C17.9647 19 18.197 18.9999 18.3902 18.9614C19.1836 18.8036 19.8036 18.1836 19.9614 17.3902C19.9999 17.197 19.9999 16.9647 19.9999 16.5C19.9999 16.0353 19.9999 15.8031 19.9614 15.6099C19.8036 14.8165 19.1836 14.1962 18.3902 14.0384C18.197 14 17.9647 14 17.5 14H6.5C6.03534 14 5.80306 14 5.60986 14.0384C4.81648 14.1962 4.19624 14.8165 4.03843 15.6099C4 15.8031 4 16.0354 4 16.5C4 16.9647 4 17.1969 4.03843 17.3901C4.19624 18.1835 4.81648 18.8036 5.60986 18.9614C5.80306 18.9999 6.03535 19 6.5 19Z" stroke="#ccc" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M6.5 10H17.5C17.9647 10 18.197 9.99986 18.3902 9.96143C19.1836 9.80361 19.8036 9.18356 19.9614 8.39018C19.9999 8.19698 19.9999 7.96465 19.9999 7.5C19.9999 7.03535 19.9999 6.80306 19.9614 6.60986C19.8036 5.81648 19.1836 5.19624 18.3902 5.03843C18.197 5 17.9647 5 17.5 5H6.5C6.03534 5 5.80306 5 5.60986 5.03843C4.81648 5.19624 4.19624 5.81648 4.03843 6.60986C4 6.80306 4 7.03539 4 7.50004C4 7.9647 4 8.19694 4.03843 8.39014C4.19624 9.18352 4.81648 9.80361 5.60986 9.96143C5.80306 9.99986 6.03535 10 6.5 10Z" stroke="#ccc" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+													</g>
+													</g>
+												</svg>
+												<span class="capitalize dgray verdana pl-10p">rows</span>
+											</span>
+											<span class="px-10p center-2 ml-10p viewByB hover-2">
+												<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16" fill="#ccc" class="bi bi-columns-gap">
+													<path d="M6 1v3H1V1h5zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12v3h-5v-3h5zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8v7H1V8h5zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6v7h-5V1h5zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+												</svg>
+												<span class="capitalize dgray verdana pl-10p">columns</span>
+												</svg>
+											</span>
+										</div>
+								</div>
+							</div>
+							<div class="w-100 h-a bc-white br-5p">
+								<div class="w-100 h-60p bsbb title p-20p bsbb title">
+									<div class="the-title w-60 h-100 br-10p p-5p bsbb bc-gray skel"></div>
+								</div>
+								<div class="w-100 h-a bsbb  us-none catsbody">
+									<div class="cat1 w-100 h-100p bc-white br-5p bsbb ovh p-5p mr-10p mb-15p mt-15p iblock hover-4">
+										<div class="w-100 h-100 p-20p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-70p h-70p bc-dgray skel br-50">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-10p br-5p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-10p br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>	
+									<div class="cat1 w-100 h-100p bc-white br-5p bsbb ovh p-5p mr-10p mb-15p mt-15p iblock hover-4">
+										<div class="w-100 h-100 p-20p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-70p h-70p bc-dgray skel br-50">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-10p br-5p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-10p br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<div class="prods w-100 m-a h-a p-10p bp-0-resp br-10p bsbb bfull-resp">
+							<div class="w-100 h-100 bc-white br-5p mt-10p">
+								<div class="w-100 h-60p bsbb title p-20p bsbb title">
+									<div class="the-title w-60 h-100 br-10p p-5p bsbb bc-gray skel"></div>
+								</div>
+								<div class="prods-cont w-100 m-a h-a bsbb  us-none bsbb bfull-resp p-5p">
+									<div class="product w-100 h-150p bc-white  p-10p bsbb ovh mr-10p mb-15p mt-15p iblock hover-2 bb-1-s-g">
+										<div class="w-100 h-100 p-10p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-100p h-100p bc-dgray skel br-5p">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-30p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="product w-100 h-150p bc-white  p-10p bsbb ovh mr-10p mb-15p mt-15p iblock hover-2 bb-1-s-g">
+										<div class="w-100 h-100 p-10p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-100p h-100p bc-dgray skel br-5p">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-30p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="product w-100 h-150p bc-white  p-10p bsbb ovh mr-10p mb-15p mt-15p iblock hover-2 bb-1-s-g">
+										<div class="w-100 h-100 p-10p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-100p h-100p bc-dgray skel br-5p">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-30p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="product w-100 h-150p bc-white  p-10p bsbb ovh mr-10p mb-15p mt-15p iblock hover-2">
+										<div class="w-100 h-100 p-10p bsbb center-2">
+											<div class="image p-10p bsbb iblock w-100p h-100p bc-dgray skel br-5p">
+												<span class="w-100 h-100">
+													<img src="" class="w">
+												</span>
+											</div>
+											<div class="w-80 h-a iblock p-20p bsbb">
+												<div class="title w-100 h-30p p-5p bsbb">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-30 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-80 h-100 br-5p"></span>
+												</div>
+												<div class="title w-100 h-10p p-5p bsbb m-10p">
+													<span class="verdana left fs-16p p-5p bsbb black bc-dgray skel w-70 h-100 br-5p"></span>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>	
+		    </div>
+	</div>
+</div>
+</body>
+</html>

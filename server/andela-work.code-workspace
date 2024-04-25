@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "../../andela-work"
+		}
+	],
+	"settings": {
+		"workbench.editor.enablePreview": true
+	}
+}

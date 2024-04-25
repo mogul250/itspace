@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Check out | IT SPACE</title>
+	<link rel="stylesheet" type="text/css" href="/css/styling.css">
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<script type="module" defer src="/js/sidenav.js"></script>
+	<script type="module" defer src="/js/navigation.js"></script>
+	<script type="module" defer src="/js/cart.js"></script>
+	<script type="module" defer src="/js/getpinnings.js"></script>
+	<script type="module" defer src="/js/footer.js"></script>
+	<script type="module" defer src="/js/anim.js"></script>
+	<script type="module" defer src="/js/user.controller.js"></script>
+	<script type="module" defer src="/js/checkout.controller.js"></script>
+	<script type="module" defer src="/js/inputs.controller.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js" integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script type="module" defer src="/js/wishlist.controller.js"></script>
+	<link rel="shortcut icon" href="/icons/logo-pure.png" type="image/x-icon">
+</head>
+<body class="p-0 m-0 w-100 h-100 p-r ovxh">
+	<noscript>you need to enable javascript to get this site running</noscript>
+<div class="cont w-100 h-100 ovxh" id="cont">
+	<div class="theshade w-100 h-100 p-f bc-tr-black zi-20 pt-100p pl-300p bsbb tr-0-3 hidden"></div>
+	<div id="body" class="bc-gray w-100 h-100 p-r bsbb">
+		<div class="thebody w-100 h-100 p-r pt-110p">
+            <div class="w-90 m-a h-a p-10p bsbb bblock-resp bfull-resp">
+                <div class=" w-50 h-a iblock bfull-resp mb-10p p-5p bsbb p-r">
+                    <div class="w-100 h-100 bc-white br-5p p-r">
+                        <div class="w-100 h-60p bsbb the-h bb-1-s-g p-10p bsbb">
+                            <div class="w-100 h-100">
+                                <div class="p-5p bsbb w-100 h-100 steps-ind">
+                                    <div class="sthol flex h-100 w-100">
+                                        <div class="w-100 h-100 pl-10p bsbb hover-2 p-r step">
+                                            <div class="w-100 h-10p br-5p bc-dgray bh-100-resp stinit"></div>
+                                            <div class="w-100 h-100 center-2 bp-a-resp bt-0">
+                                                <div class="center-2">
+                                                    <span class="b-1-s-gray w-20p h-20p hidden-resp center-2 p-5p bsbb verdana br-50 fs-14p">1</span>
+                                                    <span class="p-5p bsbb fs-14p verdana black nowrap dv">Address</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-10p bsbb hover-2 p-r step">
+                                            <div class="w-100 h-10p br-5p bc-dgray bh-100-resp stinit"></div>
+                                            <div class="w-100 h-100 center-2 bp-a-resp bt-0">
+                                                <div class="center-2">
+                                                    <span class="b-1-s-gray w-20p h-20p hidden-resp center-2 p-5p bsbb verdana br-50 fs-14p">2</span>
+                                                    <span class="p-5p bsbb fs-14p verdana black nowrap dv">Select</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-10p bsbb hover-2 p-r step">
+                                            <div class="w-100 h-10p br-5p bc-dgray bh-100-resp stinit"></div>
+                                            <div class="w-100 h-100 center-2 bp-a-resp bt-0">
+                                                <div class="center-2">
+                                                    <span class="b-1-s-gray w-20p h-20p hidden-resp center-2 p-5p bsbb verdana br-50 fs-14p">3</span>
+                                                    <span class="p-5p bsbb fs-14p verdana black nowrap dv">Pay</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="the-chkout-b w-100 h-a p-5p bsbb p-r ovh">
+                            <div class="w-100 h-100 1st form-hol ovh p-r l-0 active tr-0-3" name="address">
+                                <form method="post" name="add-address-form" class="p-10p bsbb" id="add-address-form">
+                                    <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+                                        <div class="w-100 bsbb igrid mr-10p left parent p-r">
+                                            <label for="firstname"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">first name</label>
+                                            <input type="text" name="firstname" placeholder="" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana hidden ml-5p">error mssg</small>
+                                        </div>
+                                        <div class="p-r w-100 bsbb igrid parent">
+                                            <label for="lastname" class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">last name</label>
+                                            <input type="text" name="lastname" placeholder="" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana left hidden ml-5p">error mssg</small>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+                                        <div class="w-100 bsbb igrid mr-10p left parent p-r">
+                                            <label for="email" class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">Email</label>
+                                            <input type="text" name="email" placeholder="" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input" id="email">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana hidden ml-5p">error mssg</small>
+                                        </div>
+                                        <div class="p-r w-100 bsbb flex parent">
+                                            <div class="no-outline bsbb b-1-s-dgray bc-gray w-30 pt-15p pb-15p mt--5p iblock">
+                                                <div class="consolas fs-14p dgray center">+250</div>
+                                            </div>
+                                            <input type="text" name="phonenumber" placeholder="Phone number" class="no-outline bsbb b-1-s-dgray bc-white w-80 p-15p mt--5p main-input iblock" id="phonenumber">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana left hidden ml-5p p-a w-100 mt-40p nowrap">error mssg</small>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb">
+                                        <div class="w-100 igrid mr-10p left parent p-r">
+                                            <label for="address" class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">province,district,city</label>
+                                            <input type="text" name="address" placeholder="" class="p-15p no-outline bsbb b-1-s-dgray main-input mt--5p" id="emailsignup">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana left hidden ml-5p">error mssg</small>
+            
+                                        </div>
+                                    </div>
+                                    <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex">
+                                        <div class="w-100 bsbb igrid mr-10p left parent p-r">
+                                            <label for="street" class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">street</label>
+                                            <input type="text" name="street" placeholder="" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana hidden ml-5p">error mssg</small>
+                                        </div>
+                                        <div class="p-r w-100 bsbb igrid parent">
+                                            <label for="apartment" class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">apartment</label>
+                                            <input  type="text" name="apartment" placeholder="" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                            <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                    <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                </svg>
+                                                <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                    <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                    <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                </svg>
+                                            </span>
+                                            <small class="red verdana left hidden ml-5p">error mssg</small>
+                                        </div>
+                                    </div>                                 
+                                    <div class="w-100  h-60p mt-20p p-r right mb-10p p-10p bsbb">
+                                        <div class="w-100 h-100">
+                                            <span class="iblock w-100 h-100">
+                                                <button type="submit" class="bc-theme p-10p b-none w-100 br-20p hover-2">
+                                                    <span class="verdana white fs-15p capitalize">add address</span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="w-100 h-100 1st form-hol ovh p-a t-0 l-100 tr-0-3" name="select">
+                               <div class="w-100 h-100 p-r ovys no-scroll p-5p bsbb">
+                                <div class="igird adhol p-5p bsbb"></div>
+                               </div>
+                            </div>
+                            <div class="w-100 h-100 1st form-hol ovh p-a t-0 l-100 tr-0-3" name="pay">
+                                <div class="w-100 h-100 p-r p-5p bsbb">
+                                 <div class="p-5p bsbb">
+                                    <div class="the-h w-80 m-a bfull-resp p-10p bsbb h-40p">
+                                        <ul class="flex ls-none p-0 m-0 jc-sb w-100">
+                                            <li class="p-5p bsbb">
+                                                <span class="w-100 h-100 p-10p hover-2 cpcards bsbb iblock verdana active bb-1-s-theme bc-tr-theme nowrap capitalize fs-13p theme br-5p">visa & mastercard</span>
+                                            </li>
+                                            <li class="p-5p bsbb">
+                                                <span class="w-100 h-100 p-10p hover-2 cpcards bsbb iblock verdana nowrap capitalize fs-13p br-5p">airtel & MTN money</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-r w-100 h-a">
+                                        <div class="w-100 h-a pform p-r l-0 tr-0-2">
+                                            <form method="post" name="card-payment-form" class="p-10p bsbb payment-form" id="payment-form">                                 
+                                                <div class="w-100  h-60p mt-20p p-r right mb-10p p-10p bsbb">
+                                                    <div class="w-100 h-100">
+                                                        <span class="iblock w-100 h-100">
+                                                            <button type="submit" class="bc-theme p-10p b-none w-100 br-20p hover-2">
+                                                                <span class="verdana white fs-15p capitalize">pay & place order</span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="w-100 h-a pform p-a l-100 va-t t-0 tr-0-2">
+                                            <form method="post" name="mobile-money-form" class="p-10p bsbb payment-form" id="payment-form">
+                                                <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+                                                    <div class="w-100 bsbb igrid left parent p-r">
+                                                        <label for="isp"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">choose ISP</label>
+                                                        <select type="multiple" name="isp" placeholder="" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                                            <option></option>
+                                                            <option value="MTN">
+                                                                <span class="flex">
+                                                                    <span class="img w-60p h-100">
+                                                                        <img alt="logo" src="../icons/mtnmomoicon.jpg" class="w-100 h-100 cover br-5p">
+                                                                    </span>
+                                                                    <span class="fs-13p verdana nowrap capitalize">MTN momo</span>
+
+                                                                </span>
+                                                            </option>
+                                                            <option value="airtel">
+                                                                <span class="flex">
+                                                                    <span class="img w-60p h-100">
+                                                                        <img alt="logo" src="../icons/airtelmoneylogo.png" class="w-100 h-100 cover br-5p">
+                                                                    </span>
+                                                                    <span class="fs-13p verdana nowrap capitalize">Airtel money</span>
+
+                                                                </span>
+                                                            </option>
+                                                        </select>
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana hidden ml-5p">error mssg</small>
+                                                    </div>
+                                                </div>
+                                                <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+                                                    <div class="p-r w-100 bsbb flex parent">
+                                                        <div class="no-outline bsbb b-1-s-dgray bc-gray w-30 pt-15p pb-15p mt--5p iblock">
+                                                            <div class="consolas fs-14p dgray center">+250</div>
+                                                        </div>
+                                                        <input type="text" name="payphonenumber" placeholder="Phone number" class="no-outline bsbb b-1-s-dgray bc-white w-80 p-15p mt--5p main-input iblock" id="payphonenumber">
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana left hidden ml-5p p-a w-100 mt-40p nowrap">error mssg</small>
+                                                    </div>
+                                                </div>                               
+                                                <div class="w-100  h-60p mt-20p p-r right mb-10p p-10p bsbb">
+                                                    <div class="w-100 h-100">
+                                                        <span class="iblock w-100 h-100">
+                                                            <button type="submit" class="bc-theme p-10p b-none w-100 br-20p hover-2">
+                                                                <span class="verdana white fs-15p capitalize">pay & place order</span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                 </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-45 m-a bfull-resp h-a bsbb iblock  br-5p p-5p va-t">
+                    <div class="the-h p-10p h-50p bsbb bc-white br-5p center-2">
+                        <div class="w-100 h-100">
+                            <span class="fs-20p black bold-2 capitalize verdana h-100 w-100">
+                                Order summary
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cart-body w-100 bsbb">
+                        <div class="cont bc-white br-5p h-a p-10p bsbb mt-15p">
+                            <div class="w-100 h-100 p-cont">
+                                <div class="item w-100 h-a p-5p bsbb bb-1-s-g mb-10p">
+                                    <div class="w-100 h-100 flex">
+                                        <div class="w-90p h-90p">
+                                            <div class="w-100 h-100 bc-gray skel br-5p"></div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-20p bsbb">
+                                            <div class="w-100 h-100">
+                                                <div class="w-70 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-60 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-80 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-50 h-15p br-3p bc-gray skel mb-10p"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item w-100 h-a p-5p bsbb bb-1-s-g mb-10p">
+                                    <div class="w-100 h-100 flex">
+                                        <div class="w-90p h-90p">
+                                            <div class="w-100 h-100 bc-gray skel br-5p"></div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-20p bsbb">
+                                            <div class="w-100 h-100">
+                                                <div class="w-70 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-60 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-80 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-50 h-15p br-3p bc-gray skel mb-10p"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item w-100 h-a p-5p bsbb bb-1-s-g mb-10p">
+                                    <div class="w-100 h-100 flex">
+                                        <div class="w-90p h-90p">
+                                            <div class="w-100 h-100 bc-gray skel br-5p"></div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-20p bsbb">
+                                            <div class="w-100 h-100">
+                                                <div class="w-70 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-60 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-80 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-50 h-15p br-3p bc-gray skel mb-10p"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item w-100 h-a p-5p bsbb ">
+                                    <div class="w-100 h-100 flex">
+                                        <div class="w-90p h-90p">
+                                            <div class="w-100 h-100 bc-gray skel br-5p"></div>
+                                        </div>
+                                        <div class="w-100 h-100 pl-20p bsbb">
+                                            <div class="w-100 h-100">
+                                                <div class="w-70 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-60 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-80 h-15p br-3p bc-gray skel mb-10p"></div>
+                                                <div class="w-50 h-15p br-3p bc-gray skel mb-10p"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="extra bc-white br-5p h-a mt-15p mb-15p">
+                            <div class="w-100 h-100 p-20p bsbb">
+                                <ul class="ls-none m-0 p-0">
+                                    <li class="">
+                                        <span class="w-100 fs-16p bold verdana theme capitalize">delivery address : </span>
+                                        <div class="w-100 h-a p-10p bsbb" id="act-addr-hol">
+                                            
+                                        </div>
+                                    </li>
+                                    <li class="flex">
+                                        <span class="w-100 fs-16p bold verdana theme capitalize">delivery fees : </span>
+                                        <span class="w-100 fs-16p bold consolas capitalize">
+                                            <span> Negotiatable</span>
+                                        </span>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="total bc-white br-5p">
+                            <div class="w-100 h-100 p-20p bsbb">
+                                <ul class="ls-n m-0 p-0">
+                                    <li class="flex">
+                                        <span class="w-100 fs-16p bold verdana  capitalize">total : </span>
+                                        <span class="w-100 fs-16p bold consolas capitalize">
+                                            <span class="ttl-m"> 000</span>
+                                            <span class="dgray fs-14p"> RWF</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

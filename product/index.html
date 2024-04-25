@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="module" src="../js/product.js"></script>
+	<title>Product @IT SPACE</title>
+	<meta property="og:title" content="Product @ IT SPACE" name="title">
+	<meta property="og:description" content="" name="description">
+	<meta property="og:image" content="" name="image">
+	<meta property="product:price:amount" content="" name="price">
+	<meta property="og:image:width" content="600"> 
+	<meta property="og:image:height" content="400">
+	<meta property="og:url" content="https://itspace.rw" name="url">
+	<meta property="og:type" content="product">
+	<meta property="product:price:currency" content="RWF">
+	<meta property="og:site_name" content="IT SPACE LTD">
+	<meta property="og:rating" content="" name="rating">
+	<meta property="og:rating:total" content="" name="total_r">
+	<link rel="stylesheet" type="text/css" href="../css/styling.css">
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css">
+	<script type="module" defer src="../js/sidenav.js"></script>
+	<script type="module" defer src="../js/navigation.js"></script>
+	<script type="module" defer src="../js/cart.js"></script>
+	<script type="module" defer src="../js/getpinnings.js"></script>
+	<script type="module" defer src="../js/anim.js"></script>
+	<script type="module" defer src="../js/footer.js"></script>
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script type="module" defer src="../js/wishlist.controller.js"></script>
+    <script type="module" defer src="../js/user.controller.js"></script>
+	<link rel="shortcut icon" href="../icons/logo-pure.png" type="image/x-icon">
+
+
+
+
+
+</head>
+<body class="p-0 m-0 w-100 h-100 p-r ovxh">
+<div class="cont w-100 h-100 ovxh" id="cont">
+	
+	<div class="theshade w-100 h-100 p-f bc-tr-black zi-20 pt-100p pl-300p bsbb tr-0-3 hidden"></div>
+	
+	<div id="body" class="bc-gray w-100 h-100 p-r bsbb">
+		<div class="thebody w-100 h-100 p-r pt-100p">
+			<div class="w-100 h-a bsbb p-10p-resp p-r prod-preview" id="prod-preview">
+				<div class=" w-100 m-a h-a bfull-resp">
+					<div class="w-100 h-100 bsbb us-none bfull-resp p-r">
+						<div class="image-preview w-45 h-a bc-white br-5p ovh mr-10p mb-15p mt-15p iblock bfull-resp imgc va-t">
+							<div class="w-100 h-100">
+								<div class="w-100 h-100">
+									<div class="w-100 h-100 p-15p bsbb">
+										<table class="w-100 h-100 p-r">
+											<tr class="h-97">
+												<td class="ovh w-50p">
+													<div class="w-100 ovh h-100">
+														<div class="w-100 h-100 p-5p bsbb sm-img-preview" >
+															<div class="w-100p h-100p bsbb p-10p bsbb igrid">
+																<div class="w-100 h-100 br-5p bc-gray skel hover-2"></div>
+															</div>
+															<div class="w-100p h-100p bsbb p-10p bsbb igrid">
+																<div class="w-100 h-100 br-5p bc-gray skel hover-2"></div>
+															</div>
+															<div class="w-100p h-100p bsbb p-10p bsbb igrid">
+																<div class="w-100 h-100 br-5p bc-gray skel hover-2"></div>
+															</div>
+															<div class="w-100p h-100p bsbb p-10p bsbb igrid">
+																<div class="w-100 h-100 br-5p bc-gray skel hover-2"></div>
+															</div>
+														</div>
+	
+													</div>
+												</td>
+												<td>
+													<div class="w-100 h-400p bsbb img-preview">
+														<div class="w-100 h-100 p-5p bsbb bc-gray skel br-5p">
+															
+														</div>
+													</div>
+												</td>
+											</tr>
+											
+										</table>
+									</div>	
+
+								</div>
+							</div>
+						</div>
+				
+						<div class="product-specs w-50 h-a bc-white br-5p ovh mr-10p mb-15p mt-15p iblock bfull-resp">
+							<div class="w-100 h-100">
+								<div class="w-100 h-a">
+									<div class="w-100 h-100 p-15p bsbb">
+										<table class="w-100 h-100 block">
+											<tbody class="w-100 block h-a block">
+												<tr class="prod-name h-a block">
+													<td class="w-100 block">
+														<div class="w-100 h-80 bsbb prodname-hol">
+															<div class="w-60 h-100 p-5p bsbb bc-gray skel br-5p">
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr class="prod-specs pl-10p bsbb block w-100 ">
+													<td class="h-a bsbb block w-100">
+														<div class="w-100 h-100 bsbb pl-10p bsbb bb-1-s-g">
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 p-0">
+																	<li class="w-100 spestitle">
+																		<div class="w-120p h-20p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 p-5p bsbb pspecs">
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-120p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-160p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-120p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+															<div class="w-100 h-a mt-5p">
+																<ul class="ls-none m-0 p-0 shinfotitle">
+																	<li class="w-100 shinfotitle">
+																		<div class="w-120p h-20p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+															<div class="w-100 h-a my-10p">
+																<ul class="ls-none m-0 p-5p bsbb pshinfo">
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-120p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-160p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p m-5p bsbb">
+																		<div class="w-120p h-10p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</td>
+												</tr>
+												
+												<tr>
+													<td>
+														<div class="w-100 h-100 bsbb pl-10p bsbb ">
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 p-0">
+																	<li class="w-100 prcttlhol">
+																		<div class="w-120p h-20p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 bsbb flex jc-sb w-100 pl-10p m-a ">
+																	<li class="w-100 p-5p m-10p bsbb prchol">
+																		<div class="w-120p h-15p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="h-35p">
+														<div class="w-100 h-100 bsbb bsbb bttns-hol flex">
+															<div class="w-80p h-100 br-5p bc-gray skel hover-2 right"></div>
+															<div class="w-30p h-100 br-5p bc-gray skel hover-2 ml-20p mr-20p right"></div>
+														</div>
+													</td>
+												</tr>
+												<tr class=" h-a">
+													<td>
+														<div class="w-100 h-100 bsbb pl-10p pt-5p bsbb">
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 p-0">
+																	<li class="w-100 tgsttl">
+																		<div class="w-120p h-20p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+															<div class="w-100 h-a">
+																<ul class="ls-none m-0 p-5p bsbb flex jc-sb w-90 m-a h-a tgscntnt">
+																	<li class="w-100 p-5p bsbb">
+																		<div class="w-70 h-15p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p bsbb">
+																		<div class="w-90 h-15p br-5p bc-gray skel"></div>
+																	</li>
+																	<li class="w-100 p-5p bsbb">
+																		<div class="w-60 h-15p br-5p bc-gray skel"></div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</td>
+												</tr>
+												
+											</tbody>
+										</table>
+									</div>	
+								</div>
+								
+							</div>
+						</div>				
+					</div>	
+				</div>
+			</div>
+			<div class="w-100 h-a pl-20p pr-20p pb-2p bsbb related p-r" id="related">
+				<div class="w-100 h-100 br-5p">
+					<div class="the-h w-100 h-a pl-20p pt-10p bsbb">
+						<div class="verdana">
+							<p>
+								<span class="#icon percentage-icon mt-5p p-r h-20p w-20p bc-dgray">
+										<svg class="w-20p h-20p p-a" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+										<g id="-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											<g id="ic_fluent_recommended_24_filled" fill="#212121" fill-rule="nonzero">
+												<path d="M17.0020594,17.4830721 L17.0007001,22.2453233 C17.0007001,22.7945586 16.4297842,23.157512 15.9324488,22.9244522 L12.0005291,21.0818879 L8.07069102,22.9243915 C7.5733438,23.1575726 7.00231009,22.7946207 7.00231009,22.2453233 L7.00260026,17.4861909 C8.43218245,18.4424048 10.1509746,19 12,19 C13.8510348,19 15.5715531,18.4411922 17.0020594,17.4830721 Z M12,2 C16.418278,2 20,5.581722 20,10 C20,14.418278 16.418278,18 12,18 C7.581722,18 4,14.418278 4,10 C4,5.581722 7.581722,2 12,2 Z M11.8084497,6.58610926 L11.7712148,6.64234387 L10.8586922,8.49499737 L8.81472896,8.79035658 C8.62860433,8.81725218 8.54185205,9.02358857 8.63135587,9.17274189 L8.67333197,9.22553178 L10.1533251,10.6658938 L9.80260908,12.7010893 C9.77067264,12.8864156 9.94010228,13.0326834 10.1096137,12.9936511 L10.1727912,12.9700424 L12,12.0075816 L13.8272087,12.9700424 C13.9935181,13.0576439 14.1849216,12.9418506 14.2003028,12.7686538 L14.1974269,12.7012993 L13.8484251,10.6658938 L15.326776,9.22542655 C15.4614232,9.09422981 15.4102807,8.87641205 15.2502405,8.80838398 L15.185271,8.79035658 L13.1413078,8.49499737 L12.2287851,6.64234387 C12.1560771,6.494728 11.9762193,6.46192448 11.8558892,6.54393329 L11.8084497,6.58610926 L11.8084497,6.58610926 Z" id="-Color">
+									</path>
+											</g>
+										</g>
+									</svg>
+								</span>
+								<span class="verdana black bold p-12p bsbb ml-20p fs-16p">
+									Related products
+								</span>
+							</p>
+						</div>
+					</div>
+					<div class="prods w-100 m-a h-a bfull-resp">
+						<div class="w-100 h-100 bsbb related-prods-cont p-10p bsbb">
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="w-100 h-a p-10p bsbb">
+				<div class="w-100 h-a pl-10p bsbb bc-white br-5p">
+							<div class="w-100 h-100 bsbb pl-10p bsbb bb-1-s-g">
+								<div class="w-100 h-a">
+									<ul class="ls-none m-0 p-0">
+										<li class="w-100 proddesc">
+											<div class="w-120p h-20p br-5p bc-gray skel proddesc"></div>
+										</li>
+									</ul>
+								</div>
+								<div class="w-100 h-a">
+									<ul class="ls-none m-0 bsbb pl-3p bsbb">
+										<li class="w-100 m-5p bsbb proddesccntnt">
+											<div class="w-70 h-5p br-5p bc-gray skel m-5p"></div>
+											<div class="w-90 h-5p br-5p bc-gray skel m-5p"></div>
+											<div class="w-60 h-5p br-5p bc-gray skel m-5p"></div>
+											<div class="w-80 h-5p br-5p bc-gray skel m-5p"></div>
+										</li>
+									</ul>
+								</div>
+							</div>
+					<div class="w-100 h-80 bsbb feedbacks">
+						<div class="w-100 h-a p-10p bsbb ">
+							<span class="verdana capitalize fs-18p">feedbacks</span>
+						</div>
+						<div class="fb-body w-100 p-20p bsbb h-a">
+							<div class="fb w-100 h-a pb-10p bsbb bb-1-s-g ">
+								<div class="unames">
+									<span class="black nowrap h-20p w-100p block bc-gray skel br-5p"></span>
+								</div>
+								<div class="message flex p-10p bsbb">
+									<div class="img w-70p h-70p br-5p bc-gray skel"></div>
+									<div class="mssg w-80 h-a">
+										<span class="w-80 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-60 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-90 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-50 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+
+									</div>
+								</div>
+							</div>
+							<div class="fb w-100 h-a pb-10p bsbb mt-10p">
+								<div class="unames">
+									<span class="black nowrap h-20p w-100p block bc-gray skel br-5p"></span>
+								</div>
+								<div class="message flex p-10p bsbb">
+									<div class="img w-70p h-70p br-5p bc-gray skel"></div>
+									<div class="mssg w-80 h-a">
+										<span class="w-80 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-60 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-90 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+										<span class="w-50 h-10p m-5p block bsbb bc-gray br-5p skel"></span>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

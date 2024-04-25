@@ -1,0 +1,4 @@
+rewriteEngine on
+
+rewriteRule ^/?([0-9-a-z]+)$ index.html?$category=$1 [NC,L]
+rewriteRule ^home$ index.html?$data=$1
