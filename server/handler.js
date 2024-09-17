@@ -6,13 +6,13 @@ import path from 'path';
 import dotenv from "dotenv";
 dotenv.config();
 let connection =  createPool({
-	host : 'mysql.freehostia.com',
+	host : 'itspace-2.c9mqeoiy66rs.eu-north-1.rds.amazonaws.com',
 	// host : 'localhost',
-	user : 'itzsho_itzone',
+	user : 'itspace',
 	// user : 'root',
-	password : 'Heshimaherbert@1',
+	password : 'itspace250',
 	// password : '',
-	database : 'itzsho_itzone',
+	database : 'itspace',
 	// database : 'itzone',
 });
 connection.getConnection((err, connection) => {

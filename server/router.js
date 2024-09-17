@@ -46,8 +46,8 @@ io.on('connection', function (socket) {
 	
 });	
 const s3 = new S3({
-	accessKeyId: 'AKIAZ2FAYGUCPOJILUFM',
-	secretAccessKey: '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'
+	accessKeyId: 'AKIA4MTWKTEWFL4AGVP7',
+	secretAccessKey: '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'
 });
 router.use(passport.initialize()); 
 router.use(passport.session());
@@ -94,7 +94,7 @@ router.use(passport.session());
 	router.get('/api/images/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itzone',
+			Bucket: 'itspace',
 			Key: `images/${filename}`
 		};
 		try {
@@ -126,7 +126,7 @@ router.use(passport.session());
 	router.get('/api/feedback-imgz/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itzone',
+			Bucket: 'itspace',
 			Key: `feedback-imgz/${filename}`
 		};
 		try {
@@ -157,7 +157,7 @@ router.use(passport.session());
 	router.get('/api/product-imgz/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itzone',
+			Bucket: 'itspace',
 			Key: `product-imgz/${filename}`
 		};
 		try {
@@ -189,7 +189,7 @@ router.use(passport.session());
 	router.get('/api/brands/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itzone',
+			Bucket: 'itspace',
 			Key: `brands/${filename}`
 		};
 		try {
