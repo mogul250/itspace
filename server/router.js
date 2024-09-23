@@ -46,8 +46,8 @@ io.on('connection', function (socket) {
 	
 });	
 const s3 = new S3({
-	accessKeyId: 'AKIA4MTWKTEWFL4AGVP7',
-	secretAccessKey: '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'
+	accessKeyId: 'AKIA4MTWKTEWFHGVSA5D',
+	secretAccessKey: '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'
 });
 router.use(passport.initialize()); 
 router.use(passport.session());
@@ -377,7 +377,7 @@ router.use(passport.session());
 								for (const image of v) {
 									try {
 										const params = {
-											Bucket: 'itzone',
+											Bucket: 'itspace',
 											Key: `procuct-imgz/${image}`
 										  };
 										  
@@ -441,7 +441,7 @@ router.use(passport.session());
 										n = `${generateUniqueId()}.${e}`
 										// Upload the modified image to S3
 										const params = {
-											Bucket: 'itzone',
+											Bucket: 'itspace',
 											Key: `product-imgz/${n}`,
 											Body: modifiedImageBuffer,
 											ContentType: MIME_JPEG,
@@ -986,7 +986,7 @@ router.use(passport.session());
 					const bufferData = Buffer.from(base64Data, 'base64');
 					const filePath = join(__dirname,'..','brands', n);
 					const params = {
-						Bucket: 'itzone',
+						Bucket: 'itspace',
 						Key: `brands/${n}`,
 						Body: bufferData
 					  };
@@ -1040,7 +1040,7 @@ router.use(passport.session());
 								const bufferData = Buffer.from(base64Data, 'base64');
 								const filePath = join(__dirname,'..','images', n);
 								const params = {
-									Bucket: 'itzone',
+									Bucket: 'itspace',
 									Key: `images/${n}`,
 									Body: bufferData
 								  };
@@ -1090,7 +1090,7 @@ router.use(passport.session());
 								const bufferData = Buffer.from(base64Data, 'base64');
 								const filePath = join(__dirname,'..','images', n);
 								const params = {
-									Bucket: 'itzone',
+									Bucket: 'itspace',
 									Key: `images/${n}`,
 									Body: bufferData
 								  };
@@ -1135,7 +1135,7 @@ router.use(passport.session());
 					const bufferData = Buffer.from(base64Data, 'base64');
 					const filePath = join(__dirname,'..','images', n);
 					const params = {
-						Bucket: 'itzone',
+						Bucket: 'itspace',
 						Key: `images/${n}`,
 						Body: bufferData
 					  };
@@ -1184,7 +1184,7 @@ router.use(passport.session());
 								v = v[0].image
 									try {
 										const params = {
-											Bucket: 'itzone',
+											Bucket: 'itspace',
 											Key: `images/${v}`
 										  };
 										  
@@ -1242,7 +1242,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itzone',
+										Bucket: 'itspace',
 										Key: `brands/${v}`
 									  };
 									  
@@ -1297,7 +1297,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itzone',
+										Bucket: 'itspace',
 										Key: `images/${v}`
 									  };
 									  
@@ -1352,7 +1352,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itzone',
+										Bucket: 'itspace',
 										Key: `images/${v}`
 									  };
 									  
@@ -1407,7 +1407,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itzone',
+										Bucket: 'itspace',
 										Key: `images/${v}`
 									  };
 									  
@@ -1463,7 +1463,7 @@ router.use(passport.session());
 								for (const image of v) {
 									try {
 										const params = {
-											Bucket: 'itzone',
+											Bucket: 'itspace',
 											Key: `procuct-imgz/${image}`
 										  };
 										  
@@ -1565,7 +1565,7 @@ router.use(passport.session());
 										n = `${generateUniqueId()}.${e}`
 										// Upload the modified image to S3
 										const params = {
-											Bucket: 'itzone',
+											Bucket: 'itspace',
 											Key: `product-imgz/${n}`,
 											Body: modifiedImageBuffer,
 											ContentType: MIME_JPEG,
@@ -2698,7 +2698,7 @@ router.use(passport.session());
 									const bufferData = Buffer.from(base64Data, 'base64');
 									const filePath = join(__dirname,'..','feedback-imgz', n);
 									const params = {
-										Bucket: 'itzone',
+										Bucket: 'itspace',
 										Key: `feedback-imgz/${n}`,
 										Body: bufferData
 									  };

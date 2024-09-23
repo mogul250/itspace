@@ -69,12 +69,13 @@ async function page (req,res,page){
 
         res.writeHead(200, {
             'Content-Type': "text/html",
-            'Content-Length': data.length,
+            // 'Content-Length': data.length,
             // 'Cache-Control': 'public'
         });
         if (user == 'product') {
+          try {
             let prodinfo = await getProdInfo(filename)
-            if (!prodinfo ) {
+            if (!prodinfo) {
             res.end('product not found');
             return 
             }
@@ -96,6 +97,9 @@ async function page (req,res,page){
             metaPriceTag.attr('content', prodinfo.conditions[0].price);
             metaDescriptionTag.attr('content', prodinfo.description)
             res.end($.html());
+          } catch (error) {
+            res.end('there was error while retrieving product info');
+          }
         }else{
             res.end(data);
         }
