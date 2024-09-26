@@ -11,6 +11,7 @@ async function getProdInfo(product){
             return product
             
         } catch (error) {
+            console.log(error)
             return undefined
         }
     }
