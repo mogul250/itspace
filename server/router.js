@@ -406,7 +406,7 @@ router.use(passport.session());
 									const uploadedImageBuffer = bufferData;
 									const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png');
 									try {
-										// Detect the image format from the buffer data
+										
 										let ui
 					
 										// if (e !== 'jpg' || e !== 'jpeg' ) {
@@ -416,30 +416,25 @@ router.use(passport.session());
 										{
 											ui = uploadedImageBuffer
 										}
-										// Read the uploaded image buffer using Jimp
+										
 										const uploadedImage = await read(ui);
-
-										// Read the watermark image from your server
 										const watermarkImage = await read(watermarkImagePath);
 										const watermarkResizeOptions = {
-											width: 205, // Adjust the width as needed
-											height: 110, // Adjust the height as needed
+											width: 205, 
+											height: 110, 
 										};
 										watermarkImage.resize(watermarkResizeOptions.width, watermarkResizeOptions.height);
-										// Calculate the position to place the watermark (e.g., bottom right corner)
+										
 										const x = uploadedImage.bitmap.width - watermarkImage.bitmap.width - 15;
 										const y = uploadedImage.bitmap.height - watermarkImage.bitmap.height - 5;
 
-										// Composite the watermark onto the uploaded image
+										
 										uploadedImage.composite(watermarkImage, x, y, {
 										mode: BLEND_SOURCE_OVER,
-										opacitySource: 0.8, // Adjust the opacity as needed
+										opacitySource: 0.8, 
 										});
-
-										// Convert the modified image to a buffer
 										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
 										n = `${generateUniqueId()}.${e}`
-										// Upload the modified image to S3
 										const params = {
 											Bucket: 'itspace',
 											Key: `product-imgz/${n}`,
@@ -463,7 +458,7 @@ router.use(passport.session());
 								c.forEach(condition=>{
 									Object.assign(c[c.indexOf(condition)],{newprice: condition.price, promotion: null})
 								})
-								database.query(`update products set name= ?, category= '${i.catid}', subcategory= '${i.subcatid}', usedin= '${i.usedin}', brand= '${i.brandid}', family= '${i.famid}', quantity= '${i.quantity}', description= ?, specifications= '${JSON.stringify(i.specifications)}', images = '${JSON.stringify(a)}',conditions = '${JSON.stringify(c)}',availability='${i.availability}', shipment_info='${JSON.stringify(i.dinfos)}' where id = '${p}'`,[i.name,i.description],(error,result)=>{
+								database.query(`update products set name= ?, category= ?, subcategory= ?, usedin= ?, brand= ?, family= ?, quantity= ?, description= ?, specifications= ?, images = ?,conditions = ?,availability= ?, shipment_info= ? where id = ?`,[i.name,i.catid,i.subcatid,i.usedin,i.brandid,i.famid,i.quantity,i.description,JSON.stringify(i.specifications),JSON.stringify(a),JSON.stringify(c),i.availability,JSON.stringify(i.dinfos),p],(error,result)=>{
 									console.log(error)
 									if (error) return res.send({success: false, message: "Oops an error occured"})
 									if(result.affectedRows > 0){
@@ -1530,9 +1525,7 @@ router.use(passport.session());
 									const uploadedImageBuffer = bufferData;
 									const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png');
 									try {
-										// Detect the image format from the buffer data
 										let ui
-					
 										// if (e !== 'jpg' || e !== 'jpeg' ) {
 										// 	ui = await sharp(uploadedImageBuffer).toFormat('jpeg').toBuffer();
 										// 	e = 'jpeg'
@@ -1540,30 +1533,21 @@ router.use(passport.session());
 										{
 											ui = uploadedImageBuffer
 										}
-										// Read the uploaded image buffer using Jimp
 										const uploadedImage = await read(ui);
-
-										// Read the watermark image from your server
 										const watermarkImage = await read(watermarkImagePath);
 										const watermarkResizeOptions = {
-											width: 205, // Adjust the width as needed
-											height: 110, // Adjust the height as needed
+											width: 205, 
+											height: 110,
 										};
 										watermarkImage.resize(watermarkResizeOptions.width, watermarkResizeOptions.height);
-										// Calculate the position to place the watermark (e.g., bottom right corner)
 										const x = uploadedImage.bitmap.width - watermarkImage.bitmap.width - 15;
 										const y = uploadedImage.bitmap.height - watermarkImage.bitmap.height - 5;
-
-										// Composite the watermark onto the uploaded image
 										uploadedImage.composite(watermarkImage, x, y, {
 										mode: BLEND_SOURCE_OVER,
-										opacitySource: 0.8, // Adjust the opacity as needed
+										opacitySource: 0.8,
 										});
-
-										// Convert the modified image to a buffer
 										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
 										n = `${generateUniqueId()}.${e}`
-										// Upload the modified image to S3
 										const params = {
 											Bucket: 'itspace',
 											Key: `product-imgz/${n}`,
@@ -1584,8 +1568,11 @@ router.use(passport.session());
 									a.push(n)
 								}
 								z = generateUniqueId();
-								database.query(`insert into products(id,name,category,subcategory,usedin,brand,family,quantity,description,specifications,images,conditions,availability,orders,status,shipment_info) values('${z}',?,'${req.body.catid}','${req.body.subcatid}','${req.body.usedin}','${req.body.brandid}','${req.body.famid}','${req.body.quantity}',?,'${JSON.stringify(req.body.specifications)}','${JSON.stringify(a)}','${JSON.stringify(c)}','${req.body.availability}',0,'active',?)`,[req.body.name,req.body.description,JSON.stringify(req.body.dinfos)],(error,result)=>{
-									if (error) return res.status(500).send({success: false, message: 'internal server error'})
+								database.query(`insert into products(id,name,category,subcategory,usedin,brand,family,quantity,description,specifications,images,conditions,availability,orders,status,shipment_info) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,[z,req.body.name,req.body.catid,req.body.subcatid,req.body.usedin,req.body.brandid,req.body.famid,req.body.quantity,req.body.description,JSON.stringify(req.body.specifications),JSON.stringify(a),JSON.stringify(c),req.body.availability,0,'active',JSON.stringify(req.body.dinfos)],(error,result)=>{
+									if (error) {
+										console.log(error)
+										return res.status(500).send({success: false, message: 'internal server error'})
+									}
 									res.send({success:true, message: "product inserted successfully"})
 								})
 							} catch (error) {

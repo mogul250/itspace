@@ -76,28 +76,31 @@ async function page (req,res,page){
           try {
             let prodinfo = await getProdInfo(filename)
             if (!prodinfo) {
-            res.end('product not found');
+              res.end('product not found');
+              console.log(prodinfo)
             return 
+            }else{
+              const $ = load(data);
+              const metaNameTag = $('meta[name="title"]'),
+              metaImageTag = $('meta[name="image"]'),
+              metaPriceTag = $('meta[name="price"]'),
+              metaDescriptionTag = $('meta[name="description"]'),
+              title = $('title'),
+              metaURLTag = $('meta[name="url"]'),
+              metaRatingTag = $('meta[name="rating"]'),
+              metaRatingTotalTag = $('meta[name="total_r"]')
+              metaRatingTag.attr('content',prodinfo.fb_rate)
+              metaRatingTotalTag.attr('content',prodinfo.fb_count)
+              metaURLTag.attr('content', 'https://itspace.rw/product/'+filename)
+              title.text(prodinfo.pname),
+              metaNameTag.attr('content', prodinfo.pname);
+              metaImageTag.attr('content', 'https://itspace.rw/api/product-imgz/'+prodinfo.pimgs[0]);
+              metaPriceTag.attr('content', prodinfo.conditions[0].price);
+              metaDescriptionTag.attr('content', prodinfo.description)
+              res.end($.html());
             }
-            const $ = load(data);
-            const metaNameTag = $('meta[name="title"]'),
-            metaImageTag = $('meta[name="image"]'),
-            metaPriceTag = $('meta[name="price"]'),
-            metaDescriptionTag = $('meta[name="description"]'),
-            title = $('title'),
-            metaURLTag = $('meta[name="url"]'),
-            metaRatingTag = $('meta[name="rating"]'),
-            metaRatingTotalTag = $('meta[name="total_r"]')
-            metaRatingTag.attr('content',prodinfo.fb_rate)
-            metaRatingTotalTag.attr('content',prodinfo.fb_count)
-            metaURLTag.attr('content', 'https://itspace.rw/product/'+filename)
-            title.text(prodinfo.pname),
-            metaNameTag.attr('content', prodinfo.pname);
-            metaImageTag.attr('content', 'https://itspace.rw/api/product-imgz/'+prodinfo.pimgs[0]);
-            metaPriceTag.attr('content', prodinfo.conditions[0].price);
-            metaDescriptionTag.attr('content', prodinfo.description)
-            res.end($.html());
           } catch (error) {
+            console.log(error)
             res.end('there was error while retrieving product info');
           }
         }else{
