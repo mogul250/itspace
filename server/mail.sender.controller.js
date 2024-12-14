@@ -3,9 +3,10 @@ import { createTransport } from 'nodemailer';
 
 const sendmail =  async (email,message,html) => {
 		const transporter = createTransport({
-			host: 'smtppro.zoho.com',
+			host: 'smtp.zoho.com',
 			port: 465,
 			secure: true,
+
 			auth: {
 				user: "info@itspace.rw",
 				pass: "01UHsymPE8cB"
@@ -20,6 +21,7 @@ const sendmail =  async (email,message,html) => {
         const info = new Promise((resolve, reject) => {
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
+			  console.log(error)
               resolve({ success: false, message: 'Mails were not sent' });
             } else {
               resolve({ success: true, message: 'Mails sent' });
