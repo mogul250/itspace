@@ -6,14 +6,10 @@ import path from 'path';
 import dotenv from "dotenv";
 dotenv.config();
 let connection =  createPool({
-	host : 'itspace-2.c9mqeoiy66rs.eu-north-1.rds.amazonaws.com',
-	// host : 'localhost',
-	user : 'itspace',
-	// user : 'root',
-	password : 'itspace250',
-	// password : '',
-	database : 'itspace',
-	// database : 'itzone',
+	host : process.env.DB_HOST,
+	user : process.env.DB_USER,
+	password : process.env.DB_PASS,
+	database : process.env.DB,
 });
 connection.getConnection((err, connection) => {
     if (err) {
