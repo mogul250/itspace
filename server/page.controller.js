@@ -1,6 +1,10 @@
 import { readFile } from "fs";
 // import  render  from "./page.scraper.controller";
-import { join } from "path";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 import { getProdInfo } from "./product.controller.js";
 import { load } from 'cheerio';
 // import { verify } from 'jsonwebtoken';

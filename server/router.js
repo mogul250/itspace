@@ -1,5 +1,5 @@
 import { Router, json } from 'express';
-import { S3 } from '@aws-sdk/client-s3';
+import pkg from 'aws-sdk';
 import { randomBytes } from 'crypto';
 import jwt from 'jsonwebtoken';
 import archiver from 'archiver';
@@ -26,7 +26,7 @@ import Flutterwave from 'flutterwave-node-v3';
 import passport  from 'passport'; 
 import './passport.js';
 import { Server  } from "socket.io";
-
+const { S3 } = pkg;
 const pSC = process.env.PAYSTACK_SECRET_KEY,MTN_AU = process.env.MTN_AU_AK,MTN_COLL_SK = process.env.MTN_COLL_SK,MTN_DISB_SK = process.env.MTN_DISB_SK,MTN_API_LINK = process.env.MTN_API_LINK,MTN_ENV = process.env.MTN_ENV
 const 
 flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
