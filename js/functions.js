@@ -1363,6 +1363,14 @@ export async function validateForm(form,inputs,formdata) {
     }
   }else if (form.name == 'card-payment-form') {
     v = {}
+    inputs.forEach(inp=>{
+            if (inp.value == "") {
+              setErrorFor(inp,`enter ${inp.name}`);
+              val = 0;
+            }else{
+              Object.assign(v,{[inp.name]: inp.value.trim()})
+            }
+    })
     if(val == 1){
       sendmessage(inputs,'placeorder',form,v);
     }
@@ -1629,9 +1637,11 @@ export async function sendmessage(inputs,type,form,formdata) {
         socket.on('processingPayment',data=>{
           form.querySelector('button').innerText = 'processing payments...'
           form.querySelector('button').classList.add('capitalize','white')
+          console.log(data)
         })
         r = await request('addorder',s)
         form.querySelector('button').innerText = 'Pay & place order'
+        form.querySelector('button').classList.add('capitalize','white')
         if (r.success) {
           form.reset();
           form.classList.remove('op-0-3');

@@ -1,5 +1,5 @@
 
-import { adcm, cc, getdata, getschema, geturl, request, setErrorFor, setSuccessFor, validateForm,vdtins,chaastep,shaddr,geimgturl, ellipsis, postschema, initializeSpecialCleave } from "./functions.js";
+import { adcm, cc, getdata, getschema, geturl, request, setErrorFor, setSuccessFor, validateForm,vdtins,chaastep,shaddr,geimgturl, ellipsis, postschema, initializeSpecialCleave, initializeCleave } from "./functions.js";
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 
 m = document.querySelector('span.ttl-m')
@@ -152,6 +152,19 @@ p.forEach(paymentForm=>{
         }
         if (paymentForm.classList.contains('op-0-3')) return 0
     }
+})
+let cleaveRequires = Array.from(document.querySelectorAll('.require-cleave'))
+// initializeCleave(
+//     phoneInp,
+//     null
+// );
+cleaveRequires.forEach(input=>{
+   let type = input.name
+   if( type == 'expdate'){
+    initializeSpecialCleave(input,[2,4],6,' / ')
+   }else if( type == 'cvv'){
+    initializeSpecialCleave(input,[3],3,'')
+   }
 })
 f.onsubmit = (e)=>{
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { database } from "./handler";
+import { database } from "./handler.js";
 
 async function query(query) {
     try {

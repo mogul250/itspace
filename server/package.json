@@ -53,6 +53,7 @@
     "fast-xml-parser": "^4.0.11",
     "fill-range": "^7.0.1",
     "finalhandler": "^1.2.0",
+    "flutterwave-node-v3": "^1.1.14",
     "forwarded": "^0.2.0",
     "fresh": "^0.5.2",
     "function-bind": "^1.1.1",
@@ -75,7 +76,7 @@
     "is-glob": "^4.0.3",
     "is-number": "^7.0.0",
     "jimp": "^0.22.10",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.2",
     "kareem": "^2.5.1",
     "media-typer": "^0.3.0",
     "memory-pager": "^1.5.0",
@@ -141,6 +142,7 @@
     "type-is": "^1.6.18",
     "undefsafe": "^2.0.5",
     "unpipe": "^1.0.0",
+    "update": "^0.7.4",
     "util": "^0.12.5",
     "utils-merge": "^1.0.1",
     "uuid": "^8.3.2",
@@ -150,7 +152,7 @@
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "start": "nodemon --exec \"node -r esm\" app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -160,5 +162,6 @@
     "f"
   ],
   "author": "heshima herbert",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module"
 }

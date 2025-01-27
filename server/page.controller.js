@@ -1,10 +1,12 @@
 import { readFile } from "fs";
 // import  render  from "./page.scraper.controller";
 import { join } from "path";
-import { getProdInfo } from "./product.controller";
+import { getProdInfo } from "./product.controller.js";
 import { load } from 'cheerio';
-import { verify } from 'jsonwebtoken';
-import { query } from "./query.controller";
+// import { verify } from 'jsonwebtoken';
+import { query } from "./query.controller.js";
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 async function page (req,res,page){
 	const { filename,user } = req.params;
     let file

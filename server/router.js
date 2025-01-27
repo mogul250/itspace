@@ -13,15 +13,18 @@ import Paystack from 'paystack';
 import {EventEmitter} from 'events';
 class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
-import { server, database } from './handler';
-import { assets, page } from './page.controller';
+import { server, database } from './handler.js';
+import { assets, page } from './page.controller.js';
 import { read, BLEND_SOURCE_OVER, MIME_JPEG } from 'jimp';
 import fetch from 'node-fetch';
-import { sendmail } from './mail.sender.controller';
+import { sendmail } from './mail.sender.controller.js';
+const Flutterwave = require('flutterwave-node-v3');
 import passport  from 'passport'; 
-import './passport';
+import './passport.js';
+
 const pSC = process.env.PAYSTACK_SECRET_KEY,MTN_AU = process.env.MTN_AU_AK,MTN_COLL_SK = process.env.MTN_COLL_SK,MTN_DISB_SK = process.env.MTN_DISB_SK,MTN_API_LINK = process.env.MTN_API_LINK,MTN_ENV = process.env.MTN_ENV
-const paystack = Paystack(pSC)
+const paystack = Paystack(pSC),
+flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 const io = require('socket.io')(server, {
   cors: {
@@ -687,7 +690,7 @@ router.use(passport.session());
 		d = req.body.email
 		e = req.body.password
 		try {
-			database.query(`SELECT id,firstname,lastname,email,status FROM users  WHERE email = '${d}' AND password = '${e}'`,(error,result,fields)=>{
+			database.query(`SELECT id,firstname,lastname,email,phone,status FROM users  WHERE email = '${d}' AND password = '${e}'`,(error,result,fields)=>{
 				if (error) return res.send({success: false, message: 'oops an error occured'})
 				if (result.length > 0) {
 					t = addToken(JSON.parse(JSON.stringify(result[0])));
@@ -2816,12 +2819,32 @@ async function validatePayment(req,res,next) {
 				}
 			}
 			//the payment api must use these information to proceed to payment
-			q =  {amount: m,paymentinfo: req.body.payment,uaddress: req.body.address,curreny: 'RWF'}
+			q =  {amount: m,paymentinfo: req.body.payment,uaddress: req.body.address,currency:'RWF'}
 			// return console.log(q.paymentinfo,amount)
+			const REFID = await createREFID()
 			if (q.paymentinfo.method == 'mobile-money-form') {
-				let ref =  await createPayment({orderid : generateUniqueId(),amount: q.amount, phonenumber : q.paymentinfo.data.payphonenumber})
-				if (ref) {
-					recipientSocket.emit('processingPayment',true)
+				const payload = {
+					"tx_ref": "MC-158523s09v5050e8",
+					"order_id": "USS_URG_893982923s2323",
+					"amount": q.amount,
+					"currency": "RWF",
+					"email": uinfo.email, // Dynamically use the data sent by the frontend
+					"phone_number": req.body.phone,
+					"fullname": req.body.fullname
+				};
+			
+				const response = await flw.MobileMoney.rwanda(payload);
+			
+				if (response.meta.authorization.mode === 'redirect') {
+				// Send the redirect URL back to the frontend
+				res.json({ redirectUrl: response.meta.authorization.redirect });
+				} else {
+				// Handle success or any other modes (e.g., PIN or OTP)
+				res.json(response);
+				}
+				// let ref =  await createPayment({orderid : generateUniqueId(),amount: q.amount, phonenumber : q.paymentinfo.data.payphonenumber})
+				if (response.meta.authorization.mode === 'redirect') {
+					recipientSocket.emit('processingPayment',{redirURL: response.meta.authorization.redirect})
 					let dec = await new Promise((resolve,reject)=>{
 						let int = setInterval(async ()=>{
 							let pi = await getPaymentInfo(ref)
@@ -2850,31 +2873,64 @@ async function validatePayment(req,res,next) {
 				}
 			}else{
 				try {
-				const transaction = await paystack.transaction.initialize({
-					email : uinfo.email,
-					amount : q.amount * 100,
-					currency : q.curreny,
-				});
-				if (transaction.status) {
-					recipientSocket.emit('confirmPayment',transaction.data.authorization_url)
-					let decision = await new Promise((resolve,reject)=>{
-						myEmitter.on('ChargeInfo', (data) => {
-							if (data.event.data.reference == transaction.data.reference) {
-								resolve(data)
-							}
+				// const transaction = await paystack.transaction.initialize({
+				// 	email : uinfo.email,
+				// 	amount : q.amount * 100,
+				// 	currency : q.currency,
+				// })
+					const payload = {
+						"card_number": q.paymentinfo.data.cardnumber,
+						"cvv": q.paymentinfo.data.cvv,
+						"expiry_month": q.paymentinfo.data.expdate.split('/')[0].trim(),
+						"expiry_year": q.paymentinfo.data.expdate.split('/')[1].trim(),
+						"currency": q.currency || 'RWF',
+						"amount": q.amount,
+						"redirect_url": `http://127.0.0.1:${process.env.PORT}`,
+						"fullname": uinfo.firstname+" "+uinfo.lastname,
+						"email": uinfo.email,
+						"phone_number": uinfo.phone,
+						"enckey": process.env.FLW_ENCRYPTION_KEY,
+						"tx_ref": REFID,
+					};
+					const response = await flw.Charge.card(payload);
+					console.log(response)
+					if(!response.data)  return res.status(500).send(response.message);
+					if (response.meta.authorization.mode === 'pin') {
+						let payload2 = { ...payload, authorization: { mode: 'pin', pin: req.body.pin }};
+						const reCallCharge = await flw.Charge.card(payload2);
+				
+						const callValidate = await flw.Charge.validate({
+						otp: req.body.otp,
+						flw_ref: reCallCharge.data.flw_ref
 						});
-					})
-					if (decision.event.event == 'charge.success') {
-						recipientSocket.emit('PaymentCompleted',true)
-						next()
-					}else{
-						recipientSocket.emit('PaymentCompleted',false)
-						res.send({success: false, message: 'payment failed'})
-
+						console.log(callValidate);
+						res.json(callValidate);
 					}
-				}else{
-					res.send({success: false, message: 'payment failed'})
-				}
+				
+					if (response.meta.authorization.mode === 'redirect') {
+						// res.json({ redirectUrl });
+					}
+					if (response.meta.authorization.mode === 'redirect') {
+						const redirectUrl = response.meta.authorization.redirect;
+						recipientSocket.emit('confirmPayment',redirectUrl)
+						let decision = await new Promise((resolve,reject)=>{
+							myEmitter.on('ChargeInfo', (data) => {
+								if (data.event.data.reference == transaction.data.reference) {
+									resolve(data)
+								}
+							});
+						})
+						if (decision.event.event == 'charge.success') {
+							recipientSocket.emit('PaymentCompleted',true)
+							next()
+						}else{
+							recipientSocket.emit('PaymentCompleted',false)
+							res.send({success: false, message: 'payment failed'})
+
+						}
+					}else{
+						res.send({success: false, message: 'payment failed'})
+					}
 			
 				} catch (error) {
 				console.error(error);
@@ -2999,7 +3055,6 @@ function gnrtorctn(obj) {
 	if (s == 'where') s = ''
 	return s
 }
-
 function checkemail(req, res, callback) {
 const string =  req.body.email;
 	database.query(`select * from users where email = '${string}'`, (error, result) => {

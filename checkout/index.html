@@ -222,7 +222,75 @@
                                     </div>
                                     <div class="p-r w-100 h-a">
                                         <div class="w-100 h-a pform p-r l-0 tr-0-2">
-                                            <form method="post" name="card-payment-form" class="p-10p bsbb payment-form" id="payment-form">                                 
+                                            <form method="post" name="card-payment-form" class="p-10p bsbb payment-form" id="payment-form">
+                                                <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex ">
+                                                    <div class="w-100 bsbb igrid mr-10p left parent p-r">
+                                                        <label for="firstname"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">Names on the card</label>
+                                                        <input type="text" name="cardNames" placeholder="" class=" no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input">
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana hidden ml-5p">error mssg</small>
+                                                    </div>
+                                                    <div class="w-100 bsbb igrid mr-10p left parent p-r">
+                                                        <label for="expiritydate"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">expirity (mm / yy)</label>
+                                                        <input type="text" name="expdate" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input require-cleave" id="expdate">
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana hidden ml-5p">error mssg</small>
+                                                    </div>
+                                                </div>
+                                                <div class="w-100 h-60p mt-30p mb-10p p-10p bsbb flex">
+                                                    <div class="w-30 bsbb igrid mr-10p left parent p-r">
+                                                        <label for="cvv"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">CVV</label>
+                                                        <input type="text" name="cvv" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input require-cleave" id="cvv">
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana hidden ml-5p">error mssg</small>
+                                                    </div>
+                                                    <div class="p-r w-100 bsbb igrid parent">
+                                                        <label for="cardnumber"  class="dgray p-a fs-13p label pi-none us-none  ml-30p verdana">Card Number</label>
+                                                        <input  type="text" name="cardnumber" class="no-outline bsbb b-1-s-dgray bc-white w-100 p-15p mt--5p main-input require-cleave">
+                                                        <span class="p-a r-0 t-0 mt-10p mr-10p center">
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#FF0000"/>
+                                                                <path d="M11.0717 5.27273L10.8757 11.3281H9.12429L8.92827 5.27273H11.0717ZM9.99787 14.1236C9.69389 14.1236 9.43253 14.0156 9.21378 13.7997C8.99787 13.5838 8.88991 13.3224 8.88991 13.0156C8.88991 12.7145 8.99787 12.4574 9.21378 12.2443C9.43253 12.0284 9.69389 11.9205 9.99787 11.9205C10.2905 11.9205 10.5476 12.0284 10.7692 12.2443C10.9936 12.4574 11.1058 12.7145 11.1058 13.0156C11.1058 13.2202 11.0533 13.4062 10.9482 13.5739C10.8459 13.7415 10.7109 13.875 10.5433 13.9744C10.3786 14.0739 10.1967 14.1236 9.99787 14.1236Z" fill="white"/>
+                                                            </svg>
+                                                            <svg width="15" height="15" viewBox="0 0 20 20" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="10" cy="10" r="10" fill="#68D753"/>
+                                                                <line x1="6.38765" y1="8.96481" x2="9.54712" y2="12.8401" stroke="white"/>
+                                                                <line x1="8.80605" y1="12.7273" x2="14.8872" y2="6.64614" stroke="white"/>
+                                                            </svg>
+                                                        </span>
+                                                        <small class="red verdana hidden ml-5p">error mssg</small>
+                                                    </div>
+                                                </div>                       
                                                 <div class="w-100  h-60p mt-20p p-r right mb-10p p-10p bsbb">
                                                     <div class="w-100 h-100">
                                                         <span class="iblock w-100 h-100">

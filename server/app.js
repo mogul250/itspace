@@ -1,6 +1,6 @@
 
-import { router } from './router';
-import { app } from './handler';
+import { router } from './router.js';
+import { app } from './handler.js';
 import { json, urlencoded } from 'body-parser';
 import path from 'path';
 import dotenv from "dotenv";
