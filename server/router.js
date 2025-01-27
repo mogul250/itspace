@@ -1,37 +1,42 @@
 import { Router, json } from 'express';
-import { S3 } from 'aws-sdk';
+import { S3 } from '@aws-sdk/client-s3';
 import { randomBytes } from 'crypto';
-import { verify, sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import archiver from 'archiver';
 import { createWriteStream, readdir, lstatSync, writeFileSync } from 'fs';
 let secretkey = "myguy";
 import { join } from 'path';
-require('dotenv').config();
+
+import dotenv from "dotenv";
+dotenv.config();
 let router = Router();
-import stripePackage from 'stripe';
-import Paystack from 'paystack';
+// import stripePackage from 'stripe';
+// import Paystack from 'paystack';
 import {EventEmitter} from 'events';
 class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
 import { server, database } from './handler.js';
 import { assets, page } from './page.controller.js';
-import { read, BLEND_SOURCE_OVER, MIME_JPEG } from 'jimp';
+import {Jimp} from 'jimp';
+const { BLEND_SOURCE_OVER, MIME_JPEG } = Jimp;
+
 import fetch from 'node-fetch';
 import { sendmail } from './mail.sender.controller.js';
-const Flutterwave = require('flutterwave-node-v3');
+import Flutterwave from 'flutterwave-node-v3';
 import passport  from 'passport'; 
 import './passport.js';
+import { Server  } from "socket.io";
 
 const pSC = process.env.PAYSTACK_SECRET_KEY,MTN_AU = process.env.MTN_AU_AK,MTN_COLL_SK = process.env.MTN_COLL_SK,MTN_DISB_SK = process.env.MTN_DISB_SK,MTN_API_LINK = process.env.MTN_API_LINK,MTN_ENV = process.env.MTN_ENV
-const paystack = Paystack(pSC),
+const 
 flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
-const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
-});
+export const io = new Server(server, {
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST']
+    }
+  });
 io.on('connection', function (socket) {
     console.log('A user connected');
     socket.on('message', (data) => {
@@ -3093,7 +3098,7 @@ async function CheckPhoneAvai(phone){
 	}
 }
 function authenticateToken(token,callback){
-	verify(token, secretkey, (err, decoded) => {
+	jwt.verify(token, secretkey, (err, decoded) => {
 		let response;
 		if (err) {
 		response = {success: false, message: err.message};
@@ -3104,7 +3109,7 @@ function authenticateToken(token,callback){
 	});
 }
 function authenticateToken2(data) {
-	const v = verify(data, secretkey, (err, decoded) => {
+	const v = jwt.verify(data, secretkey, (err, decoded) => {
 		let response;
 		if (err) {
 		  response = { success: false, message: errorMessage.is_error };
