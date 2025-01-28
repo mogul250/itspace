@@ -54,8 +54,8 @@ io.on('connection', function (socket) {
 	
 });	
 const s3 = new S3({
-	accessKeyId: 'AKIA4MTWKTEWFHGVSA5D',
-	secretAccessKey: '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'
+	accessKeyId: 'AKIARZDBHMNEY5U2GJHC',
+	secretAccessKey: '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'
 });
 router.use(passport.initialize()); 
 router.use(passport.session());
@@ -102,7 +102,7 @@ router.use(passport.session());
 	router.get('/api/images/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itspace',
+			Bucket: 'itspacerwanda',
 			Key: `images/${filename}`
 		};
 		try {
@@ -113,7 +113,7 @@ router.use(passport.session());
 			});
 			res.send(data.Body);
 		} catch (error) {
-			// console.log(error);
+			console.log(error.toString());
 			res.status(500).send('Error retrieving file from S3');
 		}
 		// const path = `../images/${filename}`; 
@@ -134,7 +134,7 @@ router.use(passport.session());
 	router.get('/api/feedback-imgz/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itspace',
+			Bucket: 'itspacerwanda',
 			Key: `feedback-imgz/${filename}`
 		};
 		try {
@@ -145,7 +145,7 @@ router.use(passport.session());
 			});
 			res.send(data.Body);
 		} catch (error) {
-			console.log(error);
+			console.log(error.toString());
 			res.status(500).send('Error retrieving file from S3');
 		}
 		// const path = `../feedback-imgz/${filename}`;
@@ -165,7 +165,7 @@ router.use(passport.session());
 	router.get('/api/product-imgz/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itspace',
+			Bucket: 'itspacerwanda',
 			Key: `product-imgz/${filename}`
 		};
 		try {
@@ -176,7 +176,7 @@ router.use(passport.session());
 			});
 			res.send(data.Body);
 		} catch (error) {
-			// console.log(error);
+			console.log(error.toString());
 			res.status(500).send('Error retrieving file from S3');
 		}
 		// const path = `../product-imgz/${filename}`;
@@ -197,7 +197,7 @@ router.use(passport.session());
 	router.get('/api/brands/:filename', async (req, res) => {
 		const { filename } = req.params;
 		const params = {
-			Bucket: 'itspace',
+			Bucket: 'itspacerwanda',
 			Key: `brands/${filename}`
 		};
 		try {
@@ -208,7 +208,7 @@ router.use(passport.session());
 			});
 			res.send(data.Body);
 		} catch (error) {
-			console.log(error);
+			console.log(error.toString());
 			res.status(500).send('Error retrieving file from S3');
 		}
 		// const path = `../brands/${filename}`; 
@@ -385,7 +385,7 @@ router.use(passport.session());
 								for (const image of v) {
 									try {
 										const params = {
-											Bucket: 'itspace',
+											Bucket: 'itspacerwanda',
 											Key: `procuct-imgz/${image}`
 										  };
 										  
@@ -444,7 +444,7 @@ router.use(passport.session());
 										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
 										n = `${generateUniqueId()}.${e}`
 										const params = {
-											Bucket: 'itspace',
+											Bucket: 'itspacerwanda',
 											Key: `product-imgz/${n}`,
 											Body: modifiedImageBuffer,
 											ContentType: MIME_JPEG,
@@ -989,7 +989,7 @@ router.use(passport.session());
 					const bufferData = Buffer.from(base64Data, 'base64');
 					const filePath = join(__dirname,'..','brands', n);
 					const params = {
-						Bucket: 'itspace',
+						Bucket: 'itspacerwanda',
 						Key: `brands/${n}`,
 						Body: bufferData
 					  };
@@ -1043,7 +1043,7 @@ router.use(passport.session());
 								const bufferData = Buffer.from(base64Data, 'base64');
 								const filePath = join(__dirname,'..','images', n);
 								const params = {
-									Bucket: 'itspace',
+									Bucket: 'itspacerwanda',
 									Key: `images/${n}`,
 									Body: bufferData
 								  };
@@ -1093,7 +1093,7 @@ router.use(passport.session());
 								const bufferData = Buffer.from(base64Data, 'base64');
 								const filePath = join(__dirname,'..','images', n);
 								const params = {
-									Bucket: 'itspace',
+									Bucket: 'itspacerwanda',
 									Key: `images/${n}`,
 									Body: bufferData
 								  };
@@ -1138,7 +1138,7 @@ router.use(passport.session());
 					const bufferData = Buffer.from(base64Data, 'base64');
 					const filePath = join(__dirname,'..','images', n);
 					const params = {
-						Bucket: 'itspace',
+						Bucket: 'itspacerwanda',
 						Key: `images/${n}`,
 						Body: bufferData
 					  };
@@ -1187,7 +1187,7 @@ router.use(passport.session());
 								v = v[0].image
 									try {
 										const params = {
-											Bucket: 'itspace',
+											Bucket: 'itspacerwanda',
 											Key: `images/${v}`
 										  };
 										  
@@ -1245,7 +1245,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itspace',
+										Bucket: 'itspacerwanda',
 										Key: `brands/${v}`
 									  };
 									  
@@ -1300,7 +1300,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itspace',
+										Bucket: 'itspacerwanda',
 										Key: `images/${v}`
 									  };
 									  
@@ -1355,7 +1355,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itspace',
+										Bucket: 'itspacerwanda',
 										Key: `images/${v}`
 									  };
 									  
@@ -1410,7 +1410,7 @@ router.use(passport.session());
 								v = v[0].image
 								try {
 									const params = {
-										Bucket: 'itspace',
+										Bucket: 'itspacerwanda',
 										Key: `images/${v}`
 									  };
 									  
@@ -1466,7 +1466,7 @@ router.use(passport.session());
 								for (const image of v) {
 									try {
 										const params = {
-											Bucket: 'itspace',
+											Bucket: 'itspacerwanda',
 											Key: `procuct-imgz/${image}`
 										  };
 										  
@@ -1557,7 +1557,7 @@ router.use(passport.session());
 										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
 										n = `${generateUniqueId()}.${e}`
 										const params = {
-											Bucket: 'itspace',
+											Bucket: 'itspacerwanda',
 											Key: `product-imgz/${n}`,
 											Body: modifiedImageBuffer,
 											ContentType: MIME_JPEG,
@@ -2693,7 +2693,7 @@ router.use(passport.session());
 									const bufferData = Buffer.from(base64Data, 'base64');
 									const filePath = join(__dirname,'..','feedback-imgz', n);
 									const params = {
-										Bucket: 'itspace',
+										Bucket: 'itspacerwanda',
 										Key: `feedback-imgz/${n}`,
 										Body: bufferData
 									  };
