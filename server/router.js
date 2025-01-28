@@ -54,8 +54,8 @@ io.on('connection', function (socket) {
 	
 });	
 const s3 = new S3({
-	accessKeyId: 'AKIARZDBHMNEY5U2GJHC',
-	secretAccessKey: '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'
+	accessKeyId: process.env.AWS_ACCES_KEY_ID,
+	secretAccessKey: process.env.AWS_SECRET_ACCES_KEY
 });
 router.use(passport.initialize()); 
 router.use(passport.session());
