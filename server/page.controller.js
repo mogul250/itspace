@@ -83,7 +83,6 @@ async function page (req,res,page){
             let prodinfo = await getProdInfo(filename)
             if (!prodinfo) {
               res.end('product not found');
-              console.log(prodinfo)
             return 
             }else{
               const $ = load(data);

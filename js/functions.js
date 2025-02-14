@@ -1035,8 +1035,8 @@ function initadstpfrm(container,step) {
                   <span class="w-100 h-a fs-12p  consolas capitalize">${location.street} </span>
               </li>
               <li class="w-100 p-5p bsbb flex">
-                  <span class="w-100 h-a fs-12p bold verdana capitalize dgray">Apartment : </span>
-                  <span class="w-100 h-a fs-12p  consolas capitalize">${location.apartment}</span>
+                  <span class="w-100 h-a fs-12p bold verdana capitalize dgray">ZIP code : </span>
+                  <span class="w-100 h-a fs-12p  consolas capitalize">${location.zipcode}</span>
               </li>
             </ul>
           </div>
@@ -1122,8 +1122,8 @@ export function shaddr(address) {
               <span class="w-100 h-a fs-12p  consolas capitalize">${address.street} </span>
           </li>
           <li class="w-100 p-5p bsbb flex">
-              <span class="w-100 h-a fs-12p bold verdana capitalize dgray">Apartment : </span>
-              <span class="w-100 h-a fs-12p  consolas capitalize">${address.apartment}</span>
+              <span class="w-100 h-a fs-12p bold verdana capitalize dgray">ZIP Code : </span>
+              <span class="w-100 h-a fs-12p  consolas capitalize">${address.zipcode}</span>
           </li>
       </ul>
       </div>
@@ -1287,9 +1287,9 @@ export async function validateForm(form,inputs,formdata) {
               val = vdtins('email',inp.value)
               if (val == 0) setErrorFor(inp,'invalid email')
             }
-      }else if (inp.name == "apartment") {
+      }else if (inp.name == "zipcode") {
             if (inp.value == "") {
-              setErrorFor(inp,"enter your apartment");
+              setErrorFor(inp,"enter your zipcode");
               val = 0;
             }
       }else if (inp.name == "address") {
@@ -1616,14 +1616,17 @@ export async function sendmessage(inputs,type,form,formdata) {
         s.body = JSON.stringify({payment: {method: m,data: d},products: p, address: l,token: u})
         form.classList.add('op-0-3');
         let shade
+        socket.removeAllListeners('confirmPayment');
         socket.on('confirmPayment', (link)=>{
-          form.querySelector('button').innerText = 'processing payments...'
-          form.querySelector('button').classList.add('capitalize','white')
-          shade = addshade()
-          let c = document.createElement('div')
-          c.className = `w-520p h-85 bc-white cntr br-10p card-6 b-mgc-resp ovh`
-          shade.appendChild(c)
-          c.innerHTML = `<iframe src="${link}" class ="w-100 h-100 b-none"></iframe>`
+          if (link.redirURL && ! document.querySelector('.previevPaymentDiv')) {
+            form.querySelector('button').innerText = 'processing payments...'
+            form.querySelector('button').classList.add('capitalize','white')
+            shade = addshade()
+            let c = document.createElement('div')
+            c.className = `w-520p h-85 bc-white cntr br-10p card-6 b-mgc-resp ovh previevPaymentDiv`
+            shade.appendChild(c)
+            c.innerHTML = `<iframe src="${link.redirURL}" class ="w-100 h-100 b-none"></iframe>`
+          }
           
         }) 
         socket.on('PaymentCompleted', (link)=>{
@@ -1631,13 +1634,14 @@ export async function sendmessage(inputs,type,form,formdata) {
             form.querySelector('button').innerText = 'placing order...'
             form.querySelector('button').classList.add('capitalize','white')
           }
-          deletechild(shade,shade.parentNode)
+          if (shade) {
+            deletechild(shade,shade.parentNode)
+          }
           
         })
         socket.on('processingPayment',data=>{
           form.querySelector('button').innerText = 'processing payments...'
           form.querySelector('button').classList.add('capitalize','white')
-          console.log(data)
         })
         r = await request('addorder',s)
         form.querySelector('button').innerText = 'Pay & place order'
@@ -3440,10 +3444,7 @@ export function initiatelogin() {
     })
   })
   document.getElementById('authGoogle').addEventListener('click', () => {
-    // Open a popup window for Google login
     const popup = window.open(`${geturl()}/auth/google`, 'Google Login', 'width=500,height=500');
-  
-    // Check for the token in the localStorage when the popup is closed
     const checkTokenInterval = setInterval(() => {
       if (popup.closed) {
         clearInterval(checkTokenInterval);
@@ -3457,11 +3458,8 @@ export function initiatelogin() {
       }
     }, 1000);
   });
-  
-  // Listen for messages from the popup
   window.addEventListener('message', (event) => {
     if (event.data.type === 'google-auth') {
-      // Store the token in localStorage
       localStorage.setItem('user', JSON.stringify(event.data.token));
     }
   });
@@ -3658,8 +3656,8 @@ export function showOrder(orderinfo) {
                                     <span class="w-100 h-a fs-16p  consolas capitalize">${address.street} </span>
                                 </li>
                                 <li class="w-100 p-5p bsbb flex">
-                                    <span class="w-100 h-a fs-16p bold verdana capitalize dgray">Apartment : </span>
-                                    <span class="w-100 h-a fs-16p  consolas capitalize">${address.apartment}</span>
+                                    <span class="w-100 h-a fs-16p bold verdana capitalize dgray">Zip Code : </span>
+                                    <span class="w-100 h-a fs-16p  consolas capitalize">${address.zipcode}</span>
                                 </li>
                             </ul>
                             </div>

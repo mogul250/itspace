@@ -5,8 +5,11 @@ import jwt from 'jsonwebtoken';
 import archiver from 'archiver';
 import { createWriteStream, readdir, lstatSync, writeFileSync } from 'fs';
 let secretkey = "myguy";
-import { join } from 'path';
-
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import fs from 'fs';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 import dotenv from "dotenv";
 dotenv.config();
 let router = Router();
@@ -17,9 +20,7 @@ class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
 import { server, database } from './handler.js';
 import { assets, page } from './page.controller.js';
-import {Jimp} from 'jimp';
-const { BLEND_SOURCE_OVER, MIME_JPEG } = Jimp;
-
+import sharp from 'sharp';
 import fetch from 'node-fetch';
 import { sendmail } from './mail.sender.controller.js';
 import Flutterwave from 'flutterwave-node-v3';
@@ -408,58 +409,25 @@ router.use(passport.session());
 								for (const image of l) {
 									e = gfxt(image)
 									let n
-									
 									const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
-									const bufferData = Buffer.from(base64Data, 'base64');
-									const uploadedImageBuffer = bufferData;
-									const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png');
-									try {
-										
-										let ui
-					
-										// if (e !== 'jpg' || e !== 'jpeg' ) {
-										// 	ui = await sharp(uploadedImageBuffer).toFormat('jpeg').toBuffer();
-										// 	e = 'jpeg'
-										// }else
-										{
-											ui = uploadedImageBuffer
-										}
-										
-										const uploadedImage = await read(ui);
-										const watermarkImage = await read(watermarkImagePath);
-										const watermarkResizeOptions = {
-											width: 205, 
-											height: 110, 
-										};
-										watermarkImage.resize(watermarkResizeOptions.width, watermarkResizeOptions.height);
-										
-										const x = uploadedImage.bitmap.width - watermarkImage.bitmap.width - 15;
-										const y = uploadedImage.bitmap.height - watermarkImage.bitmap.height - 5;
-
-										
-										uploadedImage.composite(watermarkImage, x, y, {
-										mode: BLEND_SOURCE_OVER,
-										opacitySource: 0.8, 
-										});
-										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
-										n = `${generateUniqueId()}.${e}`
-										const params = {
+									const imageBuffer = Buffer.from(base64Data, 'base64');
+									const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png'),
+									finalImageBuffer = await processImage(imageBuffer,watermarkImagePath)
+									const fileType = await getMimeType(imageBuffer);
+									n = `${generateUniqueId()}.${fileType.ext}`
+									const params = {
 											Bucket: 'itspacerwanda',
 											Key: `product-imgz/${n}`,
-											Body: modifiedImageBuffer,
-											ContentType: MIME_JPEG,
-											};
-										s3.upload(params, function(err, data) {
-											if (err) {
-												console.log("Error uploading file: ", err);
-											} else {
-												console.log("File uploaded successfully. Location: ", data.Location);
-											}
-											});
-									} catch (error) {
-										console.error('Error:', error.message);
-									}
-									
+											ContentType: fileType.mime,
+											Body: finalImageBuffer,
+										};
+									s3.upload(params, function(err, data) {
+										if (err) {
+											console.log("Error uploading file: ", err);
+										} else {
+											console.log("File uploaded successfully. Location: ", data.Location);
+										}
+									});
 									a.push(n)
 								}
 								c = i.conditions;
@@ -476,7 +444,8 @@ router.use(passport.session());
 									}
 								})
 							} catch (err) {
-								res.send({success: false, message: "err"})
+								console.log(err)
+								res.status(500).send({success: false, message: "an error occurred while processing your request"})
 							}
 						} else {
 							res.send({success: false, message: "admin not found"})
@@ -1528,39 +1497,18 @@ router.use(passport.session());
 									e = gfxt(image)
 									let n
 									
-									const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
-									const bufferData = Buffer.from(base64Data, 'base64');
-									const uploadedImageBuffer = bufferData;
-									const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png');
 									try {
-										let ui
-										// if (e !== 'jpg' || e !== 'jpeg' ) {
-										// 	ui = await sharp(uploadedImageBuffer).toFormat('jpeg').toBuffer();
-										// 	e = 'jpeg'
-										// }else
-										{
-											ui = uploadedImageBuffer
-										}
-										const uploadedImage = await read(ui);
-										const watermarkImage = await read(watermarkImagePath);
-										const watermarkResizeOptions = {
-											width: 205, 
-											height: 110,
-										};
-										watermarkImage.resize(watermarkResizeOptions.width, watermarkResizeOptions.height);
-										const x = uploadedImage.bitmap.width - watermarkImage.bitmap.width - 15;
-										const y = uploadedImage.bitmap.height - watermarkImage.bitmap.height - 5;
-										uploadedImage.composite(watermarkImage, x, y, {
-										mode: BLEND_SOURCE_OVER,
-										opacitySource: 0.8,
-										});
-										const modifiedImageBuffer = await uploadedImage.getBufferAsync(MIME_JPEG);
-										n = `${generateUniqueId()}.${e}`
+										const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+										const imageBuffer = Buffer.from(base64Data, 'base64');
+										const watermarkImagePath = join(__dirname,'..','icons', 'favicon.png'),
+										finalImageBuffer = await processImage(imageBuffer,watermarkImagePath)
+										const fileType = await getMimeType(imageBuffer);
+										n = `${generateUniqueId()}.${fileType.ext}`
 										const params = {
-											Bucket: 'itspacerwanda',
-											Key: `product-imgz/${n}`,
-											Body: modifiedImageBuffer,
-											ContentType: MIME_JPEG,
+												Bucket: 'itspacerwanda',
+												Key: `product-imgz/${n}`,
+												ContentType: fileType.mime,
+												Body: finalImageBuffer,
 											};
 										s3.upload(params, function(err, data) {
 											if (err) {
@@ -1568,11 +1516,10 @@ router.use(passport.session());
 											} else {
 												console.log("File uploaded successfully. Location: ", data.Location);
 											}
-											});
+										});
 									} catch (error) {
-										console.error('Error:', error.message);
+										console.error('Error:', error.message);	
 									}
-									
 									a.push(n)
 								}
 								z = generateUniqueId();
@@ -2778,13 +2725,19 @@ router.use(passport.session());
 		t = addToken({id,status:"active",firstname:req.user.given_name, lastname: req.user.family_name,email: req.user.email});
 	  }
 	  const token = t
+	  if(!token) res.status(500).send("There was an error while processing the payment");
 	  res.send(`<script>window.opener.postMessage({ type: 'google-auth', token: '${token}' }, '*'); window.close();</script>`);
 	}
   );
 	router.post('/api/webhook', json({type: 'application/json'}), (req, res) => {
 		const event = req.body
-		myEmitter.emit('ChargeInfo',{success: true,event});
-		res.send(200);
+		const secretHash = process.env.FLW_WEBHOOK_SECRET; // Set this in Flutterwave dashboard
+		const signature = req.headers["verif-hash"];
+
+		if (!signature || signature !== secretHash) {
+			return res.status(401).send("Unauthorized");
+		}
+		myEmitter.emit('PaymentCallback',{success: true,event});
 			
 	});
 	router.get('/js/*',(req, res) => assets(req, res, 'js'));
@@ -2798,156 +2751,145 @@ router.use(passport.session());
 			
 				 
 //========================================= FUNCTIONS ==========================================
-async function validatePayment(req,res,next) {
-	const recipientSocket = Array.from(io.sockets.sockets.values()).find((sock) => sock.handshake.query.id === req.headers['ss-id'])
-	if (recipientSocket) {
-		try {
-			
-			let p = req.body.products,token = req.body.token,uinfo;
-			if (!token) {
-				res.status(401).send({success: false, message: 'you are not authorize to perform this action'})
-			}else if (authenticateToken2(token).success) {
-				uinfo = authenticateToken2(token)
-				uinfo = uinfo.token
-			}
-			m = 0
-			for (const productinfo of p) {
-				r = await getPrice(productinfo)
-				if (r) {
-					r = JSON.parse(r[0].conditions)
-					r.forEach(conds=>{
-						if (conds.name == productinfo.condition) {
-							r= conds
-						}
-					})
-					m += (r.newprice * parseInt(productinfo.qty))
-				}
-			}
-			//the payment api must use these information to proceed to payment
-			q =  {amount: m,paymentinfo: req.body.payment,uaddress: req.body.address,currency:'RWF'}
-			// return console.log(q.paymentinfo,amount)
-			const REFID = await createREFID()
-			if (q.paymentinfo.method == 'mobile-money-form') {
-				const payload = {
-					"tx_ref": "MC-158523s09v5050e8",
-					"order_id": "USS_URG_893982923s2323",
-					"amount": q.amount,
-					"currency": "RWF",
-					"email": uinfo.email, // Dynamically use the data sent by the frontend
-					"phone_number": req.body.phone,
-					"fullname": req.body.fullname
-				};
-			
-				const response = await flw.MobileMoney.rwanda(payload);
-			
-				if (response.meta.authorization.mode === 'redirect') {
-				// Send the redirect URL back to the frontend
-				res.json({ redirectUrl: response.meta.authorization.redirect });
-				} else {
-				// Handle success or any other modes (e.g., PIN or OTP)
-				res.json(response);
-				}
-				// let ref =  await createPayment({orderid : generateUniqueId(),amount: q.amount, phonenumber : q.paymentinfo.data.payphonenumber})
-				if (response.meta.authorization.mode === 'redirect') {
-					recipientSocket.emit('processingPayment',{redirURL: response.meta.authorization.redirect})
-					let dec = await new Promise((resolve,reject)=>{
-						let int = setInterval(async ()=>{
-							let pi = await getPaymentInfo(ref)
-							if (pi.status == 'SUCCESSFUL') {
-								resolve(ref)
-								clearInterval(int)
-							}else if (pi.status == 'FAILED') {
-								resolve(0)
-								clearInterval(int)
-							}
-						},5000)
-					})
-					if (dec) {
-						console.log(dec)
-						next()
-						// let drefid = await disbursement(6000);
-						// if (drefid) {
-						// 	let disinfo = await getDisbursementInfo(drefid),balance = await checkBalance()
-						// 	console.log(disinfo,balance)
-						// }
-					}else{
-						res.send({success: false, message: 'payment failed'})
-					}
-				}else{
-					res.send({success: false, message: 'payment failed'})
-				}
-			}else{
-				try {
-				// const transaction = await paystack.transaction.initialize({
-				// 	email : uinfo.email,
-				// 	amount : q.amount * 100,
-				// 	currency : q.currency,
-				// })
-					const payload = {
-						"card_number": q.paymentinfo.data.cardnumber,
-						"cvv": q.paymentinfo.data.cvv,
-						"expiry_month": q.paymentinfo.data.expdate.split('/')[0].trim(),
-						"expiry_year": q.paymentinfo.data.expdate.split('/')[1].trim(),
-						"currency": q.currency || 'RWF',
-						"amount": q.amount,
-						"redirect_url": `http://127.0.0.1:${process.env.PORT}`,
-						"fullname": uinfo.firstname+" "+uinfo.lastname,
-						"email": uinfo.email,
-						"phone_number": uinfo.phone,
-						"enckey": process.env.FLW_ENCRYPTION_KEY,
-						"tx_ref": REFID,
-					};
-					const response = await flw.Charge.card(payload);
-					console.log(response)
-					if(!response.data)  return res.status(500).send(response.message);
-					if (response.meta.authorization.mode === 'pin') {
-						let payload2 = { ...payload, authorization: { mode: 'pin', pin: req.body.pin }};
-						const reCallCharge = await flw.Charge.card(payload2);
-				
-						const callValidate = await flw.Charge.validate({
-						otp: req.body.otp,
-						flw_ref: reCallCharge.data.flw_ref
-						});
-						console.log(callValidate);
-						res.json(callValidate);
-					}
-				
-					if (response.meta.authorization.mode === 'redirect') {
-						// res.json({ redirectUrl });
-					}
-					if (response.meta.authorization.mode === 'redirect') {
-						const redirectUrl = response.meta.authorization.redirect;
-						recipientSocket.emit('confirmPayment',redirectUrl)
-						let decision = await new Promise((resolve,reject)=>{
-							myEmitter.on('ChargeInfo', (data) => {
-								if (data.event.data.reference == transaction.data.reference) {
-									resolve(data)
-								}
-							});
-						})
-						if (decision.event.event == 'charge.success') {
-							recipientSocket.emit('PaymentCompleted',true)
-							next()
-						}else{
-							recipientSocket.emit('PaymentCompleted',false)
-							res.send({success: false, message: 'payment failed'})
+async function validatePayment(req, res, next) {
+    const recipientSocket = Array.from(io.sockets.sockets.values()).find(
+        (sock) => sock.handshake.query.id === req.headers["ss-id"]
+    );
 
-						}
-					}else{
-						res.send({success: false, message: 'payment failed'})
-					}
-			
-				} catch (error) {
-				console.error(error);
-				res.status(500).send('there was an error while processing payments');
+    if (!recipientSocket) {
+        return res.status(400).send({ success: false, message: "Socket connection not found" });
+    }
+
+    try {
+        const { products, token, payment, address } = req.body;
+        let uinfo;
+
+        if (!token) {
+            return res.status(401).send({ success: false, message: "Unauthorized" });
+        } else if (authenticateToken2(token).success) {
+            uinfo = authenticateToken2(token).token;
+        }
+
+        let totalAmount = 0;
+        for (const productinfo of products) {
+            let productData = await getPrice(productinfo);
+            if (productData) {
+                let conditions = JSON.parse(productData[0].conditions);
+                let conditionData = conditions.find((c) => c.name === productinfo.condition);
+                if (conditionData) {
+                    totalAmount += conditionData.newprice * parseInt(productinfo.qty);
+                }
+            }
+        }
+
+        const REFID = await createREFID();
+        const payload = {
+            tx_ref: `tx-${Date.now()}`,
+            order_id: REFID,
+            amount: totalAmount,
+            currency: "RWF",
+            email: uinfo.email,
+            phone_number: payment.data.payphonenumber,
+            fullname: `${uinfo.firstname} ${uinfo.lastname}`
+        };
+
+        if (payment.method === "mobile-money-form") {
+            const response = await flw.MobileMoney.rwanda(payload);
+
+            if (response.meta?.authorization?.mode === "redirect") {
+                recipientSocket.emit("confirmPayment", { redirURL: response.meta.authorization.redirect });
+                let transactionStatus = await waitForChargeSuccess(payload.tx_ref);
+                if (transactionStatus) {
+					recipientSocket.emit("PaymentCompleted", true);
+                    next();
+                } else {
+                    return res.status(400).send({ success: false, message: "Payment failed" });
+                }
+            } else {
+                return res.status(400).send({ success: false, message: "Payment failed" });
+            }
+        } else {
+            const cardPayload = {
+                card_number: payment.data.cardnumber,
+                cvv: payment.data.cvv,
+                expiry_month: payment.data.expdate.split("/")[0].trim(),
+                expiry_year: payment.data.expdate.split("/")[1].trim(),
+                currency: "RWF",
+                amount: totalAmount,
+                redirect_url: process.env.SERVER_ORIGIN,
+                fullname: `${uinfo.firstname} ${uinfo.lastname}`,
+                email: uinfo.email,
+                phone_number: uinfo.phone,
+                enckey: process.env.FLW_ENCRYPTION_KEY,
+                tx_ref: `tx-${Date.now()}`
+            };
+
+            const response = await flw.Charge.card(cardPayload);
+			recipientSocket.emit('processingPayment',true)
+            if (!response.meta) {
+                return res.status(500).send({ success: false, message: response.message });
+            }
+            if (response.meta.authorization.mode === "pin") {
+                let pinPayload = { ...cardPayload, authorization: { mode: "pin", pin: "3310" } };
+                const reCallCharge = await flw.Charge.card(pinPayload);
+                if (reCallCharge.status === "error") {
+                    return res.status(500).send({ message: reCallCharge.message });
+                }
+				if (reCallCharge.status === 'success' && reCallCharge.data.flw_ref) {
+					let verifyT = await waitForChargeSuccess(reCallCharge.data.tx_ref);
+					recipientSocket.emit("PaymentCompleted", false);
+					return next()
+				} else {
+					return res.status(400).json({ success: false, message: "OTP validation not required" });
 				}
-			}
-		} catch (error) {
-			console.error(error);
-			res.status(500).send('there was an error while processing payments');
-		}
-	}
+            }
+            if (response.meta.authorization.mode === "avs_noauth") {
+                let avsPayload = {
+                    ...cardPayload,
+                    authorization: {
+                        mode: "avs_noauth",
+                        city: address.address.split(",")[1],
+                        address: "69 Fremont Street",
+                        state: address.address.split(",")[0],
+                        country: "RW",
+                        zipcode: address.zipcode
+                    }
+                };
+                const reCallCharge = await flw.Charge.card(avsPayload);
+	
+				if (reCallCharge.status === 'success' && reCallCharge.data.flw_ref) {
+					let verifyT = await waitForChargeSuccess(reCallCharge.data.tx_ref);
+					if(verifyT){
+						recipientSocket.emit("PaymentCompleted", false);
+						return next()
+					}else{
+						return res.status(400).json({ success: false, message: "Error While processing payments" });
+
+					}
+				} else {
+					return res.status(400).json({ success: false, message: "Error While processing payments on AVS_NOAUTH" });
+				}
+            }
+            if (response.meta.authorization.mode === "redirect") {
+                recipientSocket.emit("confirmPayment", {redirURL: response.meta.authorization.redirect});
+                let decision = await waitForChargeSuccess(response.data.tx_ref);
+				if (decision) {
+					recipientSocket.emit("PaymentCompleted", true);
+					return next();
+				}else{
+					recipientSocket.emit("PaymentCompleted", false);
+					return res.status(400).send({ success: false, message: "Payment failed" });
+				}
+            }
+
+            return res.status(400).send({ success: false, message: "Payment failed" });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("There was an error while processing the payment");
+    }
 }
+
 async function getPrice(productinfo) {
 	try {
 		const res = await new Promise((resolve, reject) => {
@@ -3123,9 +3065,11 @@ function authenticateToken2(data) {
 }
 function addToken(userInfo) {
 	try {
-		const token = sign(userInfo, secretkey);
+		console.log(userInfo)
+		const token = jwt.sign(userInfo, secretkey);
 		return token;
 	} catch (error) {
+		console.log(error)
 		return null
 	}
 	
@@ -3200,21 +3144,22 @@ async function createREFID() {
 	}
 }
 async function getPaymentInfo(REFID) {
-	let gs = getschema,at = await createAccessToken()
-	if(!at) return null
-	Object.assign(gs.headers,{Authorization: `Bearer ${at}`,'X-Target-Environment' : MTN_ENV})
-	try {
-		let response = await fetch(`${MTN_API_LINK}/collection/v1_0/requesttopay/${REFID}`,gs)
-		if (response.status == 200) {
-			const data = await response.json();
-			return data
-		}else {
-			return null
-		}
-	} catch (error) {
-		console.log(error)
-		return null
-	}
+	// let gs = getschema,at = await createAccessToken()
+	// if(!at) return null
+	// Object.assign(gs.headers,{Authorization: `Bearer ${at}`,'X-Target-Environment' : MTN_ENV})
+	// try {
+	// 	let response = await fetch(`${MTN_API_LINK}/collection/v1_0/requesttopay/${REFID}`,gs)
+	// 	if (response.status == 200) {
+	// 		const data = await response.json();
+	// 		return data
+	// 	}else {
+	// 		return null
+	// 	}
+	// } catch (error) {
+	// 	console.log(error)
+	// 	return null
+	// }
+	return REFID
 
 }
 async function disbursement(amount){
@@ -3347,6 +3292,46 @@ async function createPayment(info){
 		console.log(error)
 		return null
 	}
+}
+async function waitForChargeSuccess(txref){
+	return new Promise((resolve,reject) =>{
+		myEmitter.on('PaymentCallback', (data)=>{
+			console.log(data)
+			if (data.event.data.tx_ref == txref) {
+				if (data.event.event == 'charge.completed') {
+					resolve(data.event.data)
+				}else{
+					resolve(0)
+				}
+			}
+		})
+	})
+}
+async function processImage(imageBuffer, watermarkPath) {
+    try {
+        const watermark = await sharp(watermarkPath)
+            .resize(120, 60)
+            .toBuffer();
+
+        const processedImage = await sharp(imageBuffer)
+            .composite([{ input: watermark, gravity: 'southeast' }])
+            .toBuffer();
+
+        return processedImage
+    } catch (error) {
+        console.error('Error processing image:', error);
+		throw error
+    }
+}
+async function getMimeType(buffer) {
+	const fileType = await import('file-type');
+	const type = await fileType.fileTypeFromBuffer(buffer);
+    if (type) {
+        return type;
+    } else {
+        console.log('Could not determine file type.');
+        return null;
+    }
 }
 const _router = router;
 export { _router as router };
