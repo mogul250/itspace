@@ -1615,6 +1615,7 @@ export async function sendmessage(inputs,type,form,formdata) {
         s = postschema
         s.body = JSON.stringify({payment: {method: m,data: d},products: p, address: l,token: u})
         form.classList.add('op-0-3');
+        form.querySelector('button').setAttribute('disabled','true')
         let shade
         socket.removeAllListeners('confirmPayment');
         socket.on('confirmPayment', (link)=>{
@@ -1646,18 +1647,19 @@ export async function sendmessage(inputs,type,form,formdata) {
         r = await request('addorder',s)
         form.querySelector('button').innerText = 'Pay & place order'
         form.querySelector('button').classList.add('capitalize','white')
+        form.querySelector('button').removeAttribute('disabled')
+        if(shade){
+          deletechild(shade,shade.parentNode)
+        }
+        form.classList.remove('op-0-3');
+        alertMessage(r.message)
         if (r.success) {
           form.reset();
-          form.classList.remove('op-0-3');
           localStorage.setItem('cart',JSON.stringify([]))
           p = await request('getprods',getschema)
           c = getdata('cart')
           getcinfo(p.message)
-          alertMessage(r.message)
           checkCart()
-        }else{
-          form.classList.remove('op-0-3');
-          alertMessage(r.message)
         }
       }else{
         alertMessage('add items to your cart to add an order')

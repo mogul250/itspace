@@ -18,6 +18,7 @@ let router = Router();
 import {EventEmitter} from 'events';
 class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
+myEmitter.setMaxListeners(20); // Increase the maximum number of listeners
 import { server, database } from './handler.js';
 import { assets, page } from './page.controller.js';
 import sharp from 'sharp';
@@ -29,8 +30,7 @@ import './passport.js';
 import { Server  } from "socket.io";
 const { S3 } = pkg;
 const pSC = process.env.PAYSTACK_SECRET_KEY,MTN_AU = process.env.MTN_AU_AK,MTN_COLL_SK = process.env.MTN_COLL_SK,MTN_DISB_SK = process.env.MTN_DISB_SK,MTN_API_LINK = process.env.MTN_API_LINK,MTN_ENV = process.env.MTN_ENV
-const 
-flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 export const io = new Server(server, {
     cors: {
@@ -60,215 +60,196 @@ const s3 = new S3({
 });
 router.use(passport.initialize()); 
 router.use(passport.session());
-	router.get('/api/download/:folder', (req, res) => {
-		const folderPath = join(__dirname, '..', req.params.folder); // assuming the target directory is in the parent directory
-		const zipFileName = `${req.params.folder}.zip`;
-		const output = createWriteStream(zipFileName);
-		const archive = archiver('zip', {
-		zlib: { level: 9 }
-		});
-	
-		// Set the headers for the response
-		res.attachment(zipFileName);
-		res.setHeader('Content-Type', 'application/zip');
-	
-		// Pipe the archive to the response
-		archive.pipe(res);
-	
-		// Append all the files in the directory to the archive
-		readdir(folderPath, (err, files) => {
-		if (err) {
-			console.error(err);
-			return res.status(500).send(err);
-		}
-	
-		files.forEach((file) => {
-			const filePath = join(folderPath, file);
-	
-			// Ensure that the file is not a directory before adding it to the archive
-			if (lstatSync(filePath).isFile()) {
-			archive.file(filePath, { name: file });
-			}
-		});
-	
-		// Finalize the archive and send it to the client
-		archive.finalize();
-		});
-	
-		// Log when the archive is finished
-		output.on('close', () => {
-		console.log(`${zipFileName} has been created and sent to the client.`);
-		});
-	});
-	router.get('/api/images/:filename', async (req, res) => {
-		const { filename } = req.params;
-		const params = {
-			Bucket: 'itspacerwanda',
-			Key: `images/${filename}`
-		};
-		try {
-			const data = await s3.getObject(params).promise();
-			res.set({
-				'Content-Type': 'image/jpeg',
-				'Content-Length': data.length
-			});
-			res.send(data.Body);
-		} catch (error) {
-			console.log(error.toString());
-			res.status(500).send('Error retrieving file from S3');
-		}
-		// const path = `../images/${filename}`; 
-		
-		// fs.readFile(path, (err, data) => {
-		// if (err) {
-		// 	res.status(404).send('File not found');
-		// 	return;
-		// }
-		
-		// res.writeHead(200, {
-		// 	'Content-Type': 'image/jpeg', // set the content type based on your file type
-		// 	'Content-Length': data.length
-		// });
-		// res.end(data);
-		// });
-	});
-	router.get('/api/feedback-imgz/:filename', async (req, res) => {
-		const { filename } = req.params;
-		const params = {
-			Bucket: 'itspacerwanda',
-			Key: `feedback-imgz/${filename}`
-		};
-		try {
-			const data = await s3.getObject(params).promise();
-			res.set({
-				'Content-Type': 'image/jpeg',
-				'Content-Length': data.length
-			});
-			res.send(data.Body);
-		} catch (error) {
-			console.log(error.toString());
-			res.status(500).send('Error retrieving file from S3');
-		}
-		// const path = `../feedback-imgz/${filename}`;
-		// fs.readFile(path, (err, data) => {
-		// 	if (err) {
-		// 		res.status(404).send('File not found');
-		// 		return;
-		// }
-		
-		// res.writeHead(200, {
-		// 	'Content-Type': 'image/jpeg', // set the content type based on your file type
-		// 	'Content-Length': data.length
-		// });
-		// res.end(data);
-		// });
-	});
-	router.get('/api/product-imgz/:filename', async (req, res) => {
-		const { filename } = req.params;
-		const params = {
-			Bucket: 'itspacerwanda',
-			Key: `product-imgz/${filename}`
-		};
-		try {
-			const data = await s3.getObject(params).promise();
-			res.set({
-			'Content-Type': 'image/jpeg',
-			'Content-Length': data.length
-			});
-			res.send(data.Body);
-		} catch (error) {
-			console.log(error.toString());
-			res.status(500).send('Error retrieving file from S3');
-		}
-		// const path = `../product-imgz/${filename}`;
-		
-		// fs.readFile(path, (err, data) => {
-		// if (err) {
-		// 	res.status(404).send('File not found');
-		// 	return;
-		// }
-		
-		// res.writeHead(200, {
-		// 	'Content-Type': 'image/jpeg', // set the content type based on your file type
-		// 	'Content-Length': data.length
-		// });
-		// res.end(data);
-		// });
-	});
-	router.get('/api/brands/:filename', async (req, res) => {
-		const { filename } = req.params;
-		const params = {
-			Bucket: 'itspacerwanda',
-			Key: `brands/${filename}`
-		};
-		try {
-			const data = await s3.getObject(params).promise();
-			res.set({
-				'Content-Type': 'image/jpeg',
-				'Content-Length': data.length
-			});
-			res.send(data.Body);
-		} catch (error) {
-			console.log(error.toString());
-			res.status(500).send('Error retrieving file from S3');
-		}
-		// const path = `../brands/${filename}`; 
-		// fs.readFile(path, (err, data) => {
-		// if (err) {
-		// 	res.status(404).send('File not found');
-		// 	return;
-		// }
-		
-		// res.writeHead(200, {
-		// 	'Content-Type': 'image/jpeg', // set the content type based on your file type
-		// 	'Content-Length': data.length
-		// });
-		// res.end(data);
-		// });
-	});
-	router.post('/api/search', async (req, res) => {
-		try {
-			n = req.body.needle;
-			database.query(`SELECT products.id as prodid,products.availability, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where  products.name like '%${n}%' or products.category like '%${n}%' or products.subcategory like '%${n}%' or products.brand like '%${n}%' or products.description like '%${n}%'`,(error,result)=>{
-				if (error) return res.send({ success: false, message: error});
-				const products = JSON.parse(JSON.stringify(result))
-				products.forEach(prods=>{
-					try {
-						products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
-						products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
-						products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
-						
-					} catch (error) {
-						
-					}
-				})
-				r = {categories: null,subcategories:null,brands: null,series: null,prods: null};
-				r.prods = products
-				database.query(`select id,name,image from categories where name like '%${n}%'`,(er,categories)=>{
-					const cats = JSON.parse(JSON.stringify(categories));
-					r.categories = cats
-					database.query(`select families.id as famid,families.name as famname,brands.id as brandid,families.image,brands.name as brandname from families,brands where families.name like '%${n}%' and families.brand = brands.id`,(er,families)=>{
-						if (er) return res.send({success: false, message: er})
-						f = JSON.parse(JSON.stringify(families));
-						r.series = f
-						database.query(`select brands.id,brands.name,image from brands where name like '%${n}%'`,(erri,brands)=>{
-							b = JSON.parse(JSON.stringify(brands));
-							r.brands = b;
-							database.query(`select subcategories.id as id,subcategories.name as name,subcategories.image,categories.id as catid,categories.name as catname from subcategories inner join categories on subcategories.category = categories.id where subcategories.name like '%${n}%'`,(erro,subcats)=>{
-								if (erro) return res.send({success:false, message: erro})
-								s = JSON.parse(JSON.stringify(subcats));
-								r.subcategories = s;
-								res.send({ success: true, message: r});
-							})
-						})
-					})
-					})
-				});	 
-		} catch (error) {
-		res.send({ success: false, message: "oops an error occured" });
-		}
-	});
-	router.get('/api/hello',async (req,res)=>{
+router.get('/api/download/:folder', (req, res) => {
+    try {
+        const folderPath = join(__dirname, '..', req.params.folder); // assuming the target directory is in the parent directory
+        const zipFileName = `${req.params.folder}.zip`;
+        const output = createWriteStream(zipFileName);
+        const archive = archiver('zip', {
+            zlib: { level: 9 }
+        });
+
+        // Set the headers for the response
+        res.attachment(zipFileName);
+        res.setHeader('Content-Type', 'application/zip');
+
+        // Pipe the archive to the response
+        archive.pipe(res);
+
+        // Append all the files in the directory to the archive
+        readdir(folderPath, (err, files) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send(err);
+            }
+
+            files.forEach((file) => {
+                const filePath = join(folderPath, file);
+
+                // Ensure that the file is not a directory before adding it to the archive
+                if (lstatSync(filePath).isFile()) {
+                    archive.file(filePath, { name: file });
+                }
+            });
+
+            // Finalize the archive and send it to the client
+            try {
+                archive.finalize();
+            } catch (error) {
+                console.error('Error finalizing archive:', error);
+                res.status(500).send('Error creating archive');
+            }
+        });
+
+        // Log when the archive is finished
+        output.on('close', () => {
+            console.log(`${zipFileName} has been created and sent to the client.`);
+        });
+    } catch (error) {
+        console.error('Error processing download request:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+router.get('/api/images/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        const params = {
+            Bucket: 'itspacerwanda',
+            Key: `images/${filename}`
+        };
+        try {
+            const data = await s3.getObject(params).promise();
+            res.set({
+                'Content-Type': 'image/jpeg',
+                'Content-Length': data.length
+            });
+            res.send(data.Body);
+        } catch (error) {
+            console.log(error.toString());
+            res.status(500).send('Error retrieving file from S3');
+        }
+    } catch (error) {
+        console.error('Error retrieving image:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+router.get('/api/feedback-imgz/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        const params = {
+            Bucket: 'itspacerwanda',
+            Key: `feedback-imgz/${filename}`
+        };
+        try {
+            const data = await s3.getObject(params).promise();
+            res.set({
+                'Content-Type': 'image/jpeg',
+                'Content-Length': data.length
+            });
+            res.send(data.Body);
+        } catch (error) {
+            console.log(error.toString());
+            res.status(500).send('Error retrieving file from S3');
+        }
+    } catch (error) {
+        console.error('Error retrieving feedback image:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+router.get('/api/product-imgz/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        const params = {
+            Bucket: 'itspacerwanda',
+            Key: `product-imgz/${filename}`
+        };
+        try {
+            const data = await s3.getObject(params).promise();
+            res.set({
+                'Content-Type': 'image/jpeg',
+                'Content-Length': data.length
+            });
+            res.send(data.Body);
+        } catch (error) {
+            console.log(error.toString());
+            res.status(500).send('Error retrieving file from S3');
+        }
+    } catch (error) {
+        console.error('Error retrieving product image:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+router.get('/api/brands/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        const params = {
+            Bucket: 'itspacerwanda',
+            Key: `brands/${filename}`
+        };
+        try {
+            const data = await s3.getObject(params).promise();
+            res.set({
+                'Content-Type': 'image/jpeg',
+                'Content-Length': data.length
+            });
+            res.send(data.Body);
+        } catch (error) {
+            console.log(error.toString());
+            res.status(500).send('Error retrieving file from S3');
+        }
+    } catch (error) {
+        console.error('Error retrieving brand image:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+router.post('/api/search', async (req, res) => {
+    try {
+        n = req.body.needle;
+        database.query(`SELECT products.id as prodid,products.availability, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where  products.name like '%${n}%' or products.category like '%${n}%' or products.subcategory like '%${n}%' or products.brand like '%${n}%' or products.description like '%${n}%'`,(error,result)=>{
+            if (error) return res.send({ success: false, message: error});
+            const products = JSON.parse(JSON.stringify(result))
+            products.forEach(prods=>{
+                try {
+                    products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
+                    products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
+                    products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
+                    
+                } catch (error) {
+                    
+                }
+            })
+            r = {categories: null,subcategories:null,brands: null,series: null,prods: null};
+            r.prods = products
+            database.query(`select id,name,image from categories where name like '%${n}%'`,(er,categories)=>{
+                if (er) {
+                    console.error('Error querying categories:', er);
+                    return res.send({ success: false, message: er });
+                }
+                const cats = JSON.parse(JSON.stringify(categories));
+                r.categories = cats
+                database.query(`select families.id as famid,families.name as famname,brands.id as brandid,families.image,brands.name as brandname from families,brands where families.name like '%${n}%' and families.brand = brands.id`,(er,families)=>{
+                    if (er) return res.send({success: false, message: er})
+                    f = JSON.parse(JSON.stringify(families));
+                    r.series = f
+                    database.query(`select brands.id,brands.name,image from brands where name like '%${n}%'`,(erri,brands)=>{
+                        b = JSON.parse(JSON.stringify(brands));
+                        r.brands = b;
+                        database.query(`select subcategories.id as id,subcategories.name as name,subcategories.image,categories.id as catid,categories.name as catname from subcategories inner join categories on subcategories.category = categories.id where subcategories.name like '%${n}%'`,(erro,subcats)=>{
+                            if (erro) return res.send({success:false, message: erro})
+                            s = JSON.parse(JSON.stringify(subcats));
+                            r.subcategories = s;
+                            res.send({ success: true, message: r});
+                        })
+                    })
+                })
+                })
+            });	 
+    } catch (error) {
+        console.error('Error processing search request:', error);
+        res.send({ success: false, message: "oops an error occured" });
+    }
+});
+router.get('/api/hello',async (req,res)=>{
 		res.send({response: 'hi'});
 	})
 	router.get('/api/getprods', async (req, res) => {
@@ -297,7 +278,10 @@ router.use(passport.session());
 		let c = req.body.cntn;
 		c = gnrtctn(c)
 		  database.query(`SELECT products.id as prodid, products.name as pname,products.availability, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) ${c}`,(error,result)=>{
-			if (error) return res.status(500).send({ success: false, message: "internal server error"});
+			if (error) {
+				console.log(error)
+				return res.status(500).send({ success: false, message: "internal server error"})
+			};
 			const products = JSON.parse(JSON.stringify(result))
 			products.forEach(prods=>{
 				try {
@@ -312,6 +296,7 @@ router.use(passport.session());
 			res.send({ success: true, message: products});
 		  });
 		} catch (error) {
+			console.log(error)
 		  res.send({ success: false, message: "oops an error occured" });
 		}
 	});
@@ -340,7 +325,7 @@ router.use(passport.session());
 	});
 	router.post('/api/getproduct', async (req, res) => {
 		try {
-		  database.query("SELECT products.id as prodid, products.quantity,products.availability,products.description,products.shipment_info, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name)  where products.id = ?",[req.body.id],async (error,result)=>{
+		  database.query("SELECT products.id as prodid, products.quantity,products.availability,products.description,products.shipment_info, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name)  where products.id = ?",[req.body.id],async (error,result)=>{
 			if (error) return res.send({ success: false, message: "oops an error occured"});
 			const products = JSON.parse(JSON.stringify(result))
 			products.forEach(prods=>{
@@ -1709,7 +1694,7 @@ router.use(passport.session());
 	})
 	router.get('/api/getdiscounted', async (req, res) => {
 		try {
-		  database.query(`SELECT products.id as prodid,JSON_EXTRACT(products.conditions, '$') AS conditions,products.availability,products.description,products.availability, products.name as pname, products.specifications as pspecs,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where JSON_CONTAINS(conditions, '{"promotion": true}', '$') `,(error,result)=>{
+		  database.query(`SELECT products.id as prodid,JSON_EXTRACT(products.conditions, '$') AS conditions,products.availability,products.description,products.availability, products.name as pname, products.specifications as pspecs,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)innerjoin families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where JSON_CONTAINS(conditions, '{"promotion": true}', '$') `,(error,result)=>{
 			if (error) return res.send({ success: false, message: error});
 			const products = JSON.parse(JSON.stringify(result))
 			products.forEach(prods=>{
@@ -2328,7 +2313,7 @@ router.use(passport.session());
 		p = req.body.phonenumber
 		s = req.body.subject
 		m = req.body.message
-		r = await query(`insert into queries(id,fullname,email,phone,subject,message,status)values('${generateUniqueId()}','${f}','${e}','${p}','${s}','${m}','new')`)
+		r = await query(`insert into queries(id,fullname,email,phone,subject,message,status)values('${generateUniqueId()}','${f}','${e}','${p}','${s}','new')`)
 			if (!r) return res.status(500).send({ success: false, message: "internal server error" })
 			res.send({ success: true, message: "Query sent successfully i will reply you as soon as possible" });
 		
@@ -2728,16 +2713,25 @@ router.use(passport.session());
 	  if(!token) res.status(500).send("There was an error while processing the payment");
 	  res.send(`<script>window.opener.postMessage({ type: 'google-auth', token: '${token}' }, '*'); window.close();</script>`);
 	}
-  );
+  	);
 	router.post('/api/webhook', json({type: 'application/json'}), (req, res) => {
-		const event = req.body
-		const secretHash = process.env.FLW_WEBHOOK_SECRET; // Set this in Flutterwave dashboard
-		const signature = req.headers["verif-hash"];
-
-		if (!signature || signature !== secretHash) {
-			return res.status(401).send("Unauthorized");
+		try {
+			const event = req.body
+			const secretHash = process.env.FLW_WEBHOOK_SECRET;
+			const signature = req.headers["verif-hash"];
+	
+			console.log('received an event', event);
+			if (!signature || signature !== secretHash) {
+				return res.status(401).send("Unauthorized");
+			}
+			myEmitter.emit('PaymentCallback',{success: true,event});
+			res.status(200).send("webhook received successfuly!");
+			
+		} catch (error) {
+			console.log(error)
+			myEmitter.emit('PaymentCallback',{success: false,message: "An error occurred"});
+			res.status(500).send("internal server error ");
 		}
-		myEmitter.emit('PaymentCallback',{success: true,event});
 			
 	});
 	router.get('/js/*',(req, res) => assets(req, res, 'js'));
@@ -2827,6 +2821,7 @@ async function validatePayment(req, res, next) {
             const response = await flw.Charge.card(cardPayload);
 			recipientSocket.emit('processingPayment',true)
             if (!response.meta) {
+				console.log(response)
                 return res.status(500).send({ success: false, message: response.message });
             }
             if (response.meta.authorization.mode === "pin") {
@@ -2837,8 +2832,10 @@ async function validatePayment(req, res, next) {
                 }
 				if (reCallCharge.status === 'success' && reCallCharge.data.flw_ref) {
 					let verifyT = await waitForChargeSuccess(reCallCharge.data.tx_ref);
-					recipientSocket.emit("PaymentCompleted", false);
-					return next()
+					if(verifyT){
+						recipientSocket.emit("PaymentCompleted", false);
+						return next()
+					}
 				} else {
 					return res.status(400).json({ success: false, message: "OTP validation not required" });
 				}
@@ -2856,18 +2853,18 @@ async function validatePayment(req, res, next) {
                     }
                 };
                 const reCallCharge = await flw.Charge.card(avsPayload);
-	
+				console.log(reCallCharge)
 				if (reCallCharge.status === 'success' && reCallCharge.data.flw_ref) {
 					let verifyT = await waitForChargeSuccess(reCallCharge.data.tx_ref);
 					if(verifyT){
 						recipientSocket.emit("PaymentCompleted", false);
 						return next()
 					}else{
-						return res.status(400).json({ success: false, message: "Error While processing payments" });
+						return res.status(500).json({ success: false, message: "Error While processing payments" });
 
 					}
 				} else {
-					return res.status(400).json({ success: false, message: "Error While processing payments on AVS_NOAUTH" });
+					return res.status(401).json({ success: false, message: reCallCharge.message });
 				}
             }
             if (response.meta.authorization.mode === "redirect") {
@@ -2901,6 +2898,7 @@ async function getPrice(productinfo) {
 		return JSON.parse(JSON.stringify(res));
 	} catch (error) {
 		console.error(error);
+		throw error
 	}
 }
 function gnrtctn(obj) {
@@ -3139,7 +3137,7 @@ async function createREFID() {
 		const data = await response.text();
 		return data
 	} catch (error) {
-		console.log(error)
+		console.log(error.toString())
 		return null
 	}
 }
@@ -3293,20 +3291,30 @@ async function createPayment(info){
 		return null
 	}
 }
-async function waitForChargeSuccess(txref){
-	return new Promise((resolve,reject) =>{
-		myEmitter.on('PaymentCallback', (data)=>{
-			console.log(data)
-			if (data.event.data.tx_ref == txref) {
-				if (data.event.event == 'charge.completed') {
-					resolve(data.event.data)
-				}else{
-					resolve(0)
+function waitForChargeSuccess(txref, timeoutMs = 300000) {
+    return new Promise((resolve, reject) => {
+        const listener = (data) => {
+            if (data.event?.data?.tx_ref === txref) {
+                myEmitter.removeListener('PaymentCallback', listener);
+				if (data.event.event === 'charge.completed' && data.event.data.status === 'successful') {
+					resolve(data.event.data);
+				} else {
+					resolve(0);
 				}
-			}
-		})
-	})
+				
+            }
+        };
+
+        myEmitter.on('PaymentCallback', listener);
+
+        setTimeout(() => {
+            myEmitter.removeListener('PaymentCallback', listener);
+            resolve(0); // Timeout reached
+        }, timeoutMs);
+    });
 }
+
+
 async function processImage(imageBuffer, watermarkPath) {
     try {
         const watermark = await sharp(watermarkPath)
