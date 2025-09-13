@@ -110,7 +110,7 @@ thenav.innerHTML = `<div class="w-100 h-70p p-5p bsbb p-r bc-white" style="/*bac
       <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 21.25H10M15 21.25H25M5 15H25M5 8.75H15M20 8.75H25" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="verdana  capitalize hover-2 w-a h-a center white">All</span>
+              <span class="verdana  capitalize hover-2 w-a h-a center white">All&nbsp;Categories</span>
               </span>
               </li>
               <li class="w-95 h-a ovxh center pr-10p pl-10p bsbb">
