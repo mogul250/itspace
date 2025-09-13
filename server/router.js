@@ -205,7 +205,7 @@ router.get('/api/brands/:filename', async (req, res) => {
 router.post('/api/search', async (req, res) => {
     try {
         n = req.body.needle;
-        database.query(`SELECT products.id as prodid,products.availability, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where  products.name like '%${n}%' or products.category like '%${n}%' or products.subcategory like '%${n}%' or products.brand like '%${n}%' or products.description like '%${n}%'`,(error,result)=>{
+        database.query(`SELECT products.id as prodid,products.availability, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where  products.name like '%${n}%' or products.category like '%${n}%' or products.subcategory like '%${n}%' or products.brand like '%${n}%' or products.description like '%${n}%' limit `,(error,result)=>{
             if (error) return res.send({ success: false, message: error});
             const products = JSON.parse(JSON.stringify(result))
             products.forEach(prods=>{
@@ -252,77 +252,81 @@ router.post('/api/search', async (req, res) => {
 router.get('/api/hello',async (req,res)=>{
 		res.send({response: 'hi'});
 	})
-	router.get('/api/getprods', async (req, res) => {
-		try {
-		  database.query("SELECT products.id as prodid,products.availability, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid,products.description, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) order by products.category,products.name asc ",(error,result)=>{
-			if (error) return res.send({ success: false, message: "oops an error occured"});
-			const products = JSON.parse(JSON.stringify(result))
-			products.forEach(prods=>{
+router.get('/api/getprods/:offset?/:limit?', async (req, res) => {
+    try {
+        const offset = parseInt(req.params.offset) || 0; // Default to 0 if not set
+        const limit = parseInt(req.params.limit) || 10000; // Default to a large number for fetching all
+        const query = `SELECT products.id as prodid, products.name as pname, products.availability, products.specifications as pspecs, JSON_EXTRACT(products.conditions, '$') AS conditions, products.images as pimgs, products.orders as porders, categories.name as catname, categories.id as catid, subcategories.name as subcatname, subcategories.id as subcatid, brands.name as brandname, brands.id as brandid, families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products INNER JOIN brands ON products.brand = brands.name) INNER JOIN families ON products.family = families.name) INNER JOIN categories ON products.category = categories.name) INNER JOIN subcategories ON products.subcategory = subcategories.name) INNER JOIN usedin ON products.usedin = usedin.name) LIMIT ? OFFSET ?`;
+        database.query(query, [limit, offset], (error, result) => {
+            if (error) return res.send({ success: false, message: "oops an error occured" });
+            const products = JSON.parse(JSON.stringify(result));
+            products.forEach(prods => {
+                try {
+                    products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions);
+                    products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs);
+                    products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+            res.status(200).send({ success: true, message: products });
+        });
+    } catch (error) {
+        res.status(500).send({ success: false, message: error });
+    }
+});
+
+router.post('/api/getprodswthcndtn', async (req, res) => {
+    try {
+        let c = req.body.cntn;
+        c = gnrtctn(c);
+        const offset = parseInt(req.body.offset) || 0; // Default to 0 if not set
+        const limit = parseInt(req.body.limit) || 10000; // Default to a large number for fetching all
+        database.query(`SELECT products.id as prodid, products.name as pname, products.availability, products.specifications as pspecs, JSON_EXTRACT(products.conditions, '$') AS conditions, products.images as pimgs, products.orders as porders, categories.name as catname, categories.id as catid, subcategories.name as subcatname, subcategories.id as subcatid, brands.name as brandname, brands.id as brandid, families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products INNER JOIN brands ON products.brand = brands.name) INNER JOIN families ON products.family = families.name) INNER JOIN categories ON products.category = categories.name) INNER JOIN subcategories ON products.subcategory = subcategories.name) INNER JOIN usedin ON products.usedin = usedin.name) ${c} LIMIT ? OFFSET ?`, [limit, offset], (error, result) => {
+            if (error) return res.send({ success: false, message: error });
+            const products = JSON.parse(JSON.stringify(result));
+            products.forEach(prods => {
+                try {
+                    products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions);
+                    products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs);
+                    products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+            res.send({ success: true, message: products });
+        });
+    } catch (error) {
+        res.send({ success: false, message: error });
+    }
+});
+
+router.post('/api/getprodswthorcndtn', async (req, res) => {
+    try {
+        let c = req.body.cntn;
+        c = gnrtorctn(c);
+        const offset = parseInt(req.body.offset) || 0; // Default to 0 if not set
+        const limit = parseInt(req.body.limit) || 30; // Default to a large number for fetching all
+        database.query(`SELECT products.id as prodid, products.name as pname, products.availability, products.specifications as pspecs, JSON_EXTRACT(products.conditions, '$') AS conditions, products.images as pimgs, products.orders as porders, categories.name as catname, categories.id as catid, subcategories.name as subcatname, subcategories.id as subcatid, brands.name as brandname, brands.id as brandid, families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products INNER JOIN brands ON products.brand = brands.name) INNER JOIN families ON products.family = families.name) INNER JOIN categories ON products.category = categories.name) INNER JOIN subcategories ON products.subcategory = subcategories.name) INNER JOIN usedin ON products.usedin = usedin.name) ${c} LIMIT ? OFFSET ?`, [limit, offset], (error, result) => {
+            if (error) return res.send({ success: false, message: error });
+            const products = JSON.parse(JSON.stringify(result));
+			products.forEach(prods => {
 				try {
-					products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
-					products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
-					products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
-					
+					products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions);
+					products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs);
+					products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs);
 				} catch (error) {
-					
+					console.error(error);
 				}
-			})
-			res.send({ success: true, message: products});
-		  });
-		} catch (error) {
-		  res.send({ success: false, message: "oops an error occured" });
-		}
-	});
-	router.post('/api/getprodswthcndtn', async (req, res) => {
-		try {
-		let c = req.body.cntn;
-		c = gnrtctn(c)
-		  database.query(`SELECT products.id as prodid, products.name as pname,products.availability, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) ${c}`,(error,result)=>{
-			if (error) {
-				console.log(error)
-				return res.status(500).send({ success: false, message: "internal server error"})
-			};
-			const products = JSON.parse(JSON.stringify(result))
-			products.forEach(prods=>{
-				try {
-					products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
-					products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
-					products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
-					
-				} catch (error) {
-					
-				}
-			})
-			res.send({ success: true, message: products});
-		  });
-		} catch (error) {
-			console.log(error)
-		  res.send({ success: false, message: "oops an error occured" });
-		}
-	});
-	router.post('/api/getprodswthorcndtn', async (req, res) => {
-		try {
-			let c = req.body.cntn;
-			c = gnrtorctn(c)
-			database.query(`SELECT products.id as prodid, products.name as pname,products.availability, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) ${c}`,(err,result)=>{
-				if (err) return res.status(500).send({ success: false, message: err});
-				const products = JSON.parse(JSON.stringify(result))
-				products.forEach(prods=>{
-					try {
-						products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
-						products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
-						products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
-						
-					} catch (error) {
-						
-					}
-				})
-				res.send({ success: true, message: products});
 			});
-		} catch (error) {
-		  res.send({ success: false, message: error});
-		}
-	});
+            res.send({ success: true, message: products });
+        });
+    } catch (error) {
+        res.send({ success: false, message: error });
+    }
+});
+
+
 	router.post('/api/getproduct', async (req, res) => {
 		try {
 		  database.query("SELECT products.id as prodid, products.quantity,products.availability,products.description,products.shipment_info, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name)  where products.id = ?",[req.body.id],async (error,result)=>{
@@ -1694,7 +1698,7 @@ router.get('/api/hello',async (req,res)=>{
 	})
 	router.get('/api/getdiscounted', async (req, res) => {
 		try {
-		  database.query(`SELECT products.id as prodid,JSON_EXTRACT(products.conditions, '$') AS conditions,products.availability,products.description,products.availability, products.name as pname, products.specifications as pspecs,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)innerjoin families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where JSON_CONTAINS(conditions, '{"promotion": true}', '$') `,(error,result)=>{
+		  database.query(`SELECT products.id as prodid,JSON_EXTRACT(products.conditions, '$') AS conditions,products.availability,products.description,products.availability, products.name as pname, products.specifications as pspecs,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name) where JSON_CONTAINS(conditions, '{"promotion": true}', '$') `,(error,result)=>{
 			if (error) return res.send({ success: false, message: error});
 			const products = JSON.parse(JSON.stringify(result))
 			products.forEach(prods=>{
@@ -2012,26 +2016,26 @@ router.get('/api/hello',async (req,res)=>{
 							h = await query(`select products from wishlist where uid = '${tokendata.token.id}'`)
 							if (!h) return res.status(500).send({success: false, message: "internal server error"})
 							
-							if (h.length > 0) {
-								h = JSON.parse(h[0].products)
-								j = [];
-								for(const prodid of h) {
-									let pr = await query(`SELECT products.id as prodid,products.availability,	products.description, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on  products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name)  where products.id = '${prodid}'`)
-									const products = JSON.parse(JSON.stringify(pr))
-									products.forEach(prods=>{
-										try {
-											products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
-											products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
-											products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
-											
-										} catch (error) {
-											
-										}
-									})
-									if(products.length > 0) j.push(products[0])
-									if (!pr) return res.send({ success: false, message: "oops an error occured"});
-								}
-								res.send({ success: true, message: j});	
+                        if (h.length > 0) {
+                            h = JSON.parse(h[0].products)
+                            if (h.length > 0) {
+                                let placeholders = h.map(() => '?').join(',');
+                                let pr = await query(`SELECT products.id as prodid,products.availability,products.description, products.name as pname, products.specifications as pspecs,JSON_EXTRACT(products.conditions, '$') AS conditions,products.images as pimgs, products.orders as porders, categories.name as catname,categories.id as catid, subcategories.name as subcatname,subcategories.id as subcatid, brands.name as brandname,brands.id as brandid,families.name as famname, families.id as famid, usedin.id as usedinid, usedin.name as usedinname FROM (((((products inner join brands on products.brand = brands.name)inner join families on products.family = families.name)inner join categories on products.category = categories.name)inner join subcategories on products.subcategory = subcategories.name)inner join usedin on products.usedin = usedin.name)  where products.id IN (${placeholders})`, h)
+                                const products = JSON.parse(JSON.stringify(pr))
+                                products.forEach(prods=>{
+                                    try {
+                                        products[products.indexOf(prods)].conditions = JSON.parse(products[products.indexOf(prods)].conditions)
+                                        products[products.indexOf(prods)].pspecs = JSON.parse(products[products.indexOf(prods)].pspecs)
+                                        products[products.indexOf(prods)].pimgs = JSON.parse(products[products.indexOf(prods)].pimgs)
+                                        
+                                    } catch (error) {
+                                        console.log(error)
+                                    }
+                                })
+                                res.send({ success: true, message: products});
+                            } else {
+                                res.send({ success: true, message: []});
+                            }
 								
 							}else{
 								res.send({ success: true, message: []});
@@ -2041,6 +2045,7 @@ router.get('/api/hello',async (req,res)=>{
 							res.status(403).send({ success: false, message: "authentication error"});
 						}
 					}catch(error){
+						console.log(error)
 						res.status(500).send({ success: false, message: 'Oops an error occured'});
 					}
 				}else{
@@ -2048,10 +2053,38 @@ router.get('/api/hello',async (req,res)=>{
 				}
 		  });
 		} catch (error) {
+			console.log(error)
+
 		  res.send({ success: false, message: "oops an error occured" });
 		}
 	});
+	router.post('/api/getwishlistids', async (req, res) => {
+		try {
+			authenticateToken(req.body.token, async (tokendata) => {
+				if (!tokendata.success) {
+					return res.status(401).send({ success: false, message: "Invalid token" });
+				}
+				
+				try {
+					const userId = tokendata.token.id;
+					const wishlist = await query(`SELECT products FROM wishlist WHERE uid = '${userId}'`);
+					
+					if (wishlist && wishlist.length > 0) {
+						const productIds = JSON.parse(wishlist[0].products);
+						res.send({ success: true, message: productIds });
+					} else {
+						res.send({ success: true, message: [] });
+					}
+				} catch (error) {
+					res.status(500).send({ success: false, message: 'An error occurred while fetching wishlist IDs.' });
+				}
+			});
+		} catch (error) {
+			res.status(500).send({ success: false, message: "An unexpected error occurred." });
+		}
+	});
 	router.post('/api/getneworders', async (req, res) => {
+
 		try {
 			authenticateToken(req.body.token, async (tokendata)=>{
 				if (tokendata.success) {
@@ -3075,10 +3108,10 @@ function addToken(userInfo) {
 const generateUniqueId = () => {
 	return randomBytes(9).toString('hex');
 };
-async function query(query) {
+async function query(query,params) {
 	try {
 		const res = await new Promise((resolve, reject) => {
-		database.query(query, (err, res) => {
+		database.query(query,params, (err, res) => {
 			if (err) reject(err);
 			resolve(res);
 		});
@@ -3161,8 +3194,9 @@ async function getPaymentInfo(REFID) {
 
 }
 async function disbursement(amount){
-	let ps = postschema,at = await createAccessToken(),rid = await createREFID(),
+	let ps = postschema,at = await createAccessToken(),rid = await createREFID();
 	v = {
+
 		method: "POST",
 		body: JSON.stringify({
 			"amount": amount,

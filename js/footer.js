@@ -329,7 +329,7 @@ thef.innerHTML = `<div class="bc-white w-90 m-a bfull-resp h-100 black pt-20p bs
                                 <a href="${geturl()}/terms/" class="td-none ls-n"><span class="nowrap hover-6 dgray">Terms and conditions</span></a>
                             </span>
                             <span class="center-2 capitalize verdana fs-10p p-10p bsbb">
-                                website designed & developed by <a href="https://prtlfo.vercel.app/" class="td-none consolas theme" target="_blank">#himself__</a> 
+                                website designed & developed by <a href="https://blogsite-woad.vercel.app/" class="td-none consolas theme" target="_blank">#himself__</a> 
                             </span>
                         </span>
                     </p>

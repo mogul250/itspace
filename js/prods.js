@@ -1,11 +1,13 @@
 let q,w,e,r,t,y,u,o,p,a,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 var prods_cont = document.querySelector('div.ts-cont');
 import { cc,request,v_,geturl,adcm, dcrtmgc, checkCart,geimgturl,getdata,addsCard,postschema,alertMessage} from "./functions.js";
+
 let ts = document.querySelector('div.ts-cont');
 let ctscont = document.querySelector('div.cats-cont');
 let brndscont = document.querySelector('div.brands-cont')
 let diccont = document.querySelector('div.disccont')
 
+let wishlistIds = [];
 let ops = {
 	mode: 'cors',
 	method: "GET",
@@ -14,12 +16,71 @@ let ops = {
 	  'accept': '*/*'
 
 	}}
+
+const user = getdata('user');
+if (user) {
+    const p = postschema;
+    p.body = JSON.stringify({ token: user });
+    const wishlistResponse = await request('getwishlistids', p);
+    if (wishlistResponse.success) {
+        wishlistIds = wishlistResponse.message;
+    }
+}
 let cts = await request('getcats',ops);
 let aa = await request('gettopselling',ops);
 let disc = await request('getdiscounted',ops);
 let brnds = await request('getbrands',ops);
-a441618154(aa,prods_cont)
-sdisc(disc,diccont)
+
+let productsForSimilarities = aa.message;
+if (user) {
+    const p2 = postschema;
+    p2.body = JSON.stringify({ token: user });
+    const wishlistProductsResponse = await request('getwishlist', p2);
+    if (wishlistProductsResponse.success && wishlistProductsResponse.message.length > 0) {
+        productsForSimilarities = wishlistProductsResponse.message;
+    }
+}
+
+let similarProductsCount = {};
+
+// Count occurrences of IDs along with their names directly from product details
+for (const product of productsForSimilarities) {
+    const { catid, subcatid, brandid, famid, usedinid, catname, subcatname, brandname, famname,usedinname } = product;
+
+    const identifiers = [
+        { id: catid, type: 'category', name: catname },
+        { id: subcatid, type: 'subcategory', name: subcatname },
+        { id: brandid, type: 'brand', name: brandname },
+        { id: famid, type: 'family', name: famname },
+        { id: usedinid, type: 'usedin', name: usedinname }
+    ];
+
+    identifiers.forEach(({ id, type, name }) => {
+        if (id) {
+            if (!similarProductsCount[id]) {
+                similarProductsCount[id] = { count: 0, type: type, name: name };
+            }
+            similarProductsCount[id].count++;
+        }
+    });
+}
+
+// Convert counts to an array and sort by count
+let sortedSimilarProducts = Object.entries(similarProductsCount)
+    .map(([id, data]) => ({ id, count: data.count, type: data.type, name: data.name }))
+    .sort((a, b) => b.count - a.count);
+
+// Get top 3 similarities
+let topSimilarities = sortedSimilarProducts.slice(0, 3);
+topSimilarities = topSimilarities.map(sim=>{
+	return {[sim.type]: sim.name}
+})
+if (!getdata('favs')) {
+	localStorage.setItem('favs', JSON.stringify(topSimilarities))
+}
+a441618154(aa,prods_cont, wishlistIds)
+sdisc(disc,diccont, wishlistIds)
+
 if(cts.success){
 	s(cts.message)
 }
@@ -42,18 +103,22 @@ window.addEventListener('resize',e=>{
 	e.preventDefault();v_(bscont,i())
 })
 v_(bscont,i());
-export function a441618154(aa,parent){
+export function a441618154(aa,parent, wishlistIds = []){
 	if (aa.success) {
 		if ( aa.message.length > 0) {
 			parent.innerHTML = null;
-			aa.message.forEach(d=>{
+aa.message.forEach(d=>{
+                const inWishlist = wishlistIds.includes(d.prodid);
+                const wishlistStyle = inWishlist ? 'style="fill:var(--main-color)"' : '';
 				parent.innerHTML+=`<div class="product w-250p h-380p bc-white br-20p hover-4 ovh ml-10p mr-10p mb-15p mt-15p iblock b-80-resp bml-7-resp bmr-6-resp b-1-s-white">
 						<div class="w-100 h-170p">
 							<div class="image bsbb w-100 h-100 br-5p p-r">
 								<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 									<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
 									<g>
-									<path d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+									<path ${wishlistStyle} d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+
+
 										c-2.517-4.307-6.846-6.906-11.697-6.906c-7.399,0-13.313,6.061-14.071,14.415c-0.06,0.369-0.306,2.311,0.442,5.478
 										c1.078,4.568,3.568,8.723,7.199,12.013l18.115,16.439l18.426-16.438c3.631-3.291,6.121-7.445,7.199-12.014
 										C52.216,18.553,51.97,16.611,51.911,16.242z M49.521,21.261c-0.984,4.172-3.265,7.973-6.59,10.985L25.855,47.481L9.072,32.25
@@ -125,22 +190,6 @@ export function a441618154(aa,parent){
 					dcrtmgc(button,aa,x,y)
 				})
 			});
-			let wish = Array.from(parent.querySelectorAll('span.wish-icon'))
-                wish.forEach(wishlistbut=>{
-					wishlistbut.addEventListener('click',async()=>{
-                        u = getdata('user')
-                        if (!u) {
-                            alertMessage('wishlist is not available')
-                        }else{
-                            p = postschema
-                            p.body = JSON.stringify({pid: wishlistbut.getAttribute('data-id'),token: u}) 
-                            r = await request('addtowishlist',p);
-                            if (r.success) {
-                                addsCard(r.message,true)
-                            }
-                        }
-                    })
-                })
 		}else{
 			parent.innerHTML = `<div class="w-100 h-a">
 									<div class="center p-10p bsbb w-100 h-100p svg-hol">
@@ -157,18 +206,21 @@ export function a441618154(aa,parent){
 									</div></div>`;
 	}
 }
-export function sdisc(aa,parent){
+export function sdisc(aa,parent, wishlistIds = []){
 	if (!aa.success) return 0
 	if ( aa.message.length > 0) {
 		parent.innerHTML = null;
 		aa.message.forEach(d=>{
+            const inWishlist = wishlistIds.includes(d.prodid);
+            const wishlistStyle = inWishlist ? 'style="fill:var(--main-color)"' : '';
 			parent.innerHTML+=`<div class="product w-370p h-450p bc-white br-20p ovh ml-10p mr-10p mb-15p mt-15p bmb-10p-resp bfull-resp iblock b-1-s-white">
 			<div class="w-100 h-220p">
 				<div class="image p-10p bsbb w-100 h-100 p-r  br-5p">
 					<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 						<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
 							<g>
-								<path d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+								<path ${wishlistStyle} d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+
 											c-2.517-4.307-6.846-6.906-11.697-6.906c-7.399,0-13.313,6.061-14.071,14.415c-0.06,0.369-0.306,2.311,0.442,5.478
 											c1.078,4.568,3.568,8.723,7.199,12.013l18.115,16.439l18.426-16.438c3.631-3.291,6.121-7.445,7.199-12.014
 											C52.216,18.553,51.97,16.611,51.911,16.242z M49.521,21.261c-0.984,4.172-3.265,7.973-6.59,10.985L25.855,47.481L9.072,32.25
@@ -240,22 +292,8 @@ export function sdisc(aa,parent){
 				dcrtmgc(button,aa,x,y)
 			})
 		});
-		let wish = Array.from(parent.querySelectorAll('span.wish-icon'))
-                wish.forEach(wishlistbut=>{
-                    wishlistbut.addEventListener('click',async()=>{
-                        u = getdata('user')
-                        if (!u) {
-                            alertMessage('wish list is not available')
-                        }else{
-                            p = postschema
-                            p.body = JSON.stringify({pid: wishlistbut.getAttribute('data-id'),token: u}) 
-                            r = await request('addtowishlist',p);
-                            if (r.success) {
-                                addsCard(r.message,true)
-                            }
-                        }
-                    })
-                })
+
+
 	}else{
 		parent.innerHTML = `<div class="w-100 h-a">
 								<div class="center p-10p bsbb w-100 h-100p svg-hol">
@@ -308,4 +346,3 @@ function brnd(brands) {
 	})
 
 }
-

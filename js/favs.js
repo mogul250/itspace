@@ -1,162 +1,95 @@
 import { getParam, getdata,request,postschema,getschema,addshade,shuffleArray,closetab,cc,geturl,adcm,dcrtmgc,geimgturl,addsCard,alertMessage } from "./functions.js";
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m;
-j = document.querySelector('div.fav-c')
-f = getdata('favs');
-if (f) {
-    p = postschema
-    p.body = JSON.stringify({cntn: f})
-    r = await request('getprodswthorcndtn',p);
-    if (r.success) {
-        addfav(r,j)
-    }else{
-    }
-}else{
-    s = addshade();
-    s.removeChild(s.firstChild)
-    c = document.createElement('div')
-    c.className = `w-80 h-80 bc-white cntr br-5p card-6 b-mgc-resp`
-    s.appendChild(c)
-    c.innerHTML = `<div class="w-100 h-100p p-5p bsbb the-h">
-                        <div class="w-100 h-100 center p-40p bsbb">
-                            <span class="dgray helvetica fs-15p">
-                                Allow us to know,
-                            </span>
-                            <span class="verdana helvetica fs-30p">What turns you on ?</span>
-                        </div>
-                    </div>
-                    <div class="theb w-100 h-70 ovys p-10p bsbb">
-                    </div>
-                    <div clas="w-100 h-60p bsbb bc-white">
-                    <div class="w-100 h-100 center-2 p-5p bsbb">
-                        <span class="verdana helvetica h-100 w-100 block p-10p bsbb">
-                            <button class="w-a h-a bfull-resp bc-dgray br-2p b-none p-10p hover-2 right">
-                                <span class="helvetica white fs-16p h-100 w-100 center">Get started</span>
-                            </button>
-                        </span>
-                    </div>
-                    </div>
-                    `
-    t = c.querySelector('div.theb')
-    for(i = 0; i<= 15; i++){
-        t.innerHTML+=` <div class="cat w-200p h-a p-5p bsbb iblock m-10p b-1-s-gray br-5p bfull-resp bm-a-resp bmb-20p-resp">
-        <div class="the-img center mb-10p p-5p bsbb">
-            <div class="img w-100p h-100p  br-50 bc-dgray">
-            </div>
-        </div>
-        <div class="the-desc bsbb">
-            <div class="desc w-100 h-a ">
-                <div class="w-100 h-60p center-2">
-                        <span class="w-50 center-2 verdana block h-10p fs-16p hover-6 capitalize bc-gray br-2p"></span>  
-                </div>
-            </div>
-        </div>
-    </div>`
-    }
-    g = getschema
-    z = await request('getcategories',g);
-    a = await request('getcats',g);
-    if (z.success & a.success) {
-        z = z.message
-        z.forEach(category=>{
-            Object.assign(z[z.indexOf(category)],{type: 'category'});
-        })
-        a = a.message
-        a.forEach(subcat => {
-            Object.assign(subcat,{type: 'subcategory'})
-            z.push(subcat);
-        });
-        z = shuffleArray(z)
-        t.innerHTML = null
-        for (const category of z) {
-            t.innerHTML+=`
-                <div class="cat w-200p h-a p-5p hover-2 bsbb iblock m-10p b-1-s-gray br-5p bfull-resp bm-a-resp bmb-20p-resp" id='${z.indexOf(category)}' title="${category.type}">
-                    <div class="the-img center mb-10p p-5p bsbb">
-                        <div class="img w-100p h-100p  br-50">
-                        <img src="${geimgturl()}/images/${category.image}" class="w-100 h-100 contain">
-                        </div>
-                    </div>
-                    <div class="the-desc bsbb">
-                        <div class="desc w-100 h-a ">
-                            <div class="w-100 h-60p center-2">
-                                <div></div>
-                                    <span class="w-100 center-2 verdana fs-16p hover-6 capitalize">${category.name}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>`
-        }
-        m = Array.from(t.querySelectorAll('div.cat'))
-        b = c.querySelector('button');
-        d = []
-        m.forEach(cat=>{
-            cat.addEventListener('click',()=>{
-                if(cat.classList.contains('b-1-s-gray')){
-                    t = cat.id
-                    v = z[t]
-                    if (v) {
-                        v = {[v.type] : v.name}
-                        d.push(v)
-                        if (d.length >= 1) {
-                            b.classList.replace('bc-dgray','bc-theme');
-                        }
-                        cat.classList.replace('b-1-s-gray','b-1-s-theme')
-                    }
-                }else{
-                    t = cat.id
-                    v = z[t]
-                    if (v) {
-                        v = {[v.type] : v.name}
-                        p = d.indexOf(v)
-                        d.splice(p,1);
-                        if (d.length < 3) {
-                            b.classList.replace('bc-theme','bc-dgray');
-                        }
-                        cat.classList.replace('b-1-s-theme','b-1-s-gray')
-                    }
-                }
-            })
-        })
-        v = document.querySelector('div#body');
-        n = document.querySelector('div.navigation'); 
-        m = document.querySelector('div.sidenav');  
-        q = new Array(v,n,m)
-        b.addEventListener('click',async(e)=>{
-            e.preventDefault();
-            if (d.length >= 1 ) {
-                localStorage.setItem('favs',JSON.stringify(d))
-                q.forEach(el=>{
-                    if (el != null) {
-                      el.classList.remove('blur')
-                    }
-                })
-                closetab(s,s.parentNode)
-                f = getdata('favs');
-                if (f) {
-                    p = postschema
-                    p.body = JSON.stringify({cntn: f})
 
-                    r = await request('getprodswthorcndtn',p);
-                    if (r.success) {
-                        addfav(r,j)
-                    }
+let currentPage = 0;
+let isLoading = false;
+let allDataLoaded = false;
+const limit = 30;
+const loader = `<div class="w-100 h-100 center-2"><div class="loader" style="border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 2s linear infinite;"></div></div>`;
+let wishlistIds = [];
+
+const favContainer = document.querySelector('div.fav-c');
+
+async function fetchFavs() {
+    if (isLoading || allDataLoaded) return;
+    isLoading = true;
+    
+    favContainer.insertAdjacentHTML('beforeend', loader);
+
+    let favs = getdata('favs');
+    if (!favs) {
+        favs = await new Promise(resolve => {
+            const inter = setInterval(() => {
+                const v = getdata('favs');
+                if (v !== null) {
+                    clearInterval(inter);
+                    resolve(v);
+                }
+            }, 1000);
+        });
+    }
+
+    const user = getdata('user');
+    if (user && currentPage === 0) { // Only fetch on initial load
+        const p = postschema;
+        p.body = JSON.stringify({ token: user });
+        const wishlistResponse = await request('getwishlistids', p);
+        if (wishlistResponse.success) {
+            wishlistIds = wishlistResponse.message;
+        }
+    }
+
+    if (favs) {
+        const postData = postschema;
+        const offset = currentPage * limit;
+        postData.body = JSON.stringify({ cntn: favs, limit: limit, offset: offset });
+        const response = await request('getprodswthorcndtn', postData);
+        
+        const currentLoader = favContainer.querySelector('.loader');
+        if(currentLoader) currentLoader.parentElement.remove();
+
+        if (response.success) {
+            if (response.message.length > 0) {
+                addfav(response, favContainer, wishlistIds);
+                currentPage++;
+            } else {
+                allDataLoaded = true;
+                if (currentPage === 0) {
+                    favContainer.innerHTML = `<div class="w-100 h-a">
+                        <div class="center p-10p bsbb w-100 h-100p svg-hol">
+                            <span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
+                        </div>
+                        <div class="center p-10p bsbb w-100 h-100">
+                            <span class="verdana fs-18p ta-c dgray">it seems like there are <br> no products in your selection</span>
+                        </div>
+                    </div>`;
                 }
             }
-        })
+        } else {
+            favContainer.innerHTML = `<div class="w-100 h-a"><div class="center p-10p bsbb w-100 h-100">
+                                            <span class="verdana fs-18p ta-c dgray">oops, an error has occured while trying to connect to the server</span>
+                                    </div></div>`;
+        }
     }
+    isLoading = false;
 }
-export function addfav(aa,parent){
+
+export function addfav(aa, parent, wishlistIds = []) {
 	if (aa.success) {
 		if ( aa.message.length > 0) {
-			parent.innerHTML = null;
+			if (currentPage === 0) {
+			    parent.innerHTML = '';
+            }
 			aa.message.forEach(d=>{
+                const inWishlist = wishlistIds.includes(d.prodid);
+                const wishlistStyle = inWishlist ? 'style="fill:var(--main-color); stroke: var(--main-color);"' : '';
 				parent.innerHTML+=`<div class="product w-250p h-380p bc-white br-20p bmb-10p-resp ovh ml-10p mr-10p mb-15p mt-15p iblock b-1-s-white bm-a-resp bfull-resp ">
 						<div class="w-100 h-170p">
 							<div class="image bsbb w-100 h-100 br-5p p-r">
 								<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 									<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
 									<g>
-									<path d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+									<path ${wishlistStyle} d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
 										c-2.517-4.307-6.846-6.906-11.697-6.906c-7.399,0-13.313,6.061-14.071,14.415c-0.06,0.369-0.306,2.311,0.442,5.478
 										c1.078,4.568,3.568,8.723,7.199,12.013l18.115,16.439l18.426-16.438c3.631-3.291,6.121-7.445,7.199-12.014
 										C52.216,18.553,51.97,16.611,51.911,16.242z M49.521,21.261c-0.984,4.172-3.265,7.973-6.59,10.985L25.855,47.481L9.072,32.25
@@ -232,35 +165,14 @@ export function addfav(aa,parent){
 					dcrtmgc(button,aa,x,y)
 				})
 			});
-            let wish = Array.from(parent.querySelectorAll('span.wish-icon'))
-                wish.forEach(wishlistbut=>{
-                    wishlistbut.addEventListener('click',async()=>{
-                        u = getdata('user')
-                        if (!u) {
-                            alertMessage('wish list is not available')
-                        }else{
-                            p = postschema
-                            p.body = JSON.stringify({pid: wishlistbut.getAttribute('data-id'),token: u}) 
-                            r = await request('addtowishlist',p);
-                            if (r.success) {
-                                addsCard(r.message,true)
-                            }
-                        }
-                    })
-                })
-		}else{
-			parent.innerHTML = `<div class="w-100 h-a">
-									<div class="center p-10p bsbb w-100 h-100p svg-hol">
-										<span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
-									</div>
-									<div class="center p-10p bsbb w-100 h-100">
-										<span class="verdana fs-18p ta-c dgray">it seems like there are <br> no products in your selection</span>
-									</div>
-								</div>`;
 		}
-	}else{
-		parent.innerHTML = `<div class="w-100 h-a"><div class="center p-10p bsbb w-100 h-100">
-											<span class="verdana fs-18p ta-c dgray">oops, an error has occured while trying to connect to the server</span>
-									</div></div>`;
 	}
 }
+
+fetchFavs();
+
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= favContainer.offsetTop + favContainer.offsetHeight - 200) {
+        fetchFavs();
+    }
+});

@@ -1,54 +1,21 @@
-let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 import { alertMessage, geturl,cc,request,adcm,checkCart,dcrtmgc,geimgturl,getdata,postschema,addsCard, getPath } from "./functions.js";
-let prods_cont = document.querySelector('div.related-prods-cont')
-for (let i = 0; i < 20; i++) {
-    prods_cont.innerHTML+= `<div class="product w-250p h-350p bc-white br-5p ovh ml-10p mr-10p mb-15p mt-15p iblock hover-4 bfull-500-resp bm-a-resp">
-    <div class="w-100 h-170p">
-        <div class="image p-10p bsbb w-100 h-100 bc-dgray skel br-5p">
-            <span class="w-100 h-100">
-                <img src="" class="w">
-            </span>
-        </div>
-        <div class="w-100 h-180p">
-            <div class="title w-100 h-30p p-5p bsbb">
-                <span class="verdana left fs-16p p-5p bsbb black bc-gray skel br-5p w-70 h-100"></span>
-            </div>
-            <div class="cats w-100 pl-15p h-30p mt-5p bsbb ovh flex">
-                <span class="verdana left fs-14p bsbb bc-gray skel w-40p m-2p br-5p h-10p"></span>
-                <span class="verdana left fs-14p bsbb bc-gray skel w-90p m-2p br-5p h-10p"></span>
-                <span class="verdana left fs-14p bsbb bc-gray skel w-60p m-2p br-5p h-10p"></span>
-            </div>
-            <div class="cond w-100 pl-15p h-20p bsbb ovh">
-                <span class="verdana left fs-14p bsbb green bc-gray skel p-3p br-3p center h-70 w-40p"></span>
-            </div>
-            <div class="w-100 h-a p-15p bsbb">
-                <table class="w-100">
-                    <tr>
-                        <td colspan="2">
-                            <div class="w-70p h-20p bsbb bc-gray skel br-5p ">
-                                <span class="verdana w-a left fs-15p dgray bc-gray skel w-60p"></span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="w-100p h-25p bsbb bc-gray skel br-5p">
-                                <span class="verdana w-a left fs-15p black"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class=" bsbb h-40p w-80p bc-dgray br-5p right skel">
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>	
-        </div>
-    </div>
-</div>`
-    
-}
+
+let currentPage = 0;
+let isLoading = false;
+let allDataLoaded = false;
+const limit = 30;
+const loader = `<div class="w-100 h-100 center-2"><div class="loader" style="border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 2s linear infinite;"></div></div>`;
+let wishlistIds = [];
+let relatedProdsConditions = [];
+
+let prods_cont = document.querySelector('div.related-prods-cont');
+prods_cont.innerHTML = ''; // Clear initial skeletons
+
+// Removed direct event listeners on wishlist buttons to avoid duplicates
+// Wishlist button clicks will be handled via centralized event delegation
+
 getparams(window.location.href);
+
 async function getparams(url) {
     let i = new URL(url)
     let id = {id: getPath(1)}
@@ -66,6 +33,17 @@ async function getparams(url) {
             }}
         let res = await request('getproduct',opts)
         if (res.success) {
+            // Fetch wishlist IDs if user is logged in
+            const user = getdata('user');
+            if (user) {
+                const p = postschema;
+                p.body = JSON.stringify({ token: user });
+                const wishlistResponse = await request('getwishlistids', p);
+                if (wishlistResponse.success) {
+                    wishlistIds = wishlistResponse.message;
+                }
+            }
+
             document.title =  `${res.message[0].pname.substring(0,1).toUpperCase()+res.message[0].pname.substring(1,res.message[0].pname.length)} | ITSPACE`
             const titleMetaTag = document.querySelector('meta[property="og:title"]');
             const descriptionMetaTag = document.querySelector('meta[property="og:description"]');
@@ -93,8 +71,10 @@ async function getparams(url) {
             let fbbody = document.querySelector('div.fb-body');
             let conds;
             res.message.forEach(pd => {
-                getrelated(Array({category:pd.catname},{subcategory:pd.subcatname},{usedin:pd.usedinname},{idnot: pd.prodid}))
+                relatedProdsConditions = Array({category:pd.catname},{subcategory:pd.subcatname},{usedin:pd.usedinname},{idnot: pd.prodid});
+                getrelated();
                 secimghol.innerHTML = null;
+
                 pd.pimgs.forEach(src=>{
                     if (pd.pimgs.indexOf(src) == 0) {
                         secimghol.innerHTML+=`<div class="w-50p h-50p bsbb m-10p bsbb igrid">
@@ -448,32 +428,70 @@ function chpri(index,conds,prihol,key) {
     prihol.textContent= adcm(thepri)
     prihol.id = key
 }
-async function getrelated(conds) {
+async function getrelated() {
+    if (isLoading || allDataLoaded) return;
+    isLoading = true;
+    prods_cont.insertAdjacentHTML('beforeend', loader);
+
+    const offset = currentPage * limit;
     let opts = {
         mode: 'cors',
         method: "POST",
-        body : JSON.stringify({cntn:conds}),
+        body : JSON.stringify({cntn: relatedProdsConditions, limit, offset}),
         headers: {
           "content-type": "application/json",
           'accept': '*/*'
-    
-        }}
-    var rel = await request('getprodswthcndtn',opts)
-    a441618154(rel,prods_cont)
-    
+        }
+    }
+    var rel = await request('getprodswthcndtn',opts);
+
+    const currentLoader = prods_cont.querySelector('.loader');
+    if(currentLoader) currentLoader.parentElement.remove();
+
+    if (rel.success) {
+        if (rel.message.length > 0) {
+            renderRelatedProducts(rel, prods_cont, wishlistIds);
+            currentPage++;
+        } else {
+            allDataLoaded = true;
+            if (currentPage === 0) {
+                prods_cont.innerHTML = `<div class="w-100 h-a">
+                    <div class="center p-10p bsbb w-100 h-100p svg-hol">
+                        <span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
+                    </div>
+                    <div class="center p-10p bsbb w-100 h-100">
+                        <span class="verdana fs-18p ta-c dgray">No related products found.</span>
+                    </div>
+                </div>`;
+            }
+        }
+    }
+    isLoading = false;
 }
-export function a441618154(aa,parent){
+
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= prods_cont.offsetTop + prods_cont.offsetHeight - 200) {
+        getrelated();
+    }
+});
+
+function renderRelatedProducts(aa,parent, wishlistIds = []){
+
     if (aa.success) {
+        parent.aa = aa;
         if ( aa.message.length > 0) {
-			parent.innerHTML = null;
+			if(currentPage === 0) parent.innerHTML = null;
 			aa.message.forEach(d=>{
+                const inWishlist = wishlistIds.includes(d.prodid);
+                const wishlistStyle = inWishlist ? 'style="fill:var(--main-color)"' : '';
 				parent.innerHTML+=`<div class="product w-250p h-380p bc-white br-20p hover-4 ovh ml-10p mr-10p mb-15p mt-15p iblock bfull-resp b-1-s-white">
 						<div class="w-100 h-170p">
 							<div class="image bsbb w-100 h-100 br-5p p-r">
 								<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 									<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
 									<g>
-									<path d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+									<path ${wishlistStyle} d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+
 										c-2.517-4.307-6.846-6.906-11.697-6.906c-7.399,0-13.313,6.061-14.071,14.415c-0.06,0.369-0.306,2.311,0.442,5.478
 										c1.078,4.568,3.568,8.723,7.199,12.013l18.115,16.439l18.426-16.438c3.631-3.291,6.121-7.445,7.199-12.014
 										C52.216,18.553,51.97,16.611,51.911,16.242z M49.521,21.261c-0.984,4.172-3.265,7.973-6.59,10.985L25.855,47.481L9.072,32.25
@@ -541,22 +559,7 @@ export function a441618154(aa,parent){
 						</div>
 					</div>`;
 			})
-            let wish = Array.from(parent.querySelectorAll('span.wish-icon'))
-                wish.forEach(wishlistbut=>{
-                    wishlistbut.addEventListener('click',async()=>{
-                        u = getdata('user')
-                        if (!u) {
-                            alertMessage('wish list is not available')
-                        }else{
-                            p = postschema
-                            p.body = JSON.stringify({pid: wishlistbut.getAttribute('data-id'),token: u}) 
-                            r = await request('addtowishlist',p);
-                            if (r.success) {
-                                addsCard(r.message,true)
-                            }
-                        }
-                    })
-                })
+
 		}else{
 			parent.innerHTML = `<div class="w-100 h-a">
 									<div class="center p-10p bsbb w-100 h-100p svg-hol">
@@ -572,13 +575,4 @@ export function a441618154(aa,parent){
 											<span class="verdana fs-18p ta-c dgray">oops, an error has occured while trying to connect to the server</span>
 									</div></div>`;
 	}
-    let _311820 = document.querySelectorAll('button._311820');
-    _311820.forEach(button => {
-        button.addEventListener('click',e=>{
-            e.preventDefault()
-            let x = button.parentNode.parentNode.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].childNodes[1].childNodes[1].classList[5]
-            let y = button.parentNode.parentNode.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].childNodes[1].childNodes[1].id
-            dcrtmgc(button,aa,x,y)
-        })
-    });
 }

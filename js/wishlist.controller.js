@@ -94,13 +94,14 @@ export async function initiatewishlist() {
                                   <span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
                                       <svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
                                       <g>
-                                      <path d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
+                                      <path style="fill:var(--main-color)" d="M51.911,16.242C51.152,7.888,45.239,1.827,37.839,1.827c-4.93,0-9.444,2.653-11.984,6.905
                                           c-2.517-4.307-6.846-6.906-11.697-6.906c-7.399,0-13.313,6.061-14.071,14.415c-0.06,0.369-0.306,2.311,0.442,5.478
                                           c1.078,4.568,3.568,8.723,7.199,12.013l18.115,16.439l18.426-16.438c3.631-3.291,6.121-7.445,7.199-12.014
                                           C52.216,18.553,51.97,16.611,51.911,16.242z M49.521,21.261c-0.984,4.172-3.265,7.973-6.59,10.985L25.855,47.481L9.072,32.25
                                           c-3.331-3.018-5.611-6.818-6.596-10.99c-0.708-2.997-0.417-4.69-0.416-4.701l0.015-0.101C2.725,9.139,7.806,3.826,14.158,3.826
                                           c4.687,0,8.813,2.88,10.771,7.515l0.921,2.183l0.921-2.183c1.927-4.564,6.271-7.514,11.069-7.514
                                           c6.351,0,11.433,5.313,12.096,12.727C49.938,16.57,50.229,18.264,49.521,21.261z"/>
+
                                       </g>
                                   </svg>
                               </span>
@@ -164,23 +165,8 @@ export async function initiatewishlist() {
                       dcrtmgc(button,aa,x,y)
                   })
               });
-              let wish = Array.from(document.querySelectorAll('span.wish-icon'))
-                wish.forEach(wishlistbut=>{
-                    wishlistbut.addEventListener('click',async()=>{
-                        u = getdata('user')
-                        if (!u) {
-                            alertMessage('wish list is not available')
-                        }else{
-                            p = postschema
-                            p.body = JSON.stringify({pid: wishlistbut.getAttribute('data-id'),token: u}) 
-                            r = await request('addtowishlist',p);
-                            if (r.success) {
-                                addsCard(r.message,true)
-                            }
-                        }
-                    })
-                })
-          }else{
+
+          } else {
               parent.innerHTML = `<div class="w-100 h-a">
                                       <div class="center p-10p bsbb w-100 h-100p svg-hol">
                                           <span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
@@ -190,10 +176,32 @@ export async function initiatewishlist() {
                                       </div>
                                   </div>`;
           }
-      }else{
+      } else {
           parent.innerHTML = `<div class="w-100 h-a"><div class="center p-10p bsbb w-100 h-100">
                                               <span class="verdana fs-18p ta-c dgray">oops, an error has occured while trying to connect to the server</span>
                                       </div></div>`;
       }
   }
- 
+  
+  document.onclick =  async (e) => {
+      const wishlistbut = e.target.closest('span.wish-icon');
+      if (!wishlistbut) return;
+  
+      const u = getdata('user');
+      if (!u) {
+          alertMessage('wish list is not available');
+          return;
+      }
+  
+      const p = postschema;
+      p.body = JSON.stringify({ pid: wishlistbut.getAttribute('data-id'), token: u });
+      const r = await request('addtowishlist', p);
+  
+      if (r.success) {
+          addsCard(r.message, true);
+          const productCard = wishlistbut.closest('.product');
+        //   if (productCard ) {
+        //       productCard.remove();
+        //   }
+      }
+  };

@@ -3215,7 +3215,7 @@ export const getschema =  {
 export function initiatelogin() {
   s = addshade();
   c = document.createElement('div')
-  c.className = `w-80 h-70 bc-white cntr br-5p card-6 b-mgc-resp`
+  c.className = `w-80 h-85 bc-white cntr br-5p card-6 b-mgc-resp`
   s.appendChild(c)
   c.innerHTML = `<div class="data-cont w-100 h-100  bsbb p-10p ovh p-r" id="login">
   <div class="w-45 h-100 p-40p bsbb igrid t-0 hidden-resp">
@@ -3386,7 +3386,7 @@ export function initiatelogin() {
               </div>
           </span>
       </div>
-      <div class=" mt--95p w-100 center py-5p bsbb">
+      <div class="w-100 center py-5p bsbb">
         <span class="center-2 hover-2 py-5p px-15p bsbb w-100 b-1-s-gray h-45p" id="authGoogle">
           <span class="w-30p h-30p mx-5p"><img src="/api/brands/google.png" class="contain w-30p h-30p"></span>
           <span class="w-100 helvetica capitalize"> continue with google</span>
