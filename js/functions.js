@@ -3923,87 +3923,87 @@ if (feedbacks.length) {
       thefb.appendChild(t)
 }
 }
-export function sf(aa,parent) {
+export function sf(aa, parent, append = false) {
   if (aa.success) {
-  if ( aa.message.length > 0) {
+    if ( aa.message.length > 0) {
 
-    parent.innerHTML = null;
-    aa.message.forEach(d=>{
-                  parent.innerHTML+=  `<div id="${d.prodid}" class="product w-100 h-a bc-white bsbb ovh mr-10p ${(aa.message.indexOf(d) == 0)? 'mt-15p': ''} iblock hover-2 ${(aa.message.indexOf(d) == (aa.message.length-1))? '': 'bb-1-s-g'}  bfull-resp">
-                      <div class="w-100 h-100 bsbb flex bfull-resp">
-                          <div class="image p-10p bsbb iblock w-100p h-100p br-5p">
-                          <span class="w-100 h-100">
-                            <a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black w-100 h-100 flex">
-                               <img src="${geimgturl()}/product-imgz/${d.pimgs[0]}" alt="" class="w-100 h-100 b-none contain">
-                            </a>
-                          </span>
-                          </div>
-                          <div class="w-80 h-a iblock pl-20p bsbb">
-                              <div class="title w-100 h-a p-5p bsbb">
-                              <a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black w-100 h-100 flex"><span class="verdana left fs-13p bsbb black capitalize prodname">${d.pname}</span></a>
-                              </div>
-                              <div class="desc w-100 h-a p-5p bsbb ">
-                              <span class="verdana left fs-13p bsbb dgray wrap">in <a href="${geturl()}/browse/category/${d.catname}" class="td-none ls-n"><font class="theme">${d.catname}</font></a> , <a href="${geturl()}/browse/subcategory/${d.subcatname}" class="td-none ls-n"><font class="theme">${d.subcatname}</font></a> , <a href="${geturl()}/browse/brand/${d.brandname}" class="td-none ls-n"><font class="theme">${d.brandname}</font></a> , <a href="${geturl()}/browse/serie/${d.famname}" class="td-none ls-n"><font class="theme">${d.famname}</font></a> , <a href="${geturl()}/browse/usedin/${d.usedinname}" class="td-none ls-n"><font class="theme">${ellipsis(d.usedinname,20)}</font></a></span>
-                              </div>
-                              <div class="av w-100 h-a p-5p bsbb ">
-                              <div class="flex"> 
-                                <span class="verdana left fs-13p bsbb bc-gray pb-3p pl-10p pr-10p pt-1p br-3p center h-100 w-a dgray m-3p">${d.availability}</span>
-                                <span class="verdana left fs-13p bsbb bc-gray pb-3p pl-10p pr-10p pt-1p br-3p center h-100 w-a m-3p ${cc(d.conditions[0].name)}">${d.conditions[0].name}</span>
-                              </div>
-                              <span class="verdana left fs-14p bsbb center-2 ml-20p h-100"><span class="condprice bold-2" id="">${adcm(d.conditions[0].newprice)}</span> <span class="fs-11p pl-10p pt-2p dgray consolas">RWF</span></span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>`
-              
-    })
-    let viewByB = Array.from(document.querySelectorAll('span.viewByB'))
-    viewByB.forEach(button=>{
-      button.onclick = function (event) {
-        event.preventDefault()
-        let els = viewByB.find(function (bb) { return bb != button})
-        els.children[1].classList.replace('theme','dgray')
-        button.children[1].classList.replace('dgray','theme')
-        let prods = Array.from(parent.querySelectorAll('div.product'))
+      // parent.innerHTML = null;
+      aa.message.forEach(d=>{
+                    parent.innerHTML+=  `<div id="${d.prodid}" class="product w-100 h-a bc-white bsbb ovh mr-10p ${(aa.message.indexOf(d) == 0)? 'mt-15p': ''} iblock hover-2 ${(aa.message.indexOf(d) == (aa.message.length-1))? '': 'bb-1-s-g'}  bfull-resp">
+                        <div class="w-100 h-100 bsbb flex bfull-resp">
+                            <div class="image p-10p bsbb iblock w-100p h-100p br-5p">
+                            <span class="w-100 h-100">
+                              <a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black w-100 h-100 flex">
+                                <img src="${geimgturl()}/product-imgz/${d.pimgs[0]}" alt="" class="w-100 h-100 b-none contain">
+                              </a>
+                            </span>
+                            </div>
+                            <div class="w-80 h-a iblock pl-20p bsbb">
+                                <div class="title w-100 h-a p-5p bsbb">
+                                <a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black w-100 h-100 flex"><span class="verdana left fs-13p bsbb black capitalize prodname">${d.pname}</span></a>
+                                </div>
+                                <div class="desc w-100 h-a p-5p bsbb ">
+                                <span class="verdana left fs-13p bsbb dgray wrap">in <a href="${geturl()}/browse/category/${d.catname}" class="td-none ls-n"><font class="theme">${d.catname}</font></a> , <a href="${geturl()}/browse/subcategory/${d.subcatname}" class="td-none ls-n"><font class="theme">${d.subcatname}</font></a> , <a href="${geturl()}/browse/brand/${d.brandname}" class="td-none ls-n"><font class="theme">${d.brandname}</font></a> , <a href="${geturl()}/browse/serie/${d.famname}" class="td-none ls-n"><font class="theme">${d.famname}</font></a> , <a href="${geturl()}/browse/usedin/${d.usedinname}" class="td-none ls-n"><font class="theme">${ellipsis(d.usedinname,20)}</font></a></span>
+                                </div>
+                                <div class="av w-100 h-a p-5p bsbb ">
+                                <div class="flex"> 
+                                  <span class="verdana left fs-13p bsbb bc-gray pb-3p pl-10p pr-10p pt-1p br-3p center h-100 w-a dgray m-3p">${d.availability}</span>
+                                  <span class="verdana left fs-13p bsbb bc-gray pb-3p pl-10p pr-10p pt-1p br-3p center h-100 w-a m-3p ${cc(d.conditions[0].name)}">${d.conditions[0].name}</span>
+                                </div>
+                                <span class="verdana left fs-14p bsbb center-2 ml-20p h-100"><span class="condprice bold-2" id="">${adcm(d.conditions[0].newprice)}</span> <span class="fs-11p pl-10p pt-2p dgray consolas">RWF</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                
+      })
+      let viewByB = Array.from(document.querySelectorAll('span.viewByB'))
+      viewByB.forEach(button=>{
+        button.onclick = function (event) {
+          event.preventDefault()
+          let els = viewByB.find(function (bb) { return bb != button})
+          els.children[1].classList.replace('theme','dgray')
+          button.children[1].classList.replace('dgray','theme')
+          let prods = Array.from(parent.querySelectorAll('div.product'))
 
-        if (viewByB.indexOf(button) == 0) {
-          prods.forEach(product=>{
-            product.classList.replace('w-250p','w-100')
-            let pinfo = aa.message.find(function (prod) {return product.id == prod.prodid}),pnameHol = product.querySelector('.prodname')
-            product.classList.replace('h-400p','h-a')
-            product.classList.remove('iblock')
-            product.children[0].classList.replace('block','flex')
-            product.children[0].children[0].classList.replace('w-100','w-100p')
-            product.children[0].children[0].classList.replace('h-200p','h-100p')
-            product.children[0].children[1].classList.replace('w-100','w-80')
-            pnameHol.innerText = pinfo.pname
-          })
-        }else{
-          prods.forEach(product=>{
-            product.classList.replace('w-100','w-250p')
-            let pinfo = aa.message.find(function (prod) {return product.id == prod.prodid}),pnameHol = product.querySelector('.prodname')
-            product.classList.replace('h-a','h-400p')
-            product.classList.add('iblock')
-            product.children[0].classList.replace('flex','block')
-            product.children[0].children[0].classList.replace('w-100p','w-100')
-            product.children[0].children[1].classList.replace('w-80','w-100')
-            product.children[0].children[1].classList.replace('pl-20p','p-10p')
-            product.children[0].children[0].classList.replace('h-100p','h-200p')
-            pnameHol.innerText = ellipsis(pinfo.pname,70)
-          })
+          if (viewByB.indexOf(button) == 0) {
+            prods.forEach(product=>{
+              product.classList.replace('w-250p','w-100')
+              let pinfo = aa.message.find(function (prod) {return product.id == prod.prodid}),pnameHol = product.querySelector('.prodname')
+              product.classList.replace('h-400p','h-a')
+              product.classList.remove('iblock')
+              product.children[0].classList.replace('block','flex')
+              product.children[0].children[0].classList.replace('w-100','w-100p')
+              product.children[0].children[0].classList.replace('h-200p','h-100p')
+              product.children[0].children[1].classList.replace('w-100','w-80')
+              pnameHol.innerText = pinfo.pname
+            })
+          }else{
+            prods.forEach(product=>{
+              product.classList.replace('w-100','w-250p')
+              let pinfo = aa.message.find(function (prod) {return product.id == prod.prodid}),pnameHol = product.querySelector('.prodname')
+              product.classList.replace('h-a','h-400p')
+              product.classList.add('iblock')
+              product.children[0].classList.replace('flex','block')
+              product.children[0].children[0].classList.replace('w-100p','w-100')
+              product.children[0].children[1].classList.replace('w-80','w-100')
+              product.children[0].children[1].classList.replace('pl-20p','p-10p')
+              product.children[0].children[0].classList.replace('h-100p','h-200p')
+              pnameHol.innerText = ellipsis(pinfo.pname,70)
+            })
+          }
         }
+      })
+    }else{
+      parent.innerHTML = `<div class="w-100 h-a">
+                  <div class="center p-10p bsbb w-100 h-a svg-hol">
+                    <span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
+                  </div>
+                  <div class="center p-40p bsbb w-100 h-100">
+                    <span class="verdana fs-18p ta-c dgray">it seems like there are <br> no products in your selection</span>
+                  </div>
+                </div>`;
       }
-    })
-  }else{
-    parent.innerHTML = `<div class="w-100 h-a">
-                <div class="center p-10p bsbb w-100 h-a svg-hol">
-                  <span class="verdana fs-15p"><svg class="w-100p h-100p" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="removeIconTitle" stroke="#ccc" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#ccc"> <title id="removeIconTitle">Remove</title> <path d="M17,12 L7,12"/> <circle cx="12" cy="12" r="10"/> </svg></span>
-                </div>
-                <div class="center p-40p bsbb w-100 h-100">
-                  <span class="verdana fs-18p ta-c dgray">it seems like there are <br> no products in your selection</span>
-                </div>
-              </div>`;
-    }
   }else{
     parent.innerHTML = `<div class="w-100 h-a"><div class="center p-10p bsbb w-100 h-100">
                     <span class="verdana fs-18p ta-c dgray">oops, an error has occured while trying to connect to the server</span>

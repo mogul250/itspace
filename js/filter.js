@@ -289,6 +289,27 @@ filterbutt.addEventListener('click',e=>{
     
 
 })
+window.addEventListener('load', function() {
+    checkMobileView();
+});
+window.addEventListener('resize', function() {
+    checkMobileView();
+});
+function checkMobileView() {
+    const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
+    if (isMobile) {
+        if(!filternav.classList.contains('h-0')){
+            filterbutt.click();
+        }
+    } else {
+        filternav.classList.add('mr-5p')
+        filternav.classList.add('r-0')
+        filterbutt.classList.add('b-1-s-dgray')
+        filternav.classList.remove('h-0')   
+        filternav.classList.add('h-a')   
+        filternav.classList.add('p-20p')   
+    }
+}
 export function getasked(url) {
     let i = new URL(url)
     let cat = {category : i.searchParams.get("category")}
