@@ -136,6 +136,9 @@
     .bw-100p-resp{
         width: 100px;
     }
+    .bw-150p-resp{
+        width: 150px;
+    }
     .bcntr-500p-resp{
         position: absolute;
         transform: translate(-50%,-50%);

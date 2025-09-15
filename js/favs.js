@@ -1,4 +1,4 @@
-import { getParam, getdata,request,postschema,getschema,addshade,shuffleArray,closetab,cc,geturl,adcm,dcrtmgc,geimgturl,addsCard,alertMessage } from "./functions.js";
+import { getParam, getdata,request,postschema,getschema,addshade,shuffleArray,closetab,cc,geturl,adcm,dcrtmgc,geimgturl,addsCard,alertMessage, ellipsis } from "./functions.js";
 let q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m;
 
 let currentPage = 0;
@@ -83,7 +83,7 @@ export function addfav(aa, parent, wishlistIds = []) {
 			aa.message.forEach(d=>{
                 const inWishlist = wishlistIds.includes(d.prodid);
                 const wishlistStyle = inWishlist ? 'style="fill:var(--main-color); stroke: var(--main-color);"' : '';
-				parent.innerHTML+=`<div class="product w-250p h-380p bc-white br-20p bmb-10p-resp ovh ml-10p mr-10p mb-15p mt-15p iblock b-1-s-white bm-a-resp bfull-resp ">
+				parent.innerHTML+=`<div class="product w-250p h-350p bc-white br-20p bmb-10p-resp ovh ml-10p mr-10p mb-15p mt-15p iblock b-1-s-white bm-x-5p-resp bw-48-resp bbr-0p-resp">
 						<div class="w-100 h-170p">
 							<div class="image bsbb w-100 h-100 br-5p p-r">
 								<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
@@ -108,16 +108,16 @@ export function addfav(aa, parent, wishlistIds = []) {
 
 								</span>
 							</div>
-							<div class="w-100 h-200p">
-								<div class="title w-100 h-100p p-5p bsbb">
-									<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black"><span class="verdana left fs-14p p-5p bsbb black capitalize">${d.pname}</span></a>
+							<div class="w-100 h-140p">
+								<div class="title w-100 h-70p p-5p bsbb">
+									<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black"><span class="verdana left fs-14p p-5p bsbb black capitalize">${ellipsis(d.pname,50)}</span></a>
 								</div>
 								<div class="w-100 h-a p-15p bsbb">
 									<table class="w-100">
 										<tr>
 											<td>
 												<div class="w-100 h-100 bsbb center-2 mb-10p">
-													<span class="verdana w-a  fs-14p black price 0 bold-2" id="${d.conditions[0].name}">${adcm(d.conditions[0].newprice)} RWF</span>
+													<span class="verdana w-a  fs-12p black price 0 " id="${d.conditions[0].name}">${adcm(d.conditions[0].newprice)} RWF</span>
 												</div>
 											</td>
 										</tr>

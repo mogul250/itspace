@@ -1,6 +1,6 @@
 let q,w,e,r,t,y,u,o,p,a,d,f,g,h,j,k,l,z,x,c,v,b,n,m
 var prods_cont = document.querySelector('div.ts-cont');
-import { cc,request,v_,geturl,adcm, dcrtmgc, checkCart,geimgturl,getdata,addsCard,postschema,alertMessage} from "./functions.js";
+import { cc,request,v_,geturl,adcm, dcrtmgc, checkCart,geimgturl,getdata,addsCard,postschema,alertMessage, ellipsis} from "./functions.js";
 
 let ts = document.querySelector('div.ts-cont');
 let ctscont = document.querySelector('div.cats-cont');
@@ -110,9 +110,10 @@ export function a441618154(aa,parent, wishlistIds = []){
 aa.message.forEach(d=>{
                 const inWishlist = wishlistIds.includes(d.prodid);
                 const wishlistStyle = inWishlist ? 'style="fill:var(--main-color)"' : '';
-				parent.innerHTML+=`<div class="product w-250p h-380p bc-white br-20p hover-4 ovh ml-10p mr-10p mb-15p mt-15p iblock b-80-resp bml-7-resp bmr-6-resp b-1-s-white">
-						<div class="w-100 h-170p">
-							<div class="image bsbb w-100 h-100 br-5p p-r">
+				parent.innerHTML+=`<div class="product w-250p h-280p ovh iblock p-10p">
+					<div class="p-10p b-1-s-white bc-white br-20p hover-4 h-100 bsbb">
+						<div class="w-100 h-100">
+							<div class="image bsbb w-100 br-5p p-r h-140p">
 								<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 									<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
 									<g>
@@ -136,21 +137,19 @@ aa.message.forEach(d=>{
 								</a>
 								</span>
 							</div>
-							<div class="w-100 h-200p">
-								<div class="title w-100 h-110p p-5p bsbb">
-									<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black block w-100 h-a"><span class="verdana left fs-16p p-5p bsbb black capitalize w-100 wrap fs-14p">${d.pname}</span></a>
+							<div class="w-100 h-50p">
+								<div class="title w-100 h-100 p-5p bsbb">
+									<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black block w-100 h-a"><span class="verdana left fs-16p p-5p bsbb black capitalize w-100 wrap fs-14p">${ellipsis(d.pname,50)}</span></a>
 								</div>
 								
 								<div class="w-100 h-a p-15p bsbb">
 									<table class="w-100 h-100">
 										<tr>
 											<td>
-												<div class="w-100 h-100 bsbb center-2 mb-10p">
-													<span class="verdana w-a  fs-14p black price 0 bold-2" id="${d.conditions[0].name}">${adcm(d.conditions[0].newprice)} RWF</span>
+												<div class="w-100 h-100 bsbb">
+													<span class="verdana w-a  fs-12p black price 0 bold h-100 block center left" id="${d.conditions[0].name}">${adcm(d.conditions[0].newprice)}&nbsp;RWF</span>
 												</div>
 											</td>
-										</tr>
-										</tr>
 											<td>
 												<div class="w-100 h-100 bsbb ">
 													<span class=" w-100 button">
@@ -175,9 +174,12 @@ aa.message.forEach(d=>{
 												</div>
 											</td>
 										</tr>
+										</tr>
+										</tr>
 									</table>
 								</div>	
 							</div>
+						</div>
 						</div>
 					</div>`;
 			})
@@ -213,8 +215,11 @@ export function sdisc(aa,parent, wishlistIds = []){
 		aa.message.forEach(d=>{
             const inWishlist = wishlistIds.includes(d.prodid);
             const wishlistStyle = inWishlist ? 'style="fill:var(--main-color)"' : '';
-			parent.innerHTML+=`<div class="product w-370p h-450p bc-white br-20p ovh ml-10p mr-10p mb-15p mt-15p bmb-10p-resp bfull-resp iblock b-1-s-white">
-			<div class="w-100 h-220p">
+            const oldPrice = d.conditions[0].price;
+            const newPrice = d.conditions[0].newprice;
+            const discountPercent = Math.round(((oldPrice - newPrice) / oldPrice) * 100);
+			parent.innerHTML+=`<div class="product w-250p h-300p bc-white br-20p ovh ml-10p mr-10p mb-15p mt-15p bmb-10p-resp iblock b-1-s-white">
+			<div class="w-100 h-120p">
 				<div class="image p-10p bsbb w-100 h-100 p-r  br-5p">
 					<span class="#icon wish-icon h-20p w-40p p-10p  center-2 w-a p-a" data-id="${d.prodid}">
 						<svg version="1.1" class="w-20p h-20p p-r hover-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 51.997 51.997" style="enable-background:new 0 0 51.997 51.997;" xml:space="preserve">
@@ -232,6 +237,7 @@ export function sdisc(aa,parent, wishlistIds = []){
 					</span>
 					<span class="verdana r-0 fs-14p bsbb p-a t-0 ${cc(d.conditions[0].name)} bc-gray p-10p center h-30p bblr-3p w-a capitalize" id="0">${d.conditions[0].name}
 					</span>
+					<span class="verdana r-0 fs-12p bsbb p-a t-30p bc-red white p-5p center h-20p bblr-3p w-a bold">${discountPercent}% OFF</span>
 					<span class="w-100 h-100 block">
 						<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black">
 							<img src="${geimgturl()}/product-imgz/${d.pimgs[0]}" class="w-100 h-100 contain">
@@ -241,7 +247,7 @@ export function sdisc(aa,parent, wishlistIds = []){
 				</div>
 				<div class="w-100 h-a">
 					<div class="title w-100 h-a p-5p bsbb center">
-						<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black block w-100 h-a"><span class="verdana left fs-16p p-5p bsbb black capitalize w-100 wrap fs-14p">${d.pname}</span></a>
+						<a href="${geturl()}/product/${d.prodid}" class="td-none ls-n black block w-100 h-a"><span class="verdana left fs-16p p-5p bsbb black capitalize w-100 wrap fs-14p">${ellipsis(d.pname, 50)}</span></a>
 					</div>
 					
 					<div class="w-100 h-a p-15p bsbb">
@@ -311,7 +317,7 @@ function s(cats) {
 	ctscont.innerHTML = null
 	cats.forEach(subcat=>{
 		ctscont.innerHTML+= `<a href="${geturl()}/browse/subcategory/${subcat.name}" class="td-none ls-n black">
-								<div class="cat w-200p bw-100p-resp h-100 p-5p bsbb iblock m-10p bm-a-resp bc-white hover-4 br-10p">
+								<div class="cat w-200p bw-150p-resp h-100 p-5p bsbb iblock m-4p bm-a-resp bc-white hover-4 br-10p">
 									<div class="the-img center mb-10p p-5p bsbb">
 										<div class="img w-100 h-100p  br-50">
 											<img src="${geimgturl()}/images/${subcat.image}" class="w-100 h-100 contain">
