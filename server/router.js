@@ -909,7 +909,7 @@ router.post('/api/getprodswthorcndtn', async (req, res) => {
 	})
 	router.get('/api/getcats',async(req,res)=>{
 		try {
-			database.query(`select distinct subcategories.name,subcategories.image from categories inner join subcategories where categories.id = subcategories.category order by subcategories.dateadded asc`,(error,result)=>{
+			database.query(`select distinct subcategories.name,subcategories.image,subcategories.dateadded from categories inner join subcategories where categories.id = subcategories.category order by subcategories.dateadded asc`,(error,result)=>{
 				if (error) {
 					console.log(error);
 					return res.status(500).send({success: false, message: "Oops an error occured"})
