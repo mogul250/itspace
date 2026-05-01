@@ -10,7 +10,7 @@
   "description": "r",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node init && nodemon app.js"
   },
   "repository": {
     "type": "git",
